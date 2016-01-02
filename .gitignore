@@ -1,0 +1,8 @@
+*.old
+*secret*
+\bean
+\camanjs
+\jquery-ui
+\jquery
+\sceditor
+\pixlr
