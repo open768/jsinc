@@ -60,6 +60,8 @@ function cHttp2(){
 	this.url = null;
 	this.data = null;
 	this.json = null;
+	this.error = null;
+	this.errorStatus = null;
 		
 	//**************************************************************
 	this.fetch_json = function(psUrl, poData){
@@ -70,9 +72,15 @@ function cHttp2(){
 			bean.fire(oParent,"result", oParent); //notify subscriber 
 		}
 		
+		function prfn__httpFail(jqxhr, textStatus, error){
+			oParent.error = error;
+			oParent.errorStatus = textStatus;
+			bean.fire(oParent,"error", oParent); //notify subscriber 
+		}
+		
 		this.url = psUrl;
 		this.data = poData;
-		cHttp.fetch_json(psUrl, prfn__httpCallback);
+		$.getJSON(psUrl, prfn__httpCallback).fail(prfn__httpFail);
 	};
 	
 	//**************************************************************

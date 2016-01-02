@@ -4,6 +4,11 @@
 // A simple generic class to manage the batch processing of stuff
 //###############################################################
 
+function cActionQueueItem(psName, psActionUrl){
+	this.name = psName;
+	this.url = psActionUrl;
+}
+
 function cActionQueue(){
 	this.aBacklog=[];
 	this.aTransfers = new cQueue();
@@ -26,7 +31,7 @@ function cActionQueue(){
 	//***************************************************************
 	this.add = function(psName, psActionUrl){
 		if (this.bStopping) return;
-		this.aBacklog.push({n:psName, u:psActionUrl});
+		this.aBacklog.push( new cActionQueueItem(psName, psActionUrl));
 	};
 
 	//***************************************************************
@@ -36,24 +41,28 @@ function cActionQueue(){
 		
 		if (this.bStopping) return;
 
-		//-------------- set up the closure
+		//-------------- set up the closures
 		function pfnHttpCallback(poHttp){
-			if (oParent.bStopping) return;
 			oParent.process_response(poHttp);
 		}
-				
+
+		function pfnErrorCallback(poHttp){
+			oParent.process_error(poHttp); // continue after error
+		}
+		
 		//------------ queue logic
 		if (this.aTransfers.length() >= this.MAX_TRANSFERS)
 			cDebug.write("Queue full ...");
 		else if (this.aBacklog.length > 0){
 			oItem = this.aBacklog.pop(); //Take item off backlog
-			this.aTransfers.push(oItem.n,null); //put onto transfer list
+			this.aTransfers.push(oItem.name,null); //put onto transfer list
 			
-			bean.fire(this,"starting", oItem.n); //notify subscriber 
+			bean.fire(this,"starting", oItem.name); //notify subscriber 
 			
 			oHttp = new cHttp2();
 			bean.on(oHttp, "result", pfnHttpCallback);
-			oHttp.fetch_json(oItem.u, oItem.n ); //start transfer
+			bean.on(oHttp, "error", pfnErrorCallback);
+			oHttp.fetch_json(oItem.url, oItem.name ); //start transfer
 			
 			this.start();			//continue the processing of the queue
 		}
@@ -64,6 +73,13 @@ function cActionQueue(){
 		if (this.bStopping) exit();
 		this.aTransfers.remove(poHttp.data);
 		bean.fire(this,"response", poHttp.json);
+		this.start();
+	};
+	//***************************************************************
+	this.process_error = function(poHttp){
+		if (this.bStopping) exit();
+		this.aTransfers.remove(poHttp.data);
+		bean.fire(this,"error", poHttp);
 		this.start();
 	};
 }
