@@ -54,7 +54,11 @@ var cHttp = {
 }
 
 //###############################################################
-//# use bean.on(ohttp,"result",callback);
+//# use 
+//#		ohttp = new cHttp2();
+//# 	bean.on(ohttp,"result",callback);
+//# 	bean.on(ohttp,"error",callback);
+//#		ohttp.fetch_json("http:..","something");
 //###############################################################
 function cHttp2(){
 	this.url = null;
@@ -64,7 +68,7 @@ function cHttp2(){
 	this.errorStatus = null;
 		
 	//**************************************************************
-	this.fetch_json = function(psUrl, poData){
+	this.fetch_json = function(psUrl, pvData){
 		var oParent = this;
 		
 		function  prfn__httpCallback(poJson){
@@ -72,14 +76,14 @@ function cHttp2(){
 			bean.fire(oParent,"result", oParent); //notify subscriber 
 		}
 		
-		function prfn__httpFail(jqxhr, textStatus, error){
-			oParent.error = error;
-			oParent.errorStatus = textStatus;
+		function prfn__httpFail(poEvent, psStatus, poError){
+			oParent.error = poError;
+			oParent.errorStatus = psStatus;
 			bean.fire(oParent,"error", oParent); //notify subscriber 
 		}
 		
 		this.url = psUrl;
-		this.data = poData;
+		this.data = pvData;
 		$.getJSON(psUrl, prfn__httpCallback).fail(prfn__httpFail);
 	};
 	
