@@ -70,14 +70,14 @@ function cActionQueue(){
 	
 	//***************************************************************
 	this.process_response = function(poHttp){
-		if (this.bStopping) exit();
+		if (this.bStopping) return;
 		this.aTransfers.remove(poHttp.data);
 		bean.fire(this,"response", poHttp.json);
 		this.start();
 	};
 	//***************************************************************
 	this.process_error = function(poHttp){
-		if (this.bStopping) exit();
+		if (this.bStopping) return;
 		this.aTransfers.remove(poHttp.data);
 		bean.fire(this,"error", poHttp);
 		this.start();
