@@ -58,11 +58,15 @@ function cActionQueue(){
 			this.aTransfers.push(oItem.name,null); //put onto transfer list
 			
 			bean.fire(this,"starting", oItem.name); //notify subscriber 
-			
 			oHttp = new cHttp2();
 			bean.on(oHttp, "result", pfnHttpCallback);
 			bean.on(oHttp, "error", pfnErrorCallback);
-			oHttp.fetch_json(oItem.url, oItem.name ); //start transfer
+			
+			//separate thread to allow UI to catch up
+			var iID;
+			iID= setTimeout( function(){
+				oHttp.fetch_json(oItem.url, oItem.name ); //start transfer
+			},0);
 			
 			this.start();			//continue the processing of the queue
 		}

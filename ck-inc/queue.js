@@ -32,6 +32,16 @@ function cQueue(){
 	};
 	
 	//**********************************************************
+	this.get = function (psKey){
+		if (this.prKey === psKey)
+			return this;
+		else if (this.prNext)
+			return this.prNext.get(psKey);
+		else
+			return null;
+	};
+	
+	//**********************************************************
 	this.remove = function (psKey){
 		if (this.prNext){ 
 			if (this.prNext.prKey === psKey)
