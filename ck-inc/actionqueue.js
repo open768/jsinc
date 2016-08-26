@@ -14,6 +14,7 @@ function cActionQueue(){
 	this.aTransfers = new cQueue();
 	this.bStopping=false;
 	this.MAX_TRANSFERS=10;
+	this.ASYNC_DELAY = 10;
 	
 	//***************************************************************
 	this.clear = function(){
@@ -36,37 +37,28 @@ function cActionQueue(){
 
 	//***************************************************************
 	this.start = function(){
-		var oItem, iLen, oHttp;
-		var oParent = this;
 		
 		if (this.bStopping) return;
-
-		//-------------- set up the closures
-		function pfnHttpCallback(poHttp){
-			oParent.process_response(poHttp);
-		}
-
-		function pfnErrorCallback(poHttp){
-			oParent.process_error(poHttp); // continue after error
-		}
 		
 		//------------ queue logic
 		if (this.aTransfers.length() >= this.MAX_TRANSFERS)
-			cDebug.write("Queue full ...");
+			cDebug.write("Queue - full");
 		else if (this.aBacklog.length > 0){
-			oItem = this.aBacklog.pop(); //Take item off backlog
+			var oItem = this.aBacklog.pop(); //Take item off backlog
 			this.aTransfers.push(oItem.name,null); //put onto transfer list
 			
 			bean.fire(this,"starting", oItem.name); //notify subscriber 
-			oHttp = new cHttp2();
-			bean.on(oHttp, "result", pfnHttpCallback);
-			bean.on(oHttp, "error", pfnErrorCallback);
+			
+			var oHttp = new cHttp2();				//perform the http request async
+			var oParent = this;
+			bean.on(oHttp, "result", function(poHttp){oParent.process_response(poHttp);});
+			bean.on(oHttp, "error",  function(poHttp){oParent.process_error(poHttp);});
 			
 			//separate thread to allow UI to catch up
-			var iID;
-			iID= setTimeout( function(){
-				oHttp.fetch_json(oItem.url, oItem.name ); //start transfer
-			},0);
+			iID= setTimeout( 
+				function(){	oHttp.fetch_json(oItem.url, oItem.name );}, //start transfer
+				this.ASYNC_DELAY
+			);
 			
 			this.start();			//continue the processing of the queue
 		}
