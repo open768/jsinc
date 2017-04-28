@@ -13,6 +13,7 @@ function cActionQueue(){
 	this.aBacklog=[];
 	this.aTransfers = new cQueue();
 	this.bStopping=false;
+	this.running=false;
 	this.MAX_TRANSFERS=10;
 	this.ASYNC_DELAY = 10;
 	
@@ -20,11 +21,12 @@ function cActionQueue(){
 	this.clear = function(){
 		cDebug.write("clearing image queue");
 		this.aBacklog = [];
-		this.bStopping = false;
 	};
 	
 	//***************************************************************
 	this.stop = function(){
+		if (this.bStopping)	return;
+		if (this.aBacklog.length == 0) return;
 		this.bStopping = true;
 		this.aBacklog=[];
 	};
@@ -44,12 +46,14 @@ function cActionQueue(){
 		if (this.aTransfers.length() >= this.MAX_TRANSFERS)
 			cDebug.write("Queue - full");
 		else if (this.aBacklog.length > 0){
+			this.running = true;
 			var oItem = this.aBacklog.pop(); //Take item off backlog
 			this.aTransfers.push(oItem.name,null); //put onto transfer list
 			
 			bean.fire(this,"starting", oItem.name); //notify subscriber 
 			
 			var oHttp = new cHttp2();				//perform the http request async
+			oHttp._actionqueue_name = oItem.name;
 			var oParent = this;
 			bean.on(oHttp, "result", function(poHttp){oParent.process_response(poHttp);});
 			bean.on(oHttp, "error",  function(poHttp){oParent.process_error(poHttp);});
@@ -66,15 +70,30 @@ function cActionQueue(){
 	
 	//***************************************************************
 	this.process_response = function(poHttp){
-		if (this.bStopping) return;
 		this.aTransfers.remove(poHttp.data);
+		if (this.bStopping){
+			if (this.aTransfers.length == 0){
+				this.running = false;
+				this.bStopping = false;
+			} 
+			return;
+		}
+		
+		poHttp.json._actionqueue_name = poHttp._actionqueue_name;
 		bean.fire(this,"response", poHttp.json);
 		this.start();
 	};
 	//***************************************************************
 	this.process_error = function(poHttp){
-		if (this.bStopping) return;
 		this.aTransfers.remove(poHttp.data);
+		if (this.bStopping){
+			if (this.aTransfers.length == 0){
+				this.running = false;
+				this.bStopping = false;
+			} 
+			return;
+		}
+		
 		bean.fire(this,"error", poHttp);
 		this.start();
 	};
