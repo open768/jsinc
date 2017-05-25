@@ -55,10 +55,13 @@ var cHttp = {
 
 //###############################################################
 //# use 
+//#    success_callback = function(poHttp){ ... do something here ... })
+//#    error_callback = function(poHttp){ ... do something here ... })
 //#		ohttp = new cHttp2();
-//# 	bean.on(ohttp,"result",callback);
-//# 	bean.on(ohttp,"error",callback);
+//# 	bean.on(ohttp,"result",success_callback);
+//# 	bean.on(ohttp,"error",error_callback);
 //#		ohttp.fetch_json("http:..","something");
+
 //###############################################################
 function cHttp2(){
 	this.url = null;

@@ -4,9 +4,11 @@
 // A simple generic class to manage the batch processing of stuff
 //###############################################################
 
-function cActionQueueItem(psName, psActionUrl){
+function cActionQueueItem(psName, psActionUrl, poData){
 	this.name = psName;
 	this.url = psActionUrl;
+	this.data = null,
+	this.oHttp = null
 }
 
 function cActionQueue(){
@@ -32,15 +34,16 @@ function cActionQueue(){
 	};
 	
 	//***************************************************************
-	this.add = function(psName, psActionUrl){
+	this.add = function(psName, psActionUrl, poData){
 		if (this.bStopping) return;
-		this.aBacklog.push( new cActionQueueItem(psName, psActionUrl));
+		this.aBacklog.push( new cActionQueueItem(psName, psActionUrl, poData));
 	};
 
 	//***************************************************************
 	this.start = function(){
-		
 		if (this.bStopping) return;
+		
+		var oQueue = this;
 		
 		//------------ queue logic
 		if (this.aTransfers.length() >= this.MAX_TRANSFERS)
@@ -52,14 +55,15 @@ function cActionQueue(){
 			
 			bean.fire(this,"starting", oItem.name); //notify subscriber 
 			
-			var oHttp = new cHttp2();				//perform the http request async
-			oHttp._actionqueue_name = oItem.name;
-			var oParent = this;
-			bean.on(oHttp, "result", function(poHttp){oParent.process_response(poHttp);});
-			bean.on(oHttp, "error",  function(poHttp){oParent.process_error(poHttp);});
+			var oHttp = new cHttp2();				//create a new http object to do the request
+			oItem.oHttp = oHttp;
+			
+			oHttp._actionqueue_name = oItem.name;	// this is a fudge that is just WRONG #TBD#
+			bean.on(oHttp, "result", 	function(poHttp){oQueue.process_response(poHttp, oItem);	});
+			bean.on(oHttp, "error",  	function(poHttp){oQueue.process_error(poHttp, oItem);		});
 			
 			//separate thread to allow UI to catch up
-			iID= setTimeout( 
+			var iThread = setTimeout( 
 				function(){	oHttp.fetch_json(oItem.url, oItem.name );}, //start transfer
 				this.ASYNC_DELAY
 			);
@@ -69,7 +73,7 @@ function cActionQueue(){
 	};
 	
 	//***************************************************************
-	this.process_response = function(poHttp){
+	this.process_response = function(poHttp, poItem){
 		this.aTransfers.remove(poHttp.data);
 		if (this.bStopping){
 			if (this.aTransfers.length == 0){
@@ -81,10 +85,11 @@ function cActionQueue(){
 		
 		poHttp.json._actionqueue_name = poHttp._actionqueue_name;
 		bean.fire(this,"response", poHttp.json);
-		this.start();
+		
+		this.start();			//process the next item
 	};
 	//***************************************************************
-	this.process_error = function(poHttp){
+	this.process_error = function(poHttp, poItem){
 		this.aTransfers.remove(poHttp.data);
 		if (this.bStopping){
 			if (this.aTransfers.length == 0){
@@ -98,4 +103,3 @@ function cActionQueue(){
 		this.start();
 	};
 }
-
