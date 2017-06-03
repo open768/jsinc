@@ -103,12 +103,6 @@ cBrowser = {
 }
 cBrowser.init();
 
-cJQueryObj = {
-	onBodyLoad:function(){
-		cDebug.write("firing OnJqueryLoad event");
-		bean.fire(cJQueryObj,"OnJqueryLoad");
-	}
-}
 
 //###############################################################
 //# MISC

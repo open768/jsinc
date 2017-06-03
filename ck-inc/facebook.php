@@ -1,7 +1,16 @@
-//functions
+<?php
+	//get the serverside details
+	$phpinc = realpath("../../phpinc");
+	require_once("$phpinc/ckinc/header.php");
+	require_once("$phpinc/ckinc/facebook.php");
+	$FBAPPID= (cHeader::is_localhost()?cSecret::FB_DEV_APP:cSecret::FB_APP);
+	$FBSESSUSER=cFacebook_ServerSide::getSessionUser();	
+?>
+//<script>
 var cFacebook = {
-	AppID:null,
+	AppID:"<?=$FBAPPID?>",
 	callBackCalled:false,
+	ServerUser:"<?=$FBSESSUSER?>",
 	subscribed:{},
 	
 	//--------------------------------------------------------------------
@@ -97,6 +106,5 @@ var cFacebook = {
 	}
 }
 
-	
-	
-//--------------------------------------------------------------------
+window.fbAsyncInit = cFacebook.onFBBeforeInit;
+$(cFacebook.loadFacebook);

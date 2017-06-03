@@ -84,7 +84,7 @@ function cActionQueue(){
 		}
 		
 		poHttp.json._actionqueue_name = poHttp._actionqueue_name;
-		bean.fire(this,"response", poHttp.json);
+		bean.fire(this,"response", poHttp.response);
 		
 		this.start();			//process the next item
 	};

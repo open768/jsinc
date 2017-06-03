@@ -7,6 +7,7 @@ function cHttpQueue(){
 	this.backlog = [];
 	this.inProgress = [];
 	this.stopping = false;
+	this.running = false;
 	
 	// ***************************************************************
 	this.add = function(poItem){
@@ -18,17 +19,30 @@ function cHttpQueue(){
 	// ***************************************************************
 	this.start = function(){
 		if (this.stopping) return;
-		if (this.backlog.length == 0){
-			cDebug.write("Queue empty");
-			return;
-		}
+		if (this.running) return;
+		this.running = true;
+		this.pr_process_next();
+	};
+	
+	// ***************************************************************
+	this.pr_process_next = function(){
+		var oThis, oItem;
+		
+		if (this.stopping) return;
+		
 		if (this.inProgress.length >= 	this.MaxTransfers){
 			cDebug.write("Queue full");
 			return;
 		}
-		
-		var oThis = this;
-		var oItem = this.backlog.pop();
+		if (this.backlog.length == 0){
+			cDebug.write("finished Queue");
+			bean.fire(this, "finished");
+			this.running = false;
+			return;
+		}
+
+		oThis = this;
+		oItem = this.backlog.pop();
 		bean.fire(oItem, "start");
 		
 		cDebug.write("getting URL: " + oItem.url);
@@ -62,14 +76,14 @@ function cHttpQueue(){
 		if (this.stopping) return;
 		cDebug.write("got a response for: " + poItem.url);
 		bean.fire(poItem, "result", poHttp);
-		this.inProgress.pop();
-		this.start();
+		this.inProgress.pop();					//dont care what it is pop it off the in progress
+		this.pr_process_next();
 	};
 	
 	this.onError = function (poHttp, poItem){
 		if (this.stopping) return;
 		bean.fire(poItem, "error", poHttp);
 		this.inProgress.pop();
-		this.start();
+		this.pr_process_next();
 	};
 };

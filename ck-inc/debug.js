@@ -17,6 +17,9 @@ var DEBUG_ON = true;
 //# DEBUG
 //###############################################################
 var cDebug = {
+	write_err:function(psMessage){
+		if (console) console.log("ERROR> " + psMessage);
+	},
 	write:function(psMessage){
 		if (DEBUG_ON && console) console.log("DEBUG> " + psMessage);
 	},

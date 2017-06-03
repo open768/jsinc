@@ -58,45 +58,72 @@ var cHttp = {
 //#    success_callback = function(poHttp){ ... do something here ... })
 //#    error_callback = function(poHttp){ ... do something here ... })
 //#		ohttp = new cHttp2();
-//# 	bean.on(ohttp,"result",success_callback);
-//# 	bean.on(ohttp,"error",error_callback);
+//# 	bean.on(ohttp,"result",		function(po){ success_callback(po.u, po.d)}	);
+//# 	bean.on(ohttp,"error",		function(poHttp) {error_callback()}			);
 //#		ohttp.fetch_json("http:..","something");
 
 //###############################################################
 function cHttp2(){
 	this.url = null;
 	this.data = null;
-	this.json = null;
 	this.error = null;
 	this.errorStatus = null;
+	this.response = null;
+	this.event = null;
 		
 	//**************************************************************
 	this.fetch_json = function(psUrl, pvData){
-		var oParent = this;
-		
-		function  prfn__httpCallback(poJson){
-			oParent.json = poJson;
-			bean.fire(oParent,"result", oParent); //notify subscriber 
-		}
-		
-		function prfn__httpFail(poEvent, psStatus, poError){
-			oParent.error = poError;
-			oParent.errorStatus = psStatus;
-			bean.fire(oParent,"error", oParent); //notify subscriber 
-		}
-		
+		var oThis = this;
+
 		this.url = psUrl;
+		this.correct_url();
 		this.data = pvData;
-		$.getJSON(psUrl, prfn__httpCallback).fail(prfn__httpFail);
+		cDebug.write("fetching url: " + this.url);
+		$.getJSON(
+			this.url, 
+			function(rs){oThis.onResult(rs)}
+		).fail(
+			function(ev,st,er){oThis.onError(ev,st,er)}
+		);
 	};
 	
 	//**************************************************************
 	this.post = function(psUrl, poData){
-		var oParent = this;
-		function  prfn__httpCallback(poResponse){
-			bean.fire(oParent,"result", {u:oParent.url, d:poResponse}); //notify subscriber 
-		}
+		var oThis = this;
 		this.url = psUrl;
-		cHttp.post(psUrl, prfn__httpCallback);
+		this.correct_url();
+		this.data = poData;
+		
+		$.post(
+			this.url, 
+			function(rs){oThis.onResult(rs)}
+		).fail(
+			function(ev,st,er){oThis.onError(ev,st,er)}
+		);
 	};
+	
+	this.correct_url = function(){
+		if (this.url.search("http:") == -1){
+			this.url = cBrowser.baseUrl() + this.url;
+			cDebug.write("correct url is:" + this.url);
+		}
+		
+	};
+	
+	//################################################################
+	//# Events
+	//################################################################
+	this.onResult = function(poResponse){
+		this.response = poResponse;
+		bean.fire(this,"result", this); //notify subscriber 
+	};
+	
+	//**************************************************************
+	this.onError = function(poEvent, psStatus, poError){
+		this.event = poEvent;
+		this.error = poError;
+		this.errorStatus = psStatus;
+		cDebug.write_err("URL error: " + this.url);
+		bean.fire(this,"error", this); //notify subscriber 
+	}
 }
