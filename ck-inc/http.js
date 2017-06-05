@@ -50,7 +50,7 @@ var cHttp = {
 		
 		//- - - - - make the call
 		$.post(psUrl, poData, pfnCallBack).fail(oFailer.fail);
-	}
+	}	
 }
 
 //###############################################################
@@ -70,6 +70,8 @@ function cHttp2(){
 	this.errorStatus = null;
 	this.response = null;
 	this.event = null;
+	this.stopping = false;
+	this.oXHR = null;
 		
 	//**************************************************************
 	this.fetch_json = function(psUrl, pvData){
@@ -79,7 +81,7 @@ function cHttp2(){
 		this.correct_url();
 		this.data = pvData;
 		cDebug.write("fetching url: " + this.url);
-		$.getJSON(
+		this.oXHR = $.getJSON(
 			this.url, 
 			function(rs){oThis.onResult(rs)}
 		).fail(
@@ -94,7 +96,7 @@ function cHttp2(){
 		this.correct_url();
 		this.data = poData;
 		
-		$.post(
+		this.oXHR = $.post(
 			this.url, 
 			function(rs){oThis.onResult(rs)}
 		).fail(
@@ -110,16 +112,30 @@ function cHttp2(){
 		
 	};
 	
+	//***************************************************************
+	this.stop=function(){
+		this.stopping = true;
+		if (this.oXHR){
+			try{
+				this.oXHR.abort();
+			}catch(e){}
+			this.oXHR = null;
+		}
+	}
+	
 	//################################################################
 	//# Events
 	//################################################################
 	this.onResult = function(poResponse){
+		if (this.stopping) return;
+		
 		this.response = poResponse;
 		bean.fire(this,"result", this); //notify subscriber 
 	};
 	
 	//**************************************************************
 	this.onError = function(poEvent, psStatus, poError){
+		if (this.stopping) return;
 		this.event = poEvent;
 		this.error = poError;
 		this.errorStatus = psStatus;
