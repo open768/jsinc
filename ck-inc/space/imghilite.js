@@ -2,7 +2,7 @@ var cImgHilite = {
 	templateID:"#box_template",
 	containerID:"#highlight",
 	baseImageID:"#baseimg",
-	url:"php/rest/img_highlight.php",
+	baseUrl:"php/rest/img_highlight.php",
 	controlsID:"#controls",
 	numberID:"#number",
 	imgTarget:null,
@@ -101,14 +101,14 @@ var cImgHilite = {
 	//**************************************************
 	save_highlight:function(psSol,psInstr, psProduct, psID, pfnCallback){
 		var oBox = $(psID);
-		sUrl = this.url+"?o=add&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct +"&t=" + oBox.css("top") + "&l=" + oBox.css("left");
-		 this.currentBox  = null;
+		sUrl = cBrowser.buildUrl(this.baseUrl , {o:"add",s:psSol,i:psInstr,p:psProduct,m:cMission.ID,t:oBox.css("top"),l:oBox.css("left")});
+		this.currentBox  = null;
 		cHttp.fetch_json(sUrl, pfnCallback);
 	},
 	
 	//**************************************************
 	getHighlights:function(psSol,psInstr, psProduct, pfnCallBack){
-		sUrl = this.url+"?o=get&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct;
+		sUrl = cBrowser.buildUrl(this.baseUrl , {o:"get",s:psSol,i:psInstr,p:psProduct,m:cMission.ID});
 		cHttp.fetch_json(sUrl, pfnCallBack);
 	},
 }
