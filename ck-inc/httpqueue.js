@@ -2,6 +2,7 @@ function cHttpQueueItem(){
 	this.url = null;
 	this.ohttp = null;
 	this.abort = false;
+	this.fnCheckContinue = null;
 }
 
 function cHttpQueue(){
