@@ -48,6 +48,9 @@ function cHttpQueue(){
 		oThis = this;
 		oItem = this.backlog.pop();
 		bean.fire(oItem, "start");
+		if (oItem.fnCheckContinue)
+			if (!oItem.fnCheckContinue()) 
+				return;
 		
 		if (oItem.abort) return;
 		setTimeout(	function(){	oThis.onTimer(oItem)}, this.DELAY);
