@@ -32,8 +32,17 @@ var cString = {
 	//***************************************************************
 	reverse:function reverse(psText){
 		return psText.split("").reverse().join("");
-	}
+	},
 }
+
+if (!String.prototype.padLeft)
+	String.prototype.padLeft = function(psPad, piSize) { 
+		var iDiff = piSize - this.length;
+		if (iDiff >0)
+			return psPad.repeat(iDiff) + this;
+		else
+			return this;
+	}
 
 
 //###############################################################
