@@ -18,8 +18,8 @@ var cConverter = {
 	binToInt:function(psBin){
 		var iVal = 0;
 		var bFirst = true;
-		for (var i = psBin.length; i>0; i--){
-			var ch = psBin.charAt(i-1);
+		for (var i =0; i< psBin.length; i++){
+			var ch = psBin.charAt(i);
 			if (!bFirst){
 				iVal = iVal << 1;
 			}
@@ -37,12 +37,17 @@ var cConverter = {
 		var sBin = ""
 		
 		while (iVal > 0){
-			sBin = sBin + ((iVal & 1)==1?"1":"0");
+			sBin = ((iVal & 1)==1?"1":"0") + sBin;
 			iVal = iVal >>> 1;
 		}
 		return sBin;
 	},
 	
+	//**********************************
+	base64ToDec: function(pcChar64){
+		return  cConverterEncodings.BASE64.indexOf(pcChar64);
+	},
+
 	
 	//**********************************
 	test: function(){
