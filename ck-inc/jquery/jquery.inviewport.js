@@ -1,6 +1,6 @@
 (function($){
 	/**************************************************************************
-	Copyright (C) Chicken Katsu 2017
+	Copyright (C) Chicken Katsu 2017-2018
 	 * Licensed under the MIT license.
 	 
 	based on http://opensource.teamdf.com/visible/jquery.visible.js
