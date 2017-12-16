@@ -23,7 +23,11 @@ var cDebug = {
 	write:function(psMessage){
 		if (DEBUG_ON) cBrowser.writeConsole("DEBUG> " + psMessage);
 	},
-	
+	write_exception: function(pEx){
+		this.write_err("Exception: " + pEx.message);
+		this.write_err("stacktrace: " + pEx.stack);
+	},
+
 	//***************************************************************
 	vardump:function(arr, level){
 		sDump = this.dump(arr, level);
@@ -56,6 +60,6 @@ var cDebug = {
 	},
 	
 	error:function(psErr){
-		throw psErr;
+		throw new Exception(psErr);
 	}
 }
