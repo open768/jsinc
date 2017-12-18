@@ -9,7 +9,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var cConverterEncodings = {
 	binary:"01",
-	BASE64:"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/=",
+	BASE64:"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,.",
 
 	isBase64:function(psInput){
 		for (var i=0 ; i<psInput.length; i++){
