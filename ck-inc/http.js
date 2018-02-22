@@ -118,7 +118,9 @@ function cHttp2(){
 		if (this.oXHR){
 			try{
 				this.oXHR.abort();
-			}catch(e){}
+			}catch(e){
+				cDebug.write("cant stop while getting it on!");
+			}
 			this.oXHR = null;
 		}
 	}

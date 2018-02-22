@@ -6,6 +6,7 @@ http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
+//##################################################################
 function cHttpQueueItem(){
 	this.url = null;
 	this.ohttp = null;
@@ -13,16 +14,43 @@ function cHttpQueueItem(){
 	this.fnCheckContinue = null;
 }
 
+//##################################################################
+cHttpQueueJquery = {
+	queues:[],
+	
+	onJqueryLoad: function(){
+		var oThis = this;
+		$(window).bind('beforeunload', function(){ oThis.stop_all_transfers()});
+	},
+	
+	stop_all_transfers: function(){
+		//iterates each queue item and stops any transfers
+		var oQ;
+		while (oQ = this.queues.pop()){
+			oQ.stop();
+		}	
+	}
+}
+
+$(	function(){cHttpQueueJquery.onJqueryLoad()}	);
+
+//##################################################################
 function cHttpQueue(){
 	this.maxTransfers = 10;
-	this.backlog = [];
-	this.inProgress = [];
+	this.backlog = [];	//an array of cHttpQueueItem
+	this.inProgress = new Map();
 	this.stopping = false;
 	this.running = false;
 	this.DELAY = 50;
 	
+	if (this instanceof cHttpQueue){
+		//add this object to the list of queues
+		cHttpQueueJquery.queues.push(this);
+	}
+	
 	// ***************************************************************
 	this.add = function(poItem){
+		if (!(poItem instanceof cHttpQueueItem)){ throw new Error("item must be a cHttpQueueItem")}
 		if (this.stopping) return;
 		this.backlog.push(poItem);
 		this.start();
@@ -42,7 +70,7 @@ function cHttpQueue(){
 		
 		if (this.stopping) return;
 		
-		if (this.inProgress.length >= 	this.maxTransfers){
+		if (this.inProgress.size >= 	this.maxTransfers){
 			cDebug.write("Queue full");
 			return;
 		}
@@ -67,9 +95,10 @@ function cHttpQueue(){
 	// ***************************************************************
 	this.onTimer = function(poItem){
 		var oThis = this;
+		if (this.stopping) return;
 		
 		cDebug.write("getting URL: " + poItem.url);
-		this.inProgress.push(poItem);
+		this.inProgress.set(poItem.url,poItem);
 		var oHttp = new cHttp2();
 		poItem.ohttp = oHttp;
 		
@@ -88,10 +117,8 @@ function cHttpQueue(){
 		
 		//todo clear down the transfers in progress
 		var oItem;
-		while ( oItem = this.inProgress.pop()){
-			oItem.ohttp.stop();
-		}
-		this.inProgress = [];
+		this.inProgress.forEach( function(oItem, psKey) {oItem.ohttp.stop();}	)
+		this.inProgress = new Map();
 	};
 
 	// ***************************************************************
@@ -107,14 +134,14 @@ function cHttpQueue(){
 		if (this.stopping) return;
 		cDebug.write("got a response for: " + poItem.url);
 		bean.fire(poItem, "result", poHttp);
-		this.inProgress.pop();					//dont care what it is pop it off the in progress
+		this.inProgress.delete(poItem.url);		//delete a specific item from the queue
 		this.pr_process_next();		//continue queue
 	};
 	
 	this.onError = function (poHttp, poItem){
 		if (this.stopping) return;
 		bean.fire(poItem, "error", poHttp);
-		this.inProgress.pop();
+		this.inProgress.delete(poItem.url);
 		this.pr_process_next();		//continue queue
 	};
 };
