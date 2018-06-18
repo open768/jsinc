@@ -53,11 +53,15 @@ cBrowser = {
 	
 	//***************************************************************
 	init:function (){
-		var oResult = {}, aPairs = location.search.slice(1).split('&');
+		var oResult = {}, aPairs;
+		var sKey, sValue;
 
+		aPairs = location.search.slice(1).split('&');
 		aPairs.forEach(function(sPair) {
 			aPair = sPair.split('=');
-			oResult[aPair[0]] = aPair[1] || '';
+			sKey = aPair[0];
+			sValue = decodeURI(aPair[1]).replace(/\+/g, ' ');
+			oResult[sKey] =  sValue || '';
 		});
 
 		this.data = oResult;
