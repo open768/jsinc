@@ -11,10 +11,6 @@
 /rgraph
 /fabricJS
 /tablesorter
-/jquery-inview
-/jquery-visible
-/jquery-spinner
-/jquery-cookie
-/jquery-canvas
+/jquery*
 /base64
 /smartmenus
