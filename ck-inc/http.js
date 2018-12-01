@@ -105,9 +105,8 @@ function cHttp2(){
 	};
 	
 	this.correct_url = function(){
-		if (this.url.search("http:") == -1){
+		if (this.url.match(/^http/) == null){
 			this.url = cBrowser.baseUrl() + this.url;
-			cDebug.write("correct url is:" + this.url);
 		}
 		
 	};

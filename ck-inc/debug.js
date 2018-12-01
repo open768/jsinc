@@ -10,18 +10,17 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-var DEBUG_ON = true;
-
-
 //###############################################################
 //# DEBUG
 //###############################################################
 var cDebug = {
+	DEBUGGING:false,
+	
 	write_err:function(psMessage){
 		cBrowser.writeConsole("ERROR> " + psMessage);
 	},
 	write:function(psMessage){
-		if (DEBUG_ON) cBrowser.writeConsole("DEBUG> " + psMessage);
+		if (this.DEBUGGING) cBrowser.writeConsole("DEBUG> " + psMessage);
 	},
 	write_exception: function(pEx){
 		this.write_err("Exception: " + pEx.message);
@@ -30,12 +29,14 @@ var cDebug = {
 
 	//***************************************************************
 	vardump:function(arr, level){
-		sDump = this.dump(arr, level);
+		if (!this.DEBUGGING) return;
+		
+		sDump = this.pr__dump(arr, level);
 		this.write(sDump);
 	},
 	
 	//***************************************************************
-	dump:function(arr, level){
+	pr__dump:function(arr, level){
 		var dumped_text = "";
 		if(!level) level = 0;
 		
@@ -49,7 +50,7 @@ var cDebug = {
 				
 				if(typeof(value) == 'object') { //If it is an array,
 					dumped_text += level_padding + "'" + item + "' ...\n";
-					dumped_text += this.dump(value,level+1);
+					dumped_text += this.pr__dump(value,level+1);
 				} else {
 					dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
 				}

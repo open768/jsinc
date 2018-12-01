@@ -84,7 +84,7 @@ cBrowser = {
 		else
 			sBase = sUrl.substring(0,iLast);
 		
-		cDebug.write("url is "+ sBase);
+		//cDebug.write("base url is "+ sBase);
 		return sBase;
 	},
 	
