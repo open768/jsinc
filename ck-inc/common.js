@@ -115,7 +115,36 @@ cBrowser = {
 	//***************************************************************
 	writeConsole:function(psMessage){
 		if (console) console.log(psMessage);
-	}
+	},
+	
+	//***************************************************************
+	//https://forum.jquery.com/topic/know-if-a-css-class-exists-in-document
+	styleSheetContains:function (psClass) {
+	   var bFound = false, iSheet, oSheet, iClass, oClass, aClasses, sSearch;
+       var aSheets = document.styleSheets;	   
+	   sSearch = "."+psClass;
+       for (iSheet = 0; iSheet < aSheets.length; iSheet++) {
+			oSheet = aSheets[iSheet];
+			aClasses = null;
+			try{
+				aClasses = oSheet.cssRules ;
+			}catch (e){
+				try{
+					aClasses = oSheet.rules ;
+				}catch (e){}
+			}
+			if (aClasses == null) continue;
+			
+            for ( iClass = 0; iClass < aClasses.length; iClass++) {
+                oClass = aClasses[iClass];
+				if (oClass.selectorText == sSearch) {
+                    bFound = true; 
+					break;
+                }
+            }
+        }
+        return bFound;
+    },
 	
 	
 	
