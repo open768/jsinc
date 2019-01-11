@@ -48,6 +48,62 @@ if (!String.prototype.padLeft)
 //###############################################################
 //# BROWSER
 //###############################################################
+cJquery = {
+	//***************************************************************
+	//https://forum.jquery.com/topic/know-if-a-css-class-exists-in-document
+	styleSheetContains:function (psClass) {
+	   var bFound = false, iSheet, oSheet, iClass, oClass, aClasses, sSearch;
+       var aSheets = document.styleSheets;	   
+	   sSearch = "."+psClass;
+       for (iSheet = 0; iSheet < aSheets.length; iSheet++) {
+			oSheet = aSheets[iSheet];
+			aClasses = null;
+			try{
+				aClasses = oSheet.cssRules ;
+			}catch (e){
+				try{
+					aClasses = oSheet.rules ;
+				}catch (e){}
+			}
+			if (aClasses == null) continue;
+			
+            for ( iClass = 0; iClass < aClasses.length; iClass++) {
+                oClass = aClasses[iClass];
+				if (oClass.selectorText == sSearch) {
+                    bFound = true; 
+					break;
+                }
+            }
+        }
+        return bFound;
+    },
+	
+	//***************************************************************
+	bringToFront:function(poElement){
+		$(".ui-front").each( 
+			function(piIndex){
+				$(this).removeClass("ui-front"); 
+			}
+		);
+		
+		if (poElement) poElement.addClass("ui-front");
+	},
+	
+	//***************************************************************
+	setTopZindex: function(poElement){
+		//var iZindex = $('.ui-dialog').css('z-index');
+		var iZindex = $('.ui-front').css('z-index');
+		poElement.css({
+			'z-index': iZindex + 1,
+			position: "relative"
+			
+		});
+	}
+}
+
+//###############################################################
+//# BROWSER
+//###############################################################
 cBrowser = {
 	data:null,
 	
@@ -115,39 +171,7 @@ cBrowser = {
 	//***************************************************************
 	writeConsole:function(psMessage){
 		if (console) console.log(psMessage);
-	},
-	
-	//***************************************************************
-	//https://forum.jquery.com/topic/know-if-a-css-class-exists-in-document
-	styleSheetContains:function (psClass) {
-	   var bFound = false, iSheet, oSheet, iClass, oClass, aClasses, sSearch;
-       var aSheets = document.styleSheets;	   
-	   sSearch = "."+psClass;
-       for (iSheet = 0; iSheet < aSheets.length; iSheet++) {
-			oSheet = aSheets[iSheet];
-			aClasses = null;
-			try{
-				aClasses = oSheet.cssRules ;
-			}catch (e){
-				try{
-					aClasses = oSheet.rules ;
-				}catch (e){}
-			}
-			if (aClasses == null) continue;
-			
-            for ( iClass = 0; iClass < aClasses.length; iClass++) {
-                oClass = aClasses[iClass];
-				if (oClass.selectorText == sSearch) {
-                    bFound = true; 
-					break;
-                }
-            }
-        }
-        return bFound;
-    },
-	
-	
-	
+	}
 //	this.isMobile = function(a) {(/android|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|meego.+mobile|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a))}(navigator.userAgent||navigator.vendor||window.opera);
 }
 cBrowser.init();

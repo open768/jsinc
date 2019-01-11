@@ -5,6 +5,7 @@ $.widget( "ck.slideout",{
 	//# Definition
 	//#################################################################
 	options:{
+		overlap:30,
 		upperdiv:null,
 		lowerdiv:null,
 		width:null,
@@ -20,10 +21,8 @@ $.widget( "ck.slideout",{
 	},
 	
 	consts:{
-		OVERLAP:30,
 		UPPERID_SUFFIX: "SLIDEU",
-		LOWERID_SUFFIX: "SLIDEL",
-		TOP_STYLE: "slideoutTop"
+		LOWERID_SUFFIX: "SLIDEL"
 	},
 	
 	//#################################################################
@@ -57,7 +56,7 @@ $.widget( "ck.slideout",{
 		oUpperDiv.css({
 			position: "absolute",
 			"z-index": 6,
-			width: oOptions.width - this.consts.OVERLAP,
+			width: oOptions.width - oOptions.overlap,
 			height:oOptions.height,
 			border: "1px solid black",
 			background: oOptions.background
@@ -67,7 +66,7 @@ $.widget( "ck.slideout",{
 
 		var sLower = oElement.attr("id") + this.consts.LOWERID_SUFFIX;
 		var oLowerDiv = $("<div>", {id:sLower});
-		var iLeft  = oOptions.width-this.consts.OVERLAP-oOptions.slideout_width-2*oOptions.padding+oUpperDiv.position().left + 2*oOptions.padding;
+		var iLeft  = oOptions.width-oOptions.overlap-oOptions.slideout_width-2*oOptions.padding+oUpperDiv.position().left + 2*oOptions.padding;
 		oLowerDiv.css({
 			position: "absolute",
 			"z-index": 5,
@@ -109,19 +108,13 @@ $.widget( "ck.slideout",{
 				"border-color" : oOptions.border_colour.clicked
 			})
 			//remove everything from ui_front
-			$(".ui-front").each( 
-				function(piIndex){
-					$(this).removeClass("ui-front"); 
-				}
-			);
-			
-			oElement.addClass("ui-front");
+			cJquery.bringToFront(oElement);
 		}else{
 			oLower.css({
 				left: oOptions.left_in,
 				"border-color" : oOptions.border_colour.normal
 			});
-			oElement.removeClass("ui-front");
+			cJquery.bringToFront(null);
 		}
 	
 	}
