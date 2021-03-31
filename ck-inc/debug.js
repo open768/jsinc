@@ -33,6 +33,11 @@ var cDebug = {
 		
 		sDump = this.pr__dump(arr, level);
 		this.write(sDump);
+		return sDump;
+	},
+	
+	getvardump:function (arr,level){
+		return this.pr__dump(arr, level);
 	},
 	
 	//***************************************************************
