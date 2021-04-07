@@ -15,12 +15,21 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //###############################################################
 var cDebug = {
 	DEBUGGING:false,
+	ONE_TIME_DEBUGGING:false,
+	
+	pr_is_debugging:function(){
+		if (this.ONE_TIME_DEBUGGING){
+			this.ONE_TIME_DEBUGGING = false;
+			return true;
+		}
+		return this.DEBUGGING;
+	},
 	
 	write_err:function(psMessage){
 		cBrowser.writeConsole("ERROR> " + psMessage);
 	},
 	write:function(psMessage){
-		if (this.DEBUGGING) cBrowser.writeConsole("DEBUG> " + psMessage);
+		if (this.pr_is_debugging()) cBrowser.writeConsole("DEBUG> " + psMessage);
 	},
 	write_exception: function(pEx){
 		this.write_err("Exception: " + pEx.message);
@@ -29,7 +38,7 @@ var cDebug = {
 
 	//***************************************************************
 	vardump:function(arr, level){
-		if (!this.DEBUGGING) return;
+		if (!this.pr_is_debugging()) return;
 		
 		sDump = this.pr__dump(arr, level);
 		this.write(sDump);
