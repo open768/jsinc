@@ -16,6 +16,40 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 var cDebug = {
 	DEBUGGING:false,
 	ONE_TIME_DEBUGGING:false,
+	stack: [],
+	
+	
+	write_err:function(psMessage){
+		cBrowser.writeConsole("ERROR> " + psMessage);
+	},
+	write:function(psMessage){
+		if (this.pr_is_debugging()) 
+			cBrowser.writeConsole("DEBUG> " + "  ".repeat(this.stack.length) + psMessage);
+	},
+	write_exception: function(pEx){
+		this.write_err("Exception: " + pEx.message);
+		this.write_err("stacktrace: " + pEx.stack);
+	},
+	enter:function(){
+    	var sFn;
+		if (!this.pr_is_debugging()) return;
+		
+		sFn = this.pr__getCaller("enter");
+		this.write( ">> Entering " + sFn);
+		this.stack.push(sFn);
+	},
+	
+	leave:function(){
+    	var sFn;
+		if (!this.pr_is_debugging()) return;
+		if (this.stack.length == 0) return;
+		
+		sFn = this.pr__getCaller("leave");
+		if (sFn == this.stack[this.stack.length-1]){
+			this.stack.pop();
+			this.write( ">> Leaving " + sFn);
+		}
+	},
 	
 	pr_is_debugging:function(){
 		if (this.ONE_TIME_DEBUGGING){
@@ -23,17 +57,6 @@ var cDebug = {
 			return true;
 		}
 		return this.DEBUGGING;
-	},
-	
-	write_err:function(psMessage){
-		cBrowser.writeConsole("ERROR> " + psMessage);
-	},
-	write:function(psMessage){
-		if (this.pr_is_debugging()) cBrowser.writeConsole("DEBUG> " + psMessage);
-	},
-	write_exception: function(pEx){
-		this.write_err("Exception: " + pEx.message);
-		this.write_err("stacktrace: " + pEx.stack);
 	},
 
 	//***************************************************************
@@ -50,6 +73,23 @@ var cDebug = {
 	},
 	
 	//***************************************************************
+	pr__getCaller:function(psPrevious){
+    	var aStack, iIndex, sTarget, aMatches, sFn;
+		aStack = this.pr__getStack();
+		iIndex = aStack.findIndex( function(pS){ return (pS.indexOf("Object." + psPrevious) >=0);});
+		sTarget = aStack[iIndex +1];	
+		aMatches = sTarget.match(/at\s+(\S+)\s/);
+		return  aMatches[1];
+	},
+	
+	pr__getStack(){
+    	var oErr, sStack, aStack;
+		oErr = new Error();
+    	sStack = oErr.stack;	
+		aStack = sStack.split(/\n/);
+		return aStack;
+	},
+	
 	pr__dump:function(arr, level){
 		var dumped_text = "";
 		if(!level) level = 0;
