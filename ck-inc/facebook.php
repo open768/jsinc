@@ -29,7 +29,7 @@ window.fbAsyncInit = function() {
 	});
 	
     FB.AppEvents.logPageView();   
-	cFacebook.checkLoginStatus();
+	setTimeout( function(){	cFacebook.checkLoginStatus()}, 0);
 };
 
 //**************************************************
@@ -54,10 +54,11 @@ var cFacebook = {
 	fbUserID: null,
 	fbAccessToken: null,
 	fbAccessExpire: null,
+	statusID:null,
 
 	//################################################################
 	pr_set_status:function(psText){
-		$("#username").html(psText);
+		$( this.statusID).html(psText);
 	},
 
 	//################################################################
@@ -79,7 +80,7 @@ var cFacebook = {
 		if (this.ServerUser !== ""){
 			if (cAuth.user){
 				cDebug.write("previously authenticated");
-				this.onGetFBUser(sUser);
+				this.onFBGotUser(sUser);
 				cDebug.leave();
 				return
 			}
@@ -94,7 +95,7 @@ var cFacebook = {
 				if ((iNow - iDate) > AUTH_COOKIE_TIMEOUT){
 					cDebug.write("user is cached: " + sUser);
 					cAuth.setUser(sUser);
-					this.onGetFBUser(sUser);
+					this.onFBGotUser(sUser);
 					cDebug.leave();
 					return;
 				}else
@@ -129,7 +130,7 @@ var cFacebook = {
 			this.getFBUser();
 		}else{
 			cDebug.write("user not logged into Facebook app");
-			this.pr_set_status("&lt;&lt;&lt;&lt; click here");
+			this.pr_set_status(" click here &gt; &gt; &gt;");
 		}
 		cDebug.leave();
 	},
@@ -137,6 +138,7 @@ var cFacebook = {
 	//**************************************************************
 	onGetUserResponse :function(psData){
 		var sUser, dNow;
+		cDebug.enter();
 		cDebug.write("Auth got response from FB");
 		sUser = $.parseJSON(psData);
 		cDebug.write(sUser);
@@ -145,16 +147,9 @@ var cFacebook = {
 		$.cookie(AUTH_USER_COOKIE,sUser);
 		$.cookie(AUTH_DATE_COOKIE,dNow.getTime());
 		this.onFBGotUser(sUser);
-	},
-	
-	//**************************************************************
-	OnFBCheckLoginState: function (){
-		cDebug.enter();
-		//CODE To be written see https://developers.facebook.com/docs/facebook-login/web/login-button/
-		cDebug.ONE_TIME_DEBUGGING=true;
-		cDebug.write("OnFBCheckLoginState is not implemented");
 		cDebug.leave();
 	},
+	
 
 	//**************************************************************
 	onFBGotUser: function(psUser){
