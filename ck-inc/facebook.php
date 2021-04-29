@@ -4,16 +4,10 @@
 //	https://developers.facebook.com/apps/1595545160675026/fb-login/quickstart/
 
 //get the serverside details
-$root = realpath("../");
-$phpinc = realpath("$root/../phpinc");
-require_once("$phpinc/ckinc/header.php");
-require_once("$phpinc/ckinc/secret.php");
-require_once("$phpinc/ckinc/facebook.php");
-
 $FBAPPID= (cHeader::is_localhost()?cSecret::FB_DEV_APP:cSecret::FB_APP);
 $FBSESSUSER=cFacebook_ServerSide::getSessionUser();	
 ?>
-//<script>	
+<script>	
 var AUTH_COOKIE_TIMEOUT =3600; //time out the cookie in 1hr.
 var AUTH_USER_COOKIE="fbuser";
 var AUTH_DATE_COOKIE="fbdate";
@@ -160,4 +154,4 @@ var cFacebook = {
 	}
 }
 
-//</script>
+</script>
