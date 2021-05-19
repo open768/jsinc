@@ -4,7 +4,7 @@
 //	https://developers.facebook.com/apps/1595545160675026/fb-login/quickstart/
 
 //get the serverside details
-$FBAPPID= (cHeader::is_localhost()?cSecret::FB_DEV_APP:cSecret::FB_APP);
+$FBAPPID=cFacebook_ServerSide::getAppID()["I"];	
 $FBSESSUSER=cFacebook_ServerSide::getSessionUser();	
 ?>
 <script>	
@@ -23,6 +23,7 @@ window.fbAsyncInit = function() {
 	});
 	
     FB.AppEvents.logPageView();   
+	FB.Event.subscribe('auth.authResponseChange', function(poEvent){cFacebook.OnFBResponseChange(poEvent);});
 	setTimeout( function(){	cFacebook.checkLoginStatus()}, 0);
 };
 
@@ -111,8 +112,8 @@ var cFacebook = {
 	},
 
 	//################################################################
+	//see https://developers.facebook.com/docs/facebook-login/web/login-button/
 	onFBLoginStatus: function (poResponse){	
-		//CODE To be written see https://developers.facebook.com/docs/facebook-login/web/login-button/
 		cDebug.enter();
 		if (poResponse.status == "connected"){
 			cDebug.write("user is logged in to facebook");
@@ -150,6 +151,13 @@ var cFacebook = {
 		cDebug.enter();
 		this.pr_set_status("Welcome " + psUser);
 		bean.fire(this,"gotUser");	
+		cDebug.leave();
+	},
+	
+	//**************************************************************
+	//https://developers.facebook.com/docs/reference/javascript/FB.Event.subscribe/v10.0
+	OnFBResponseChange: function (poEvent){
+		cDebug.enter();
 		cDebug.leave();
 	}
 }
