@@ -6,6 +6,7 @@
 //get the serverside details
 $FBAPPID=cFacebook_ServerSide::getAppID()["I"];	
 $FBSESSUSER=cFacebook_ServerSide::getSessionUser();	
+$FBSERVERSIDE="php/rest/facebook.php";
 ?>
 <script>	
 var AUTH_COOKIE_TIMEOUT =3600; //time out the cookie in 1hr.
@@ -69,7 +70,6 @@ var cFacebook = {
 
 	//**************************************************************
 	getFBUser: function(){
-		var oThis = this;
 		cDebug.enter();
 		
 		if (this.ServerUser !== ""){
@@ -107,7 +107,7 @@ var cFacebook = {
 			token: this.fbAccessToken
 		}
 		var oThis = this;
-		cHttp.post("php/rest/facebook.php", oData, function(poJson){oThis.onGetUserResponse(poJson);});
+		cHttp.post("<?=$FBSERVERSIDE?>", oData, function(poJson){oThis.onGetUserResponse(poJson);});
 		cDebug.leave();
 	},
 
@@ -136,11 +136,19 @@ var cFacebook = {
 		cDebug.enter();
 		cDebug.write("Auth got response from FB");
 		sUser = $.parseJSON(psData);
-		cDebug.write(sUser);
-		cAuth.setUser(sUser);
-		dNow = new Date();
-		$.cookie(AUTH_USER_COOKIE,sUser);
-		$.cookie(AUTH_DATE_COOKIE,dNow.getTime());
+		if (sUser.trim() === ""){
+			sUser = "uh-oh I couldnt get your name";
+			$.removeCookie(AUTH_USER_COOKIE);
+			$.removeCookie(AUTH_DATE_COOKIE);
+			cDebug.write("error: unable to get FB username");
+			cDebug.write("try: <?=$FBSERVERSIDE?>?o=getuser&user="+this.fbUserID+"&token="+this.fbAccessToken);
+		}else{
+			cDebug.write(sUser);
+			cAuth.setUser(sUser);
+			dNow = new Date();
+			$.cookie(AUTH_USER_COOKIE,sUser);
+			$.cookie(AUTH_DATE_COOKIE,dNow.getTime());
+		}
 		this.onFBGotUser(sUser);
 		cDebug.leave();
 	},
