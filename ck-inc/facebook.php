@@ -165,7 +165,10 @@ var cFacebook = {
 	//**************************************************************
 	//https://developers.facebook.com/docs/reference/javascript/FB.Event.subscribe/v10.0
 	OnFBResponseChange: function (poEvent){
+		var oThis;
 		cDebug.enter();
+		oThis = this;
+		//setTimeout( function(){	oThis.checkLoginStatus()}, 0);
 		cDebug.leave();
 	}
 }
