@@ -37,11 +37,11 @@ $(	function(){cHttpQueueJquery.onJqueryLoad()}	);
 //##################################################################
 function cHttpQueue(){
 	this.maxTransfers = 10;
-	this.backlog = [];	//an array of cHttpQueueItem
-	this.inProgress = new Map();
+	this.backlogQ = [];	//an array of cHttpQueueItem
+	this.inProgressQ = new Map();
 	this.stopping = false;
 	this.running = false;
-	this.DELAY = 50;
+	this.NICENESS_DELAY = 50;
 	
 	if (this instanceof cHttpQueue){
 		//add this object to the list of queues
@@ -52,7 +52,7 @@ function cHttpQueue(){
 	this.add = function(poItem){
 		if (!(poItem instanceof cHttpQueueItem)){ throw new Error("item must be a cHttpQueueItem")}
 		if (this.stopping) return;
-		this.backlog.push(poItem);
+		this.backlogQ.push(poItem);
 		this.start();
 	};
 
@@ -70,11 +70,11 @@ function cHttpQueue(){
 		
 		if (this.stopping) return;
 		
-		if (this.inProgress.size >= 	this.maxTransfers){
+		if (this.inProgressQ.size >= 	this.maxTransfers){
 			cDebug.write("Queue full");
 			return;
 		}
-		if (this.backlog.length == 0){
+		if (this.backlogQ.length == 0){
 			cDebug.write("finished Queue");
 			bean.fire(this, "finished");
 			this.running = false;
@@ -82,14 +82,14 @@ function cHttpQueue(){
 		}
 
 		oThis = this;
-		oItem = this.backlog.pop();
-		bean.fire(oItem, "start");
+		oItem = this.backlogQ.pop();
+		bean.fire(oItem, "start");			//notify
 		if (oItem.fnCheckContinue)
 			if (!oItem.fnCheckContinue()) 
 				return;
 		
 		if (oItem.abort) return;
-		setTimeout(	function(){	oThis.onTimer(oItem)}, this.DELAY);
+		setTimeout(	function(){	oThis.onTimer(oItem)}, this.NICENESS_DELAY);
 	};
 	
 	// ***************************************************************
@@ -98,7 +98,7 @@ function cHttpQueue(){
 		if (this.stopping) return;
 		
 		cDebug.write("getting URL: " + poItem.url);
-		this.inProgress.set(poItem.url,poItem);
+		this.inProgressQ.set(poItem.url,poItem);
 		var oHttp = new cHttp2();
 		poItem.ohttp = oHttp;
 		
@@ -113,12 +113,12 @@ function cHttpQueue(){
 	// ***************************************************************
 	this.stop = function(){
 		this.stopping = true;
-		this.backlog = [];
+		this.backlogQ = [];
 		
 		//todo clear down the transfers in progress
 		var oItem;
-		this.inProgress.forEach( function(oItem, psKey) {oItem.ohttp.stop();}	)
-		this.inProgress = new Map();
+		this.inProgressQ.forEach( function(oItem, psKey) {oItem.ohttp.stop();}	)
+		this.inProgressQ = new Map();
 	};
 
 	// ***************************************************************
@@ -134,14 +134,14 @@ function cHttpQueue(){
 		if (this.stopping) return;
 		cDebug.write("got a response for: " + poItem.url);
 		bean.fire(poItem, "result", poHttp);
-		this.inProgress.delete(poItem.url);		//delete a specific item from the queue
+		this.inProgressQ.delete(poItem.url);		//delete a specific item from the queue
 		this.pr_process_next();		//continue queue
 	};
 	
 	this.onError = function (poHttp, poItem){
 		if (this.stopping) return;
 		bean.fire(poItem, "error", poHttp);
-		this.inProgress.delete(poItem.url);
+		this.inProgressQ.delete(poItem.url);
 		this.pr_process_next();		//continue queue
 	};
 };
