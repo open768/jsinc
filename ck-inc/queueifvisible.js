@@ -26,13 +26,16 @@ function cQueueifVisible(){			//class
 		var oThis = this;
 		var oElement = this.element;
 		
-		bean.fire(this,"status","Waiting to become visible");
-		var btnForce = $("<button>").append("load");
-		oElement.append(btnForce);
-		
-		//set the event listeners
-		btnForce.click( 		function(){oThis.onInView(true);}		);
-		oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onInView(pbIsInView);}	);		
+		if (!oElement.inViewport()){ 
+			bean.fire(this,"status","Waiting to become visible");
+			var btnForce = $("<button>").append("load");
+			oElement.append(btnForce);
+			
+			//set the event listeners
+			btnForce.click( 		function(){oThis.onInView(true);}		);
+			oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onInView(pbIsInView);}	);		
+		}else
+			this.onScrollingTimer();
 	};
 	
 	//#################################################################
