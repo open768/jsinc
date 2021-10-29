@@ -13,6 +13,7 @@ $.widget( "ck.slideout",{
 		slideout_width:70,
 		background:"white",
 		padding:5,
+		border_width:10,
 		border_colour: {
 			normal:"black",
 			clicked: "blue"
@@ -66,15 +67,16 @@ $.widget( "ck.slideout",{
 
 		var sLower = oElement.attr("id") + this.consts.LOWERID_SUFFIX;
 		var oLowerDiv = $("<div>", {id:sLower});
-		var iLeft  = oOptions.width-oOptions.overlap-oOptions.slideout_width-2*oOptions.padding+oUpperDiv.position().left + 2*oOptions.padding;
+		var iBorderW = oOptions.border_width;
+		var iLeft  = oUpperDiv.position().left + oUpperDiv.width() - oOptions.slideout_width  + oOptions.border_width + oOptions.padding;
 		oLowerDiv.css({
 			position: "absolute",
 			"z-index": 5,
 			width: oOptions.slideout_width,
-			height:oOptions.height -20- 2*oOptions.padding,
-			padding:5,
+			height:oOptions.height,
+			padding:oOptions.padding,
 			"border-radius": "0px 25px 25px 0px",
-			"border-width": "10px 10px 10px 0px",
+			"border-width": ""+ iBorderW+"px "+iBorderW+"px "+iBorderW+"px 0px",
 			"border-style": "double double double none",
 			"border-color": oOptions.border_colour.normal,
 			background: oOptions.background,
@@ -103,8 +105,8 @@ $.widget( "ck.slideout",{
 		
 		var iLeft = oLower.position().left;
 		if (iLeft === oOptions.left_in){			
-			oLower.css({
-				left: oOptions.left_in + oOptions.slideout_width ,
+			oLower.css({	//slide out
+				left: oOptions.left_in + oOptions.slideout_width -  oOptions.border_width,
 				"border-color" : oOptions.border_colour.clicked
 			})
 			//remove everything from ui_front
