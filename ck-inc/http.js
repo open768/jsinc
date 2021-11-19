@@ -1,3 +1,5 @@
+'use strict';
+'use strict';
 /**************************************************************************
 Copyright (C) Chicken Katsu 2014 
 
@@ -83,9 +85,9 @@ function cHttp2(){
 		cDebug.write("fetching url: " + this.url);
 		this.oXHR = $.getJSON(
 			this.url, 
-			function(rs){oThis.onResult(rs)}
+			function(pResult){oThis.onResult(pResult)}
 		).fail(
-			function(ev,st,er){oThis.onError(ev,st,er)}
+			function(pEv,pSt,pEr){oThis.onError(pEv,pSt,pEr)}
 		);
 	};
 	
@@ -98,9 +100,9 @@ function cHttp2(){
 		
 		this.oXHR = $.post(
 			this.url, 
-			function(rs){oThis.onResult(rs)}
+			function(pResult){oThis.onResult(pResult)}
 		).fail(
-			function(ev,st,er){oThis.onError(ev,st,er)}
+			function(pEv,pSt,pEr){oThis.onError(pEv,pSt,pEr)}
 		);
 	};
 	

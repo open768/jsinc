@@ -1,3 +1,5 @@
+'use strict';
+
 var cQueueifVisibleQueue={			//static
 	queue: new cHttpQueue
 }
@@ -125,5 +127,5 @@ function cQueueifVisible(){			//class
 		}
 		
 		return bOK;
-	}
+		}
 }

@@ -1,3 +1,4 @@
+'use strict';
 /**************************************************************************
 Copyright (C) Chicken Katsu 2014 
 
@@ -48,7 +49,7 @@ if (!String.prototype.padLeft)
 //###############################################################
 //# BROWSER
 //###############################################################
-cJquery = {
+var cJquery = {
 	//***************************************************************
 	//https://forum.jquery.com/topic/know-if-a-css-class-exists-in-document
 	styleSheetContains:function (psClass) {
@@ -104,7 +105,7 @@ cJquery = {
 //###############################################################
 //# BROWSER
 //###############################################################
-cBrowser = {
+var cBrowser = {
 	data:null,
 	
 	//***************************************************************
@@ -114,7 +115,7 @@ cBrowser = {
 
 		aPairs = location.search.slice(1).split('&');
 		aPairs.forEach(function(sPair) {
-			aPair = sPair.split('=');
+			var aPair = sPair.split('=');
 			sKey = aPair[0];
 			sValue = decodeURI(aPair[1]).replace(/\+/g, ' ');
 			oResult[sKey] =  sValue || '';

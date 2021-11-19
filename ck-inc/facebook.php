@@ -9,6 +9,7 @@ $FBSESSUSER=cFacebook_ServerSide::getSessionUser();
 $FBSERVERSIDE="php/rest/facebook.php";
 ?>
 <script>	
+'use strict';
 var AUTH_COOKIE_TIMEOUT =3600; //time out the cookie in 1hr.
 var AUTH_USER_COOKIE="fbuser";
 var AUTH_DATE_COOKIE="fbdate";
