@@ -13,6 +13,7 @@ function cHttpQueueItem(){
 	this.ohttp = null;
 	this.abort = false;
 	this.fnCheckContinue = null;
+	this.QPosition = -1;
 }
 
 //##################################################################
@@ -25,11 +26,9 @@ var cHttpQueueJquery = {
 	},
 	
 	stop_all_transfers: function(){
-		//iterates each queue item and stops any transfers
 		var oQ;
-		while (oQ = this.queues.pop()){
-			oQ.stop();
-		}	
+		while (oQ = this.queues.pop())
+			oQ.stop();		//stop transfers on each queue
 	}
 }
 
@@ -44,15 +43,16 @@ function cHttpQueue(){
 	this.running = false;
 	this.NICENESS_DELAY = 50;
 	
-	if (this instanceof cHttpQueue){
-		//add this object to the list of queues
+	if (this instanceof cHttpQueue){	//not sure why i check whether its an instanceof
+		//add this object to the list of queues so that they can be stopped at page unload;
 		cHttpQueueJquery.queues.push(this);
-	}
+	}	
 	
 	// ***************************************************************
 	this.add = function(poItem){
-		if (!(poItem instanceof cHttpQueueItem)){ throw new Error("item must be a cHttpQueueItem")}
 		if (this.stopping) return;
+		if (!(poItem instanceof cHttpQueueItem)){ throw new Error("item must be a cHttpQueueItem")}
+		//todo check that URL isnt allready known
 		this.backlogQ.push(poItem);
 		this.start();
 	};
@@ -60,7 +60,12 @@ function cHttpQueue(){
 	// ***************************************************************
 	this.start = function(){
 		if (this.stopping) return;
-		if (this.running) return;
+		if (this.running ){
+			if (this.inProgressQ.size >0) 
+				return;
+			else
+				cDebug.write("Queue not running prematurely");	//added extra check
+		}
 		this.running = true;
 		this.pr_process_next();
 	};
@@ -71,10 +76,13 @@ function cHttpQueue(){
 		
 		if (this.stopping) return;
 		
-		if (this.inProgressQ.size >= 	this.maxTransfers){
+		//if too many transfers in progress do nothing - ie wait for another item to finish
+		if (this.inProgressQ.size >= this.maxTransfers){
 			cDebug.write("Queue full");
 			return;
 		}
+		
+		//if nothing left in the queue set a flag that nothing is running
 		if (this.backlogQ.length == 0){
 			cDebug.write("finished Queue");
 			bean.fire(this, "finished");
@@ -82,21 +90,32 @@ function cHttpQueue(){
 			return;
 		}
 
+		//get the top item off the queue - ready to go
 		oThis = this;
 		oItem = this.backlogQ.pop();
-		bean.fire(oItem, "start");			//notify
 		if (oItem.fnCheckContinue)
 			if (!oItem.fnCheckContinue()) 
 				return;
 		
 		if (oItem.abort) return;
 		setTimeout(	function(){	oThis.onTimer(oItem)}, this.NICENESS_DELAY);
+		
+		//notify the remaining backlogQ items their position in the queue
+		//TBD
+		if (this.backlogQ.length > 0)
+			for (var iPos=0; iPos<this.backlogQ.length; iPos++){
+				oItem = this.backlogQ[iPos];
+				oItem.QPosition = iPos;
+				bean.fire(oItem,"Qpos");
+			}
 	};
 	
 	// ***************************************************************
 	this.onTimer = function(poItem){
 		var oThis = this;
 		if (this.stopping) return;
+		
+		bean.fire(poItem, "start");			//notify item has started
 		
 		cDebug.write("getting URL: " + poItem.url);
 		this.inProgressQ.set(poItem.url,poItem);

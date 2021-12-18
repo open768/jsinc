@@ -9,17 +9,21 @@ function cQueueifVisible(){			//class
 	this.element=null;
 	this.url=null;
 	this.WAIT_SCROLLING= 500;
+	this.WAIT_INITIAL= 100;
 	
 	//*******************************************************************
 	this.go = function(poElement, psUrl){
 		if (!bean)			$.error("bean class is missing! check includes");	
 		if (!cHttp2)		$.error("http2 class is missing! check includes");	
 		
+		var oThis = this;
 		this.element = poElement;
 		if (!$.event.special.inview)	$.error("inview class is missing! check includes");	
 		if (!poElement.inViewport ) 	$.error("inViewport class is missing! check includes");	
 		this.url = psUrl;
-		this.pr__setInViewListener();
+		this.pr__send_status("Pausing at start ..");
+
+		setTimeout(	function(){	oThis.pr__setInViewListener()}, this.WAIT_INITIAL);
 	};
 	
 	//*******************************************************************
@@ -29,15 +33,27 @@ function cQueueifVisible(){			//class
 		var oElement = this.element;
 		
 		if (!oElement.inViewport()){ 
-			bean.fire(this,"status","Waiting to become visible");
-			var btnForce = $("<button>").append("load");
-			oElement.append(btnForce);
+			this.pr__send_status("Item not visible on starting");
+			this.pr__add_forcebutton();
 			
 			//set the event listeners
-			btnForce.click( 		function(){oThis.onInView(true);}		);
 			oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onInView(pbIsInView);}	);		
 		}else
 			this.onScrollingTimer();
+	};
+	
+	//*******************************************************************
+	this.pr__add_forcebutton = function(){
+		var oThis = this;
+		var oElement = this.element;
+		
+		var btnForce = $("<button>").append("load");
+		oElement.append(btnForce);
+		btnForce.click( 		function(){oThis.onInView(true);}		);
+	};
+	
+	this.pr__send_status = function(psMsg){
+		bean.fire(this,"status",psMsg);
 	};
 	
 	//#################################################################
@@ -48,10 +64,13 @@ function cQueueifVisible(){			//class
 		var oElement = $(this.element);
 
 		//check if element is visible
-		if (!pbIsInView) return;	
+		if (!pbIsInView){
+			this.pr__send_status("Waiting to become visible");
+			return;	
+		}
 		
 		oElement.off('inview');	//turn off the inview listener
-		bean.fire(this,"status","checking that we're not scrolling past");
+		this.pr__send_status("checking that we're not scrolling past");
 		//TODO use position of element in viewport to determine whether scrolling is happening
 		// eg if the element has moved more than 10 pixels since last time then wait.
 
@@ -67,12 +86,14 @@ function cQueueifVisible(){			//class
 		var oElement = $(this.element);
 		
 		if (!oElement.inViewport()){ //check if really in viewport
+			this.pr__send_status("not visible after waiting.. ");
 			this.pr__setInViewListener();
 			return;
 		}
 		
 		//loading message
-		bean.fire(this,"status","queueing");
+		this.pr__send_status("queueing");
+		this.pr__add_forcebutton();
 		
 		//add the data request to the http queue
 		var oItem = new cHttpQueueItem();
@@ -82,9 +103,20 @@ function cQueueifVisible(){			//class
 		bean.on(oItem, "start", 	function()		{ oThis.onStart(oItem);		});				
 		bean.on(oItem, "result", 	function(poHttp){ oThis.onResult(poHttp);	});				
 		bean.on(oItem, "error", 	function(poHttp){ oThis.onError(poHttp);	});				
+		bean.on(oItem, "Qpos", 		function()		{ oThis.onQPosition(oItem);	});				
 		cQueueifVisibleQueue.queue.add(oItem);
 	};
 
+	//*******************************************************************
+	this.onQPosition = function(poItem){
+		//get the Q position from the item and fire a status event
+		try {
+			this.pr__send_status("Queue position is: " + poItem.QPosition);
+		}catch (e){
+			console.error(e);
+		}
+	};
+	
 	//*******************************************************************
 	this.onResult = function(poHttp){
 		try {
@@ -111,9 +143,7 @@ function cQueueifVisible(){			//class
 	this.onError = function(poHttp){
 		var oThis = this;
 		bean.fire(this,"error", poHttp);
-		var btnForce = $("<button>").append("load");
-		this.element.append(btnForce);
-		btnForce.click( 		function(){oThis.onInView(true);}		);
+		this.pr__add_forcebutton();
 	};
 	
 	//*******************************************************************
@@ -122,10 +152,11 @@ function cQueueifVisible(){			//class
 		var bOK = true;
 		
 		if (!oElement.inViewport()){
+			this.pr__send_status("Waiting to become visible again");
 			this.pr__setInViewListener();
 			bOK = false;
 		}
 		
 		return bOK;
-		}
+	};
 }
