@@ -170,6 +170,27 @@ var cBrowser = {
 	},
 	
 	//***************************************************************
+	copy_to_clipboard: function(psID){
+		var body = document.body, range, sel;
+		
+		if (document.createRange && window.getSelection) {
+			var el = document.getElementById(psID);
+			var range = document.createRange();
+			var sel = window.getSelection();
+			sel.removeAllRanges();
+			range.selectNodeContents(el);
+			sel.addRange(range);
+			
+			document.execCommand("Copy");
+			alert("Done");
+			
+			sel = window.getSelection();
+			sel.removeAllRanges();
+		}else
+			alert("browser not compatible");
+  	},
+	
+	//***************************************************************
 	writeConsole:function(psMessage){
 		if (console) console.log(psMessage);
 	}
