@@ -10,6 +10,7 @@ function cQueueifVisible(){			//class
 	this.url=null;
 	this.WAIT_SCROLLING= 500;
 	this.WAIT_INITIAL= 100;
+	this.WAIT_FORCE= 20;
 	
 	//*******************************************************************
 	this.go = function(poElement, psUrl){
@@ -45,6 +46,11 @@ function cQueueifVisible(){			//class
 	//*******************************************************************
 	this.pr__add_forcebutton = function(){
 		var oThis = this;
+		setTimeout(	function(){	oThis.pr__do_add_forcebutton()}, this.WAIT_FORCE);
+	};
+	
+	this.pr__do_add_forcebutton = function(){
+		var oThis = this;
 		var oElement = this.element;
 		
 		var btnForce = $("<button>").append("load");
@@ -52,6 +58,7 @@ function cQueueifVisible(){			//class
 		btnForce.click( 		function(){oThis.onInView(true);}		);
 	};
 	
+	//*******************************************************************
 	this.pr__send_status = function(psMsg){
 		bean.fire(this,"status",psMsg);
 	};

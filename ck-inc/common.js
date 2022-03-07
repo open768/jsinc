@@ -47,7 +47,7 @@ if (!String.prototype.padLeft)
 
 
 //###############################################################
-//# BROWSER
+//# JQUERY
 //###############################################################
 var cJquery = {
 	//***************************************************************
@@ -174,20 +174,25 @@ var cBrowser = {
 		var body = document.body, range, sel;
 		
 		if (document.createRange && window.getSelection) {
+			//-----------clear selection
+			var sel = window.getSelection();  //clear the selection
+			sel.removeAllRanges();
+			
+			//-----------select the element
 			var el = document.getElementById(psID);
 			var range = document.createRange();
-			var sel = window.getSelection();
-			sel.removeAllRanges();
-			range.selectNodeContents(el);
+			range.selectNodeContents(el); 
 			sel.addRange(range);
 			
+			//-----------perform copy
 			document.execCommand("Copy");
 			alert("Done");
 			
+			//-----------clear selection
 			sel = window.getSelection();
 			sel.removeAllRanges();
 		}else
-			alert("browser not compatible");
+			alert("browser not compatible for copy operation");
   	},
 	
 	//***************************************************************
