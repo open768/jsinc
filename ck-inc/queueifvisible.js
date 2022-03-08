@@ -11,6 +11,7 @@ function cQueueifVisible(){			//class
 	this.WAIT_SCROLLING= 500;
 	this.WAIT_INITIAL= 100;
 	this.WAIT_FORCE= 20;
+	this.status = null;
 	
 	//*******************************************************************
 	this.go = function(poElement, psUrl){
@@ -60,6 +61,7 @@ function cQueueifVisible(){			//class
 	
 	//*******************************************************************
 	this.pr__send_status = function(psMsg){
+		this.status = psMsg;
 		bean.fire(this,"status",psMsg);
 	};
 	
@@ -103,15 +105,15 @@ function cQueueifVisible(){			//class
 		this.pr__add_forcebutton();
 		
 		//add the data request to the http queue
-		var oItem = new cHttpQueueItem();
-		oItem.url = this.url;
-		oItem.fnCheckContinue = function(){return oThis.onCheckContinue();};
+		var oQItem = new cHttpQueueItem();
+		oQItem.url = this.url;
+		oQItem.fnCheckContinue = function(){return oThis.onCheckContinue();};
 
-		bean.on(oItem, "start", 	function()		{ oThis.onStart(oItem);		});				
-		bean.on(oItem, "result", 	function(poHttp){ oThis.onResult(poHttp);	});				
-		bean.on(oItem, "error", 	function(poHttp){ oThis.onError(poHttp);	});				
-		bean.on(oItem, "Qpos", 		function()		{ oThis.onQPosition(oItem);	});				
-		cQueueifVisibleQueue.queue.add(oItem);
+		bean.on(oQItem, "start", 	function()		{ oThis.onStart(oQItem);	});				
+		bean.on(oQItem, "result", 	function(poHttp){ oThis.onResult(poHttp);	});				
+		bean.on(oQItem, "error", 	function(poHttp){ oThis.onError(poHttp);	});				
+		bean.on(oQItem, "Qpos", 	function()		{ oThis.onQPosition(oQItem);});				
+		cQueueifVisibleQueue.queue.add(oQItem);
 	};
 
 	//*******************************************************************
