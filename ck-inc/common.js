@@ -34,6 +34,19 @@ var cString = {
 	reverse:function reverse(psText){
 		return psText.split("").reverse().join("");
 	},
+	
+	//***************************************************************
+	//count common characters from left
+	count_common_chars(ps1, ps2){
+	
+		var iCheckLen = Math.min(ps1.length, ps2.length);
+		var i;
+		
+		for ( i=0; i<iCheckLen ;i++)
+			if (ps1[i] !== ps2[i])
+				break;
+		return i;
+	}
 }
 
 if (!String.prototype.padLeft)
