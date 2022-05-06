@@ -10,7 +10,7 @@ var cImgHilite = {
 	templateID:"#box_template",
 	containerID:"#highlight",
 	baseImageID:"#baseimg",
-	baseUrl:"php/rest/img_highlight.php",
+	baseUrl: cLocations.rest + "/img_highlight.php",
 	controlsID:"#controls",
 	numberID:"#number",
 	imgTarget:null,

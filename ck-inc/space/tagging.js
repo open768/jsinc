@@ -7,7 +7,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 var cTagging = {
-	phpBaseURL:"php/rest/tag.php",
+	phpBaseURL: cLocations.rest + "/tag.php",
 	
 	//********************************************************************************
 	getTags: function(psSol,psInstr, psProduct, pfnCallback){
