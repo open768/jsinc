@@ -4,9 +4,11 @@
 //	https://developers.facebook.com/apps/1595545160675026/fb-login/quickstart/
 
 //get the serverside details
-$FBAPPID=cFacebook_ServerSide::getAppID()["I"];	
+$FBAPPID=cFacebook_ServerSide::getAppID()->id;	
 $FBSESSUSER=cFacebook_ServerSide::getSessionUser();	
 $FBSERVERSIDE="php/rest/facebook.php";
+$FBVERSION = "v11.0";
+
 ?>
 <script>	
 'use strict';
@@ -14,6 +16,9 @@ var AUTH_COOKIE_TIMEOUT =3600; //time out the cookie in 1hr.
 var AUTH_USER_COOKIE="fbuser";
 var AUTH_DATE_COOKIE="fbdate";
 
+//###############################################################################
+//#
+//###############################################################################
 //**************************************************
 //* called when facebook initialises
 window.fbAsyncInit = function() {
@@ -21,7 +26,7 @@ window.fbAsyncInit = function() {
 		appId      : '<?=$FBAPPID?>',
 		cookie     : true,
 		xfbml      : true,
-		version    : 'v10.0'
+		version    : '<?=$FBVERSION?>'
 	});
 	
     FB.AppEvents.logPageView();   
@@ -43,7 +48,9 @@ window.fbAsyncInit = function() {
 
 cDebug.DEBUGGING = true; //DEBUG
 
-
+//###############################################################################
+//#
+//###############################################################################
 var cFacebook = {
 	AppID:"<?=$FBAPPID?>",
 	ServerUser:"<?=$FBSESSUSER?>",
