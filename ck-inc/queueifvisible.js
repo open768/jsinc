@@ -8,13 +8,14 @@ var cQueueifVisibleQueue={			//static
 function cQueueifVisible(){			//class
 	this.element=null;
 	this.url=null;
+	this.data=null;
 	this.WAIT_SCROLLING= 500;
 	this.WAIT_INITIAL= 100;
 	this.WAIT_FORCE= 20;
 	this.status = null;
 	
 	//*******************************************************************
-	this.go = function(poElement, psUrl){
+	this.go = function(poElement, psUrl, poData = null){
 		if (!bean)			$.error("bean class is missing! check includes");	
 		if (!cHttp2)		$.error("http2 class is missing! check includes");	
 		
@@ -23,6 +24,7 @@ function cQueueifVisible(){			//class
 		if (!$.event.special.inview)	$.error("inview class is missing! check includes");	
 		if (!poElement.inViewport ) 	$.error("inViewport class is missing! check includes");	
 		this.url = psUrl;
+		this.data = poData;
 		this.pr__send_status("Pausing at start ..");
 
 		setTimeout(	function(){	oThis.pr__setInViewListener()}, this.WAIT_INITIAL);
@@ -107,6 +109,7 @@ function cQueueifVisible(){			//class
 		//add the data request to the http queue
 		var oQItem = new cHttpQueueItem();
 		oQItem.url = this.url;
+		oQItem.data = this.data;
 		oQItem.fnCheckContinue = function(){return oThis.onCheckContinue();};
 
 		bean.on(oQItem, "start", 	function()		{ oThis.onStart(oQItem);	});				

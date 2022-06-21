@@ -12,6 +12,7 @@ function cHttpQueueItem(){
 	this.url = null;
 	this.ohttp = null;
 	this.abort = false;
+	this.data  = null;
 	this.fnCheckContinue = null;
 	this.QPosition = -1;
 }
@@ -120,11 +121,12 @@ function cHttpQueue(){
 		cDebug.write("getting URL: " + poItem.url);
 		this.inProgressQ.set(poItem.url,poItem);
 		var oHttp = new cHttp2();
+		oHttp.data = poItem.data;
 		poItem.ohttp = oHttp;
 		
 		bean.on(oHttp, "result", function(poHttp){oThis.onResult(poHttp, poItem);});
 		bean.on(oHttp, "error",  function(poHttp){oThis.onError(poHttp, poItem);});
-		oHttp.fetch_json(poItem.url);
+		oHttp.fetch_json(poItem.url, poItem.data);
 		
 		//go on to the next transfer
 		this.pr_process_next();		

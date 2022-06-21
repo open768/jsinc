@@ -13,6 +13,15 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 //###############################################################
+//# add functions to Jquery
+//###############################################################
+$( function(){
+	$.postJSON = function(psUrl, poData, pfFunc){
+	   	return $.post(psUrl, poData, pfFunc, 'json');
+	}
+});
+
+//###############################################################
 //# HTTP
 //###############################################################
 function cHttpFailer(){
@@ -73,22 +82,31 @@ function cHttp2(){
 	this.response = null;
 	this.event = null;
 	this.stopping = false;
-	this.oXHR = null;
+	this.oXHR = null;   //holds the XHR request object
 		
 	//**************************************************************
-	this.fetch_json = function(psUrl, pvData){
+	this.fetch_json = function(psUrl, poData){
 		var oThis = this;
 
 		this.url = psUrl;
 		this.correct_url();
-		this.data = pvData;
+		this.data = poData; //never used
 		cDebug.write("fetching url: " + this.url);
-		this.oXHR = $.getJSON(
-			this.url, 
-			function(pResult){oThis.onResult(pResult)}
-		).fail(
-			function(pEv,pSt,pEr){oThis.onError(pEv,pSt,pEr)}
-		);
+		if (poData)
+			this.oXHR = $.postJSON(
+				this.url, 
+				this.data, 
+				function(pResult){oThis.onResult(pResult)}
+			).fail(
+				function(pEv,pSt,pEr){oThis.onError(pEv,pSt,pEr)}
+			);
+		else
+			this.oXHR = $.getJSON(
+				this.url, 
+				function(pResult){oThis.onResult(pResult)}
+			).fail(
+				function(pEv,pSt,pEr){oThis.onError(pEv,pSt,pEr)}
+			);
 	};
 	
 	//**************************************************************
