@@ -186,26 +186,33 @@ var cBrowser = {
 	copy_to_clipboard: function(psID){
 		var body = document.body, range, sel;
 		
-		if (document.createRange && window.getSelection) {
-			//-----------clear selection
-			var sel = window.getSelection();  //clear the selection
-			sel.removeAllRanges();
-			
-			//-----------select the element
-			var el = document.getElementById(psID);
-			var range = document.createRange();
-			range.selectNodeContents(el); 
-			sel.addRange(range);
-			
-			//-----------perform copy
-			document.execCommand("Copy");
-			alert("Done");
-			
-			//-----------clear selection
-			sel = window.getSelection();
-			sel.removeAllRanges();
-		}else
-			alert("browser not compatible for copy operation");
+		if (psID.substring(0,1) === "#"){
+			if (document.createRange && window.getSelection) {
+				//-----------clear selection
+				var sel = window.getSelection();  //clear the selection
+				sel.removeAllRanges();
+				
+				//-----------select the element
+				var el = document.getElementById(psID);
+				var range = document.createRange();
+				range.selectNodeContents(el); 
+				sel.addRange(range);
+				
+				//-----------perform copy
+				document.execCommand("Copy");
+				alert("Done");
+				
+				//-----------clear selection
+				sel = window.getSelection();
+				sel.removeAllRanges();
+			}else
+				alert("browser not compatible for copy operation");
+		}else{
+			if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+				navigator.clipboard.writeText(psID);
+			else
+				alert("browser not compatible for copy operation");
+		}
   	},
 	
 	//***************************************************************
