@@ -1,4 +1,5 @@
 'use strict';
+//note is  very slow if there are lots of items
 
 var cQueueifVisibleQueue={			//static
 	queue: new cHttpQueue
@@ -25,22 +26,22 @@ function cQueueifVisible(){			//class
 		if (!poElement.inViewport ) 	$.error("inViewport class is missing! check includes");	
 		this.url = psUrl;
 		this.data = poData;
-		this.pr__send_status("Pausing at start ..");
-
-		setTimeout(	function(){	oThis.pr__setInViewListener()}, this.WAIT_INITIAL);
+		this.pr__send_status("waiting for page ready.."); 
+		$(	function(){	oThis.pr__setInViewListener()} );
 	};
 	
-	//*******************************************************************
-	//wait for the element to be visible
+	//#################################################################
+	//# privates
+	//#################################################################`
 	this.pr__setInViewListener = function(){
 		var oThis = this;
 		var oElement = this.element;
 		
 		if (!oElement.inViewport()){ 
-			this.pr__send_status("Item not visible on starting");
 			this.pr__add_forcebutton();
 			
 			//set the event listeners
+			this.pr__send_status("waiting for item to be visible..");
 			oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onInView(pbIsInView);}	);		
 		}else
 			this.onScrollingTimer();
@@ -80,8 +81,8 @@ function cQueueifVisible(){			//class
 			return;	
 		}
 		
+		this.pr__send_status("item is visible - checking again in " + this.WAIT_SCROLLING);
 		oElement.off('inview');	//turn off the inview listener
-		this.pr__send_status("checking that we're not scrolling past");
 		//TODO use position of element in viewport to determine whether scrolling is happening
 		// eg if the element has moved more than 10 pixels since last time then wait.
 
@@ -103,7 +104,7 @@ function cQueueifVisible(){			//class
 		}
 		
 		//loading message
-		this.pr__send_status("queueing");
+		this.pr__send_status("Item is visible - Adding to processing queue");
 		this.pr__add_forcebutton();
 		
 		//add the data request to the http queue
@@ -111,12 +112,13 @@ function cQueueifVisible(){			//class
 		oQItem.url = this.url;
 		oQItem.data = this.data;
 		oQItem.fnCheckContinue = function(){return oThis.onCheckContinue();};
-
 		bean.on(oQItem, "start", 	function()		{ oThis.onStart(oQItem);	});				
 		bean.on(oQItem, "result", 	function(poHttp){ oThis.onResult(poHttp);	});				
 		bean.on(oQItem, "error", 	function(poHttp){ oThis.onError(poHttp);	});				
 		bean.on(oQItem, "Qpos", 	function()		{ oThis.onQPosition(oQItem);});				
-		cQueueifVisibleQueue.queue.add(oQItem);
+		
+		var oQueue = cQueueifVisibleQueue.queue;
+		oQueue.add(oQItem);
 	};
 
 	//*******************************************************************
@@ -132,6 +134,7 @@ function cQueueifVisible(){			//class
 	//*******************************************************************
 	this.onResult = function(poHttp){
 		try {
+			this.pr__send_status("got a response from server: ");
 			bean.fire(this,"result",poHttp);
 		}catch (e){
 			console.error(e);
@@ -145,6 +148,7 @@ function cQueueifVisible(){			//class
 			return;
 		}
 		try {
+			this.pr__send_status("making server call");
 			bean.fire(this,"start",poItem);
 		}catch (e){
 			console.error(e);
