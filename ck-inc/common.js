@@ -18,8 +18,8 @@ var SINGLE_WINDOW =true;
 //###############################################################
 //# STRINGS
 //###############################################################
-var cString = {
-	last:function (psText, psSearch){
+class cString {
+	static last(psText, psSearch){
 		var sReverseTxt = this.reverse(psText);
 		var sReverseSearch = this.reverse(psSearch);
 		
@@ -28,16 +28,16 @@ var cString = {
 		if (iFound != -1)
 			iFound = psText.length - iFound;
 		return iFound;
-	},
+	}
 	
 	//***************************************************************
-	reverse:function reverse(psText){
+	static reverse(psText){
 		return psText.split("").reverse().join("");
-	},
+	}
 	
 	//***************************************************************
 	//count common characters from left
-	count_common_chars(ps1, ps2){
+	static count_common_chars(ps1, ps2){
 	
 		var iCheckLen = Math.min(ps1.length, ps2.length);
 		var i;
@@ -62,10 +62,10 @@ if (!String.prototype.padLeft)
 //###############################################################
 //# JQUERY
 //###############################################################
-var cJquery = {
+class cJquery {
 	//***************************************************************
 	//https://forum.jquery.com/topic/know-if-a-css-class-exists-in-document
-	styleSheetContains:function (psClass) {
+	static styleSheetContains(psClass) {
 	   var bFound = false, iSheet, oSheet, iClass, oClass, aClasses, sSearch;
        var aSheets = document.styleSheets;	   
 	   sSearch = "."+psClass;
@@ -90,10 +90,10 @@ var cJquery = {
             }
         }
         return bFound;
-    },
+    }
 	
 	//***************************************************************
-	bringToFront:function(poElement){
+	static bringToFront(poElement){
 		$(".ui-front").each( 
 			function(piIndex){
 				$(this).removeClass("ui-front"); 
@@ -101,10 +101,10 @@ var cJquery = {
 		);
 		
 		if (poElement) poElement.addClass("ui-front");
-	},
+	}
 	
 	//***************************************************************
-	setTopZindex: function(poElement){
+	static setTopZindex(poElement){
 		//var iZindex = $('.ui-dialog').css('z-index');
 		var iZindex = $('.ui-front').css('z-index');
 		poElement.css({
@@ -113,16 +113,21 @@ var cJquery = {
 			
 		});
 	}
+	
+	//***************************************************************
+	static child_ID (poElement, psID){
+		return poElement.attr("id") + psID;
+	}
 }
 
 //###############################################################
 //# BROWSER
 //###############################################################
-var cBrowser = {
-	data:null,
+class cBrowser {
+	static data = null;
 	
 	//***************************************************************
-	init:function (){
+	static init(){
 		var oResult = {}, aPairs;
 		var sKey, sValue;
 
@@ -135,15 +140,15 @@ var cBrowser = {
 		});
 
 		this.data = oResult;
-	},
+	}
 	
 	//***************************************************************
-	pageUrl:function(){
+	static pageUrl(){
 		return document.URL.split("?")[0];
-	},
+	}
 	
 	//***************************************************************
-	baseUrl:function(){
+	static baseUrl(){
 		var sUrl, iLast, sBase;
 		
 		sUrl = this.pageUrl();
@@ -156,34 +161,40 @@ var cBrowser = {
 		
 		//cDebug.write("base url is "+ sBase);
 		return sBase;
-	},
+	}
 	
 	//***************************************************************
-	pushState:function(psTitle, psUrl){
+	static pushState(psTitle, psUrl){
 		if (window.history.pushState){
 			window.history.pushState("", psTitle, psUrl);
 			this.init();
 		}
-	},
+	}
 	
 	//***************************************************************
-	openWindow:function(psUrl, psWindow){
+	static openWindow(psUrl, psWindow){
 		if (SINGLE_WINDOW)
 			document.location.href = psUrl;
 		else
 			window.open(psUrl, psWindow);
-	},
+	}
 	
 	//***************************************************************
-	buildUrl:function (psPage, poParams){
+	static buildUrl(psPage, poParams){
 		if (psPage.search(/\?/) == -1)
 			return  psPage + "?" + $.param(poParams,true);
 		else
 			return  psPage + "&" + $.param(poParams,true);
-	},
+	}
 	
 	//***************************************************************
-	copy_to_clipboard: function(psID){
+	//read_from_clipboard
+	static paste_from_clipboard(pfnCallBack){
+		navigator.clipboard.readText().then(text => {  pfnCallBack(text)} );	//async fetch from clipboard, will display a warning to user
+	}
+	
+	//***************************************************************
+	static copy_to_clipboard(psID){
 		var body = document.body, range, sel;
 		
 		if (psID.substring(0,1) === "#"){
@@ -213,10 +224,10 @@ var cBrowser = {
 			else
 				alert("browser not compatible for copy operation");
 		}
-  	},
+  	}
 	
 	//***************************************************************
-	writeConsole:function(psMessage){
+	static writeConsole(psMessage){
 		if (console) console.log(psMessage);
 	}
 //	this.isMobile = function(a) {(/android|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|meego.+mobile|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a))}(navigator.userAgent||navigator.vendor||window.opera);
