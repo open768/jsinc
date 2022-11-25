@@ -228,8 +228,18 @@ class cBrowser {
 	}
 	
 	//***************************************************************
-	static get_clipboard_permissions(){
-		this.writeConsoleWarning("clipboard permissions not immplemented");
+	static get_clipboard_permissions( pbWrite = false){
+		var sPermissionsName = "clipboard-read";
+		var oThis = this;
+		if (pbWrite) sPermissionsName = "clipboard-write";
+		
+		navigator.permissions.query({name:sPermissionsName}).then(
+			function (poStatus){
+				oThis.writeConsoleWarning("permission for " + sPermissionsName + " is " + poStatus.state);
+				if (poStatus.state !== "granted")
+					oThis.writeConsoleWarning("check site permissions");
+			}
+		);
 	}
 	
 	//***************************************************************
