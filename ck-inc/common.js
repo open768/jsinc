@@ -121,6 +121,15 @@ class cJquery {
 }
 
 //###############################################################
+//# common
+//###############################################################
+class cCommon{
+	static deep_copy(poThing){
+		return JSON.parse(JSON.stringify(poThing));
+	}
+}
+
+//###############################################################
 //# BROWSER
 //###############################################################
 class cBrowser {
@@ -199,7 +208,7 @@ class cBrowser {
 				} 
 			);	//async fetch from clipboard, will display a warning to user if permissions not set
 		else
-			this.writeConsoleWarning("browser not compatible for copy operation");		
+			$.error("browser not compatible for clipboard operation");		
 	}
 	
 	//***************************************************************
