@@ -190,8 +190,14 @@ class cBrowser {
 	//***************************************************************
 	//read_from_clipboard
 	static paste_from_clipboard(pfnCallBack){
+		var oThis = this;
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
-			navigator.clipboard.readText().then(text => {  pfnCallBack(text)} );	//async fetch from clipboard, will display a warning to user
+			navigator.clipboard.readText().then(
+				text => {  
+					oThis.writeConsoleWarning("pasted from clipboard: " + text);
+					pfnCallBack(text);
+				} 
+			);	//async fetch from clipboard, will display a warning to user if permissions not set
 		else
 			this.writeConsoleWarning("browser not compatible for copy operation");		
 	}
@@ -207,6 +213,7 @@ class cBrowser {
 				sText = oEl.text();
 			}
 			navigator.clipboard.writeText(psID);
+			this.writeConsoleWarning("sent to clipboard: " + sText);
 		}else
 			this.writeConsoleWarning("browser not compatible for copy operation");
 	}
