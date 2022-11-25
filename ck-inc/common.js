@@ -190,47 +190,44 @@ class cBrowser {
 	//***************************************************************
 	//read_from_clipboard
 	static paste_from_clipboard(pfnCallBack){
-		navigator.clipboard.readText().then(text => {  pfnCallBack(text)} );	//async fetch from clipboard, will display a warning to user
+		if (navigator && navigator.clipboard && navigator.clipboard.readText)
+			navigator.clipboard.readText().then(text => {  pfnCallBack(text)} );	//async fetch from clipboard, will display a warning to user
+		else
+			this.writeConsoleWarning("browser not compatible for copy operation");		
 	}
 	
 	//***************************************************************
 	static copy_to_clipboard(psID){
 		var body = document.body, range, sel;
 		
-		if (psID.substring(0,1) === "#"){
-			if (document.createRange && window.getSelection) {
-				//-----------clear selection
-				var sel = window.getSelection();  //clear the selection
-				sel.removeAllRanges();
-				
-				//-----------select the element
-				var el = document.getElementById(psID);
-				var range = document.createRange();
-				range.selectNodeContents(el); 
-				sel.addRange(range);
-				
-				//-----------perform copy
-				document.execCommand("Copy");
-				alert("Done");
-				
-				//-----------clear selection
-				sel = window.getSelection();
-				sel.removeAllRanges();
-			}else
-				alert("browser not compatible for copy operation");
-		}else{
-			if (navigator && navigator.clipboard && navigator.clipboard.writeText)
-				navigator.clipboard.writeText(psID);
-			else
-				alert("browser not compatible for copy operation");
-		}
-  	}
+		if (navigator && navigator.clipboard && navigator.clipboard.writeText){
+			var sText = psID;
+			if (psID.substring(0,1) === "#"){
+				var oEl = $("#" + psID);
+				sText = oEl.text();
+			}
+			navigator.clipboard.writeText(psID);
+		}else
+			this.writeConsoleWarning("browser not compatible for copy operation");
+	}
+	
+	//***************************************************************
+	static get_clipboard_permissions(){
+		this.writeConsoleWarning("clipboard permissions not immplemented");
+	}
 	
 	//***************************************************************
 	static writeConsole(psMessage){
 		if (console) console.log(psMessage);
 	}
-//	this.isMobile = function(a) {(/android|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|meego.+mobile|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a))}(navigator.userAgent||navigator.vendor||window.opera);
+	//***************************************************************
+	static writeConsoleWarning(psMessage){
+		if (console) console.warn(psMessage);
+	}
+	
+	//***************************************************************
+	static get_permission(psName){
+	}
 }
 cBrowser.init();
 
