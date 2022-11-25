@@ -230,12 +230,17 @@ class cBrowser {
 	//***************************************************************
 	static get_clipboard_permissions( pbWrite = false){
 		var sPermissionsName = "clipboard-read";
-		var oThis = this;
 		if (pbWrite) sPermissionsName = "clipboard-write";
+		this.get_permissions(sPermissionsName);
+	}
+	
+	//***************************************************************
+	static get_permissions( psName){
+		var oThis = this;
 		
-		navigator.permissions.query({name:sPermissionsName}).then(
+		navigator.permissions.query({name:psName}).then(
 			function (poStatus){
-				oThis.writeConsoleWarning("permission for " + sPermissionsName + " is " + poStatus.state);
+				oThis.writeConsoleWarning("permission for " + psName + " is " + poStatus.state);
 				if (poStatus.state !== "granted")
 					oThis.writeConsoleWarning("check site permissions");
 			}
