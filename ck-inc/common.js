@@ -127,6 +127,16 @@ class cCommon{
 	static deep_copy(poThing){
 		return JSON.parse(JSON.stringify(poThing));
 	}
+	
+	//***************************************************************
+	static obj_is(poObj, psClassName){
+		if (typeof poObj !== "object")	throw ("object expected for param1");
+		
+		if (typeof psClassName === "string")	
+			return (poObj.constructor.name === psClassName);
+		else
+			throw ("param2: string expected, got: " + typeof psClassName );
+	}
 }
 
 //###############################################################

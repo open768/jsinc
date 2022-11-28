@@ -77,3 +77,52 @@ var cConverter = {
 	}
 }
 
+/***************************************************************************/
+class cCASimpleBase64 {
+	static toBase64(psBin) {
+		var s64 = "";
+		for ( var istart = 0; istart<psBin.length; istart+=6 ){
+			var sFragment = psBin.substr(istart,6);//grab 6 characters
+			var iIndex = cConverter.binToInt(sFragment);
+			var sChar = cConverterEncodings.BASE64.charAt(iIndex);
+			s64 = s64 + sChar;
+		}
+		return s64;
+	}
+	
+	//*********************************************************************
+	static toBinary(ps64, piOutLen) {
+		var sOutBin = "";
+		var piRemaining = piOutLen;
+		for (var i = 0; i< ps64.length; i++){
+			var ch = ps64.charAt(i);
+			var iVal = cConverter.base64ToDec(ch);
+			var sBin = cConverter.intToBin(iVal);
+			var iPadLen = (piRemaining >5 ? 6 : piRemaining); //padded
+			sBin = sBin.padLeft("0",iPadLen);
+			sOutBin = sOutBin + sBin;
+			piRemaining -= 6;
+		}
+		return sOutBin;
+	}
+	
+	//*********************************************************************
+	static test(){
+		var sBinIn = "";
+		var iLength = Math.floor(50 + Math.random() * 50);
+		
+		cDebug.write("Testing cCASimpleBase64");
+		for (var i = 0; i< iLength; i++){
+			iRand = Math.floor(Math.random() * 1.99);
+			sBinIn = sBinIn + iRand;
+		}
+		cDebug.write("- in Bin: " + sBinIn);
+		var s64 = this.toBase64(sBinIn);
+		cDebug.write("- base64: " + s64);
+		var sBinOut = this.toBinary(s64, iLength);
+		cDebug.write("-out Bin: " + sBinOut);
+		
+		if (sBinIn !== sBinOut) throw new Error("test Failed");
+		cDebug.write("test succeeded")
+	}
+}
