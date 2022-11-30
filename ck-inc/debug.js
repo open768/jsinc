@@ -19,6 +19,9 @@ class cDebug {
 	static ONE_TIME_DEBUGGING=false;
 	static stack=[];
 	
+	static {
+		if (cBrowser.get_url_param("debug") !== null)		this.on();
+	}
 	
 	//*****************************************************
 	static write_err(psMessage){

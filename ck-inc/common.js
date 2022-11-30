@@ -270,6 +270,13 @@ class cBrowser {
 	//***************************************************************
 	static get_permission(psName){
 	}
+	
+	//***************************************************************
+	static get_url_param(psName){
+		var sQueryString = window.location.search;
+		var oParams = new URLSearchParams(sQueryString);
+		return oParams.get(psName);
+	}
 }
 cBrowser.init();
 
