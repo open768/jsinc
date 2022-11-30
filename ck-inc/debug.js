@@ -14,33 +14,51 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //###############################################################
 //# DEBUG
 //###############################################################
-var cDebug = {
-	DEBUGGING:false,
-	ONE_TIME_DEBUGGING:false,
-	stack: [],
+class cDebug {
+	static DEBUGGING = false;
+	static ONE_TIME_DEBUGGING=false;
+	static stack=[];
 	
 	
-	write_err:function(psMessage){
-		cBrowser.writeConsole("ERROR> " + psMessage);
-	},
-	write:function(psMessage){
+	//*****************************************************
+	static write_err(psMessage){
+		cBrowser.writeConsoleWarning("ERROR> " + psMessage);
+	}
+
+	static warn(psMessage){
+		cBrowser.writeConsoleWarning("WARN> " + psMessage);
+	}
+	
+	//*****************************************************
+	static write(psMessage){
 		if (this.pr_is_debugging()) 
 			cBrowser.writeConsole("DEBUG> " + "  ".repeat(this.stack.length) + psMessage);
-	},
-	write_exception: function(pEx){
+	}
+
+	//*****************************************************
+	static write_exception(pEx){
 		this.write_err("Exception: " + pEx.message);
 		this.write_err("stacktrace: " + pEx.stack);
-	},
-	enter:function(){
+	}
+
+	//*****************************************************
+	static enter(){
     	var sFn;
 		if (!this.pr_is_debugging()) return;
 		
 		sFn = this.pr__getCaller("enter");
 		this.write( ">> Entering " + sFn);
 		this.stack.push(sFn);
-	},
+	}
 	
-	leave:function(){
+	//*****************************************************
+	static on(){
+		this.DEBUGGING = true;
+		this.write("Debugging on");
+	}
+
+	//*****************************************************
+	static leave(){
     	var sFn;
 		if (!this.pr_is_debugging()) return;
 		if (this.stack.length == 0) return;
@@ -50,48 +68,60 @@ var cDebug = {
 			this.stack.pop();
 			this.write( ">> Leaving " + sFn);
 		}
-	},
+	}
 	
-	pr_is_debugging:function(){
-		if (this.ONE_TIME_DEBUGGING){
-			this.ONE_TIME_DEBUGGING = false;
-			return true;
-		}
-		return this.DEBUGGING;
-	},
-
 	//***************************************************************
-	vardump:function(arr, level){
+	static vardump(arr, level){
 		if (!this.pr_is_debugging()) return;
 		
 		sDump = this.pr__dump(arr, level);
 		this.write(sDump);
 		return sDump;
-	},
+	}
 	
-	getvardump:function (arr,level){
+	//*****************************************************
+	static getvardump(arr,level){
 		return this.pr__dump(arr, level);
-	},
+	}
 	
 	//***************************************************************
-	pr__getCaller:function(psPrevious){
+	static error(psErr){
+		throw new Exception(psErr);
+	}
+
+	//***************************************************************
+	//* Privates
+	//***************************************************************
+	static pr__getCaller(psPrevious){
     	var aStack, iIndex, sTarget, aMatches, sFn;
 		aStack = this.pr__getStack();
-		iIndex = aStack.findIndex( function(pS){ return (pS.indexOf("Object." + psPrevious) >=0);});
+		iIndex = aStack.findIndex( function(pS){ return (pS.indexOf("cDebug." + psPrevious) >=0);});
 		sTarget = aStack[iIndex +1];	
 		aMatches = sTarget.match(/at\s+(\S+)\s/);
 		return  aMatches[1];
-	},
+	}
 	
-	pr__getStack(){
+	//*****************************************************
+	static pr_is_debugging(){
+		if (this.ONE_TIME_DEBUGGING){
+			this.ONE_TIME_DEBUGGING = false;
+			return true;
+		}
+		return this.DEBUGGING;
+	}
+
+	//***************************************************************
+	static pr__getStack(){
     	var oErr, sStack, aStack;
 		oErr = new Error();
     	sStack = oErr.stack;	
+		//this.write("Stack is:" + sStack);
 		aStack = sStack.split(/\n/);
 		return aStack;
-	},
+	}
 	
-	pr__dump:function(arr, level){
+	//***************************************************************
+	static pr__dump(arr, level){
 		var dumped_text = "";
 		if(!level) level = 0;
 		
@@ -113,9 +143,6 @@ var cDebug = {
 		} else 
 			dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
 		return dumped_text;
-	},
-	
-	error:function(psErr){
-		throw new Exception(psErr);
 	}
+	
 }

@@ -130,7 +130,8 @@ class cCommon{
 	
 	//***************************************************************
 	static obj_is(poObj, psClassName){
-		if (typeof poObj !== "object")	throw ("object expected for param1");
+		if (poObj == null)	throw ("obj_is: null param1!");
+		if (typeof poObj !== "object")	throw ("obj_is: object expected for param1");
 		
 		if (typeof psClassName === "string")	
 			return (poObj.constructor.name === psClassName);
