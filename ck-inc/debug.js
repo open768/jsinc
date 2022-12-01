@@ -14,13 +14,28 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //###############################################################
 //# DEBUG
 //###############################################################
+class cDebugTypes{
+	static levels = {
+		off:0,
+		basic:1,
+		extra:2,
+		extended:3
+	};
+}
+
 class cDebug {
 	static DEBUGGING = false;
 	static ONE_TIME_DEBUGGING=false;
 	static stack=[];
+	static level = cDebugTypes.levels.off;
 	
 	static {
-		if (cBrowser.get_url_param("debug") !== null)		this.on();
+		var sDebugValue = cBrowser.get_url_param("debug");
+		if (sDebugValue !== null){
+			var iValue = parseInt(sDebugValue);
+			if (isNaN(iValue)) iValue = cDebugTypes.levels.basic;
+			this.on(iValue);
+		}
 	}
 	
 	//*****************************************************
@@ -33,9 +48,10 @@ class cDebug {
 	}
 	
 	//*****************************************************
-	static write(psMessage){
-		if (this.pr_is_debugging()) 
-			cBrowser.writeConsole("DEBUG> " + "  ".repeat(this.stack.length) + psMessage);
+	static write(psMessage, piLevel=cDebugTypes.levels.off){
+		if (this.pr_is_debugging())
+			if (this.level >= piLevel)  
+				cBrowser.writeConsole("DEBUG> " + "  ".repeat(this.stack.length) + psMessage);
 	}
 
 	//*****************************************************
@@ -50,14 +66,15 @@ class cDebug {
 		if (!this.pr_is_debugging()) return;
 		
 		sFn = this.pr__getCaller("enter");
-		this.write( ">> Entering " + sFn);
+		this.write( ">> Entering " + sFn, cDebugTypes.levels.extra);
 		this.stack.push(sFn);
 	}
 	
 	//*****************************************************
-	static on(){
+	static on( piLevel = 1){
 		this.DEBUGGING = true;
-		this.write("Debugging on");
+		this.write("Debugging on with level " + piLevel);
+		this.level = piLevel;
 	}
 
 	//*****************************************************
@@ -69,7 +86,7 @@ class cDebug {
 		sFn = this.pr__getCaller("leave");
 		if (sFn == this.stack[this.stack.length-1]){
 			this.stack.pop();
-			this.write( ">> Leaving " + sFn);
+			this.write( ">> Leaving " + sFn, cDebugTypes.levels.extra);
 		}
 	}
 	
