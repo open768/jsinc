@@ -49,9 +49,12 @@ class cDebug {
 	
 	//*****************************************************
 	static write(psMessage, piLevel=cDebugTypes.levels.off){
-		if (this.pr_is_debugging())
-			if (this.level >= piLevel)  
+		if (this.DEBUGGING || this.ONE_TIME_DEBUGGING){
+			if (this.level >= piLevel)  {
+				this.ONE_TIME_DEBUGGING = false;
 				cBrowser.writeConsole("DEBUG> " + "  ".repeat(this.stack.length) + psMessage);
+			}
+		}
 	}
 
 	//*****************************************************
@@ -63,7 +66,7 @@ class cDebug {
 	//*****************************************************
 	static enter(){
     	var sFn;
-		if (!this.pr_is_debugging()) return;
+		if (!this.DEBUGGING) return;
 		
 		sFn = this.pr__getCaller("enter");
 		this.write( ">> Entering " + sFn, cDebugTypes.levels.extra);
@@ -72,6 +75,7 @@ class cDebug {
 	
 	//*****************************************************
 	static on( piLevel = 1){
+		if (piLevel > cDebugTypes.levels.extended) throw new Error("unknown debug level - max is " + cDebugTypes.levels.extended);
 		this.DEBUGGING = true;
 		this.write("Debugging on with level " + piLevel);
 		this.level = piLevel;
@@ -80,7 +84,7 @@ class cDebug {
 	//*****************************************************
 	static leave(){
     	var sFn;
-		if (!this.pr_is_debugging()) return;
+		if (!this.DEBUGGING) return;
 		if (this.stack.length == 0) return;
 		
 		sFn = this.pr__getCaller("leave");
@@ -92,7 +96,7 @@ class cDebug {
 	
 	//***************************************************************
 	static vardump(arr, level){
-		if (!this.pr_is_debugging()) return;
+		if (!this.DEBUGGING) return;
 		
 		sDump = this.pr__dump(arr, level);
 		this.write(sDump);
@@ -119,15 +123,6 @@ class cDebug {
 		sTarget = aStack[iIndex +1];	
 		aMatches = sTarget.match(/at\s+(\S+)\s/);
 		return  aMatches[1];
-	}
-	
-	//*****************************************************
-	static pr_is_debugging(){
-		if (this.ONE_TIME_DEBUGGING){
-			this.ONE_TIME_DEBUGGING = false;
-			return true;
-		}
-		return this.DEBUGGING;
 	}
 
 	//***************************************************************
