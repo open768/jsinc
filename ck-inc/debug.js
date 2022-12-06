@@ -29,6 +29,8 @@ class cDebug {
 	static stack=[];
 	static level = cDebugTypes.levels.off;
 	
+	//*****************************************************
+	//static init
 	static {
 		var sDebugValue = cBrowser.get_url_param("debug");
 		if (sDebugValue !== null){
@@ -36,6 +38,9 @@ class cDebug {
 			if (isNaN(iValue)) iValue = cDebugTypes.levels.basic;
 			this.on(iValue);
 		}
+		var sDebugValue = cBrowser.get_url_param("debug2");
+		if (sDebugValue !== null)
+			this.on(cDebugTypes.levels.extra);
 	}
 	
 	//*****************************************************
@@ -56,6 +61,10 @@ class cDebug {
 			}
 		}
 	}
+	
+	static extra_debug(psMessage){
+		this.write(psMessage,cDebugTypes.levels.extra); 
+	}
 
 	//*****************************************************
 	static write_exception(pEx){
@@ -69,7 +78,7 @@ class cDebug {
 		if (!this.DEBUGGING) return;
 		
 		sFn = this.pr__getCaller("enter");
-		this.write( ">> Entering " + sFn, cDebugTypes.levels.extra);
+		this.extra_debug( ">> Entering " + sFn);
 		this.stack.push(sFn);
 	}
 	
@@ -90,7 +99,7 @@ class cDebug {
 		sFn = this.pr__getCaller("leave");
 		if (sFn == this.stack[this.stack.length-1]){
 			this.stack.pop();
-			this.write( ">> Leaving " + sFn, cDebugTypes.levels.extra);
+			this.extra_debug( ">> Leaving " + sFn);
 		}
 	}
 	
