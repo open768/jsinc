@@ -118,6 +118,16 @@ class cJquery {
 	static child_ID (poElement, psID){
 		return poElement.attr("id") + psID;
 	}
+	
+	//***************************************************************
+	static get_padding_width(poElement){
+		return (poElement.outerWidth() -  poElement.width())/2;
+	}
+	
+	//***************************************************************
+	static get_padding_height(poElement){
+		return (poElement.outerHeight() -  poElement.height())/2;
+	}
 }
 
 //###############################################################
