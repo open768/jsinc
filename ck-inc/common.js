@@ -62,6 +62,7 @@ if (!String.prototype.padLeft)
 //###############################################################
 //# JQUERY
 //###############################################################
+/** Your class description */
 class cJquery {
 	//***************************************************************
 	//https://forum.jquery.com/topic/know-if-a-css-class-exists-in-document
@@ -127,6 +128,21 @@ class cJquery {
 	//***************************************************************
 	static get_padding_height(poElement){
 		return (poElement.outerHeight() -  poElement.height())/2;
+	}
+
+	/**
+	 * Description
+	 * @param {Element} poElement
+	 * @param {Boolean} pbEnabled=true
+	 */
+	static enable_element(poElement, pbEnabled = true ){
+		var oElement = poElement;
+		if ( typeof poElement == "string")	oElement = $("#" + poElement);
+
+		if (pbEnabled)
+			oElement.removeAttr("disabled");
+		else
+			oElement.attr("disabled",true);
 	}
 }
 
