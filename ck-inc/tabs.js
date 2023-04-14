@@ -1,4 +1,6 @@
-'use strict';
+'use strict'
+/* globals cDebug */
+
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013-2018
 This code is protected by copyright under the terms of the 
@@ -9,17 +11,19 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 //from http://jsfiddle.net/syahrasi/us8uc/
 
+// eslint-disable-next-line no-unused-vars
 function onTabClick(poEvent){
-	cDebug.write("clicked tab");
-	event.preventDefault();
-	$(this).parent().addClass("current");
-    $(this).parent().siblings().removeClass("current");	
-	var tab = $(this).attr("href");
-    $(".tab-content").not(tab).css("display", "none");
-    $(tab).fadeIn();
+	cDebug.write("clicked tab")
+	event.preventDefault()
+	$(this).parent().addClass("current")
+    $(this).parent().siblings().removeClass("current")	
+	var tab = $(this).attr("href")
+    $(".tab-content").not(tab).css("display", "none")
+    $(tab).fadeIn()
 }
 
+// eslint-disable-next-line no-unused-vars
 function instrumentTabs(){
-	cDebug.write("instrumenting tabs");
-    $(".tabs-menu a").click(onTabClick);
+	cDebug.write("instrumenting tabs")
+    $(".tabs-menu a").click(onTabClick)
 }

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013-2018
 This code is protected by copyright under the terms of the 
@@ -9,65 +9,65 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 function cQueue(){
-	this.prKey = null;
-	this.prData = null;
-	this.prNext = null;
+	this.prKey = null
+	this.prData = null
+	this.prNext = null
 	
 	//**********************************************************
 	this.length = function(){
 		if (this.prNext === null)
-			return 0;
+			return 0
 		else
-			return (1+ this.prNext.length());
-	};
+			return (1+ this.prNext.length())
+	}
 	
 	//**********************************************************
 	this.push = function(psKey, poData){
-		var oNew;
-		oNew = new cQueue();
-		oNew.prData = poData;
-		oNew.prKey = psKey;
-		oNew.prNext = this.prNext;
-		this.prNext = oNew;
-	};
+		var oNew
+		oNew = new cQueue()
+		oNew.prData = poData
+		oNew.prKey = psKey
+		oNew.prNext = this.prNext
+		this.prNext = oNew
+	}
 	
 	//**********************************************************
 	this.exists = function (psKey){
 		if (this.prKey === psKey)
-			return true;
+			return true
 		else if (this.prNext)
-			return this.prNext.exists(psKey);
+			return this.prNext.exists(psKey)
 		else
-			return false;
-	};
+			return false
+	}
 	
 	//**********************************************************
 	this.get = function (psKey){
 		if (this.prKey === psKey)
-			return this;
+			return this
 		else if (this.prNext)
-			return this.prNext.get(psKey);
+			return this.prNext.get(psKey)
 		else
-			return null;
-	};
+			return null
+	}
 	
 	//**********************************************************
 	this.remove = function (psKey){
 		if (this.prNext){ 
 			if (this.prNext.prKey === psKey)
-				this.prNext = this.prNext.prNext;
+				this.prNext = this.prNext.prNext
 			else
-				this.prNext.remove(psKey);
+				this.prNext.remove(psKey)
 		}
-	};
+	}
 	
 	//**********************************************************
 	this.pop = function (){
-		var oResult = null;
+		var oResult = null
 		if (this.prNext !== null){
-			oResult = this.prNext.prData;
-			this.prNext = this.prNext.prNext;
+			oResult = this.prNext.prData
+			this.prNext = this.prNext.prNext
 		}
-		return oResult;
-	};
+		return oResult
+	}
 }

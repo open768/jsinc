@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/*global cDebug*/
 /**************************************************************************
 Copyright (C) Chicken Katsu 2014 
 
@@ -14,14 +15,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 //requires Jquery cookie library from https://github.com/carhartl/jquery-cookie
 
+// eslint-disable-next-line no-unused-vars
 var cAuth = {
 	user:null,
 	
 	
 	//**********************************************************
 	setUser:function (psUser){
-		var dDate = new Date();
-		cDebug.write("setting cookie");
-		this.user = psUser;
+		cDebug.write("setting cookie")
+		this.user = psUser
 	}
 }

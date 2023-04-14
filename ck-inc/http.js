@@ -1,5 +1,5 @@
-'use strict';
-'use strict';
+'use strict'
+/* global cBrowser,cDebug,bean,set_error_status*/
 /**************************************************************************
 Copyright (C) Chicken Katsu 2014 
 
@@ -17,50 +17,51 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //###############################################################
 $( function(){
 	$.postJSON = function(psUrl, poData, pfFunc){
-	   	return $.post(psUrl, poData, pfFunc, 'json');
+		return $.post(psUrl, poData, pfFunc, 'json')
 	}
-});
+})
 
 //###############################################################
 //# HTTP
 //###############################################################
 function cHttpFailer(){
 	//TODO when this fails its not graceful, should call the caller and tell them theres an error
-	this.url = null;
+	this.url = null
 	this.fail = function( jqxhr, textStatus, error ){
-		set_error_status("call failed: check console" );
-		cDebug.write("ERROR: " + textStatus + "," + error + " : " + this.url);		
+		set_error_status("call failed: check console" )
+		cDebug.write("ERROR: " + textStatus + "," + error + " : " + this.url)		
 	}
 }
 
 //###############################################################
 //###############################################################
+// eslint-disable-next-line no-unused-vars
 var cHttp = {
 	//TODO make this OO not a singleton
 	
 	fetch_json:function(psUrl, pfnCallBack){	
-		var oFailer;
+		var oFailer
 		//if the url doesnt contain http
 		if (psUrl.search("http:") == -1)
-			cDebug.write(cBrowser.baseUrl() + psUrl);
+			cDebug.write(cBrowser.baseUrl() + psUrl)
 		else
-			cDebug.write(psUrl);
-		oFailer = new cHttpFailer;
-		oFailer.url = psUrl;
-		$.getJSON(psUrl, pfnCallBack).fail(oFailer.fail);
+			cDebug.write(psUrl)
+		oFailer = new cHttpFailer
+		oFailer.url = psUrl
+		$.getJSON(psUrl, pfnCallBack).fail(oFailer.fail)
 	},
 	
 	//***************************************************************
 	post:function(psUrl, poData, pfnCallBack){
 		if (psUrl.search("http:") == -1)
-			cDebug.write(cBrowser.baseUrl() + psUrl);
+			cDebug.write(cBrowser.baseUrl() + psUrl)
 		else
-			cDebug.write(psUrl);
-		oFailer = new cHttpFailer;
-		oFailer.url = psUrl;
+			cDebug.write(psUrl)
+		var oFailer = new cHttpFailer
+		oFailer.url = psUrl
 		
 		//- - - - - make the call
-		$.post(psUrl, poData, pfnCallBack).fail(oFailer.fail);
+		$.post(psUrl, poData, pfnCallBack).fail(oFailer.fail)
 	}	
 }
 
@@ -74,24 +75,25 @@ var cHttp = {
 //#		ohttp.fetch_json("http:..","something");
 
 //###############################################################
+// eslint-disable-next-line no-unused-vars
 function cHttp2(){
-	this.url = null;
-	this.data = null;
-	this.error = null;
-	this.errorStatus = null;
-	this.response = null;
-	this.event = null;
-	this.stopping = false;
-	this.oXHR = null;   //holds the XHR request object
+	this.url = null
+	this.data = null
+	this.error = null
+	this.errorStatus = null
+	this.response = null
+	this.event = null
+	this.stopping = false
+	this.oXHR = null   //holds the XHR request object
 		
 	//**************************************************************
 	this.fetch_json = function(psUrl, poData){
-		var oThis = this;
+		var oThis = this
 
-		this.url = psUrl;
-		this.correct_url();
-		this.data = poData; //never used
-		cDebug.write("fetching url: " + this.url);
+		this.url = psUrl
+		this.correct_url()
+		this.data = poData //never used
+		cDebug.write("fetching url: " + this.url)
 		if (poData)
 			this.oXHR = $.postJSON(
 				this.url, 
@@ -99,48 +101,48 @@ function cHttp2(){
 				function(pResult){oThis.onResult(pResult)}
 			).fail(
 				function(pEv,pSt,pEr){oThis.onError(pEv,pSt,pEr)}
-			);
+			)
 		else
 			this.oXHR = $.getJSON(
 				this.url, 
 				function(pResult){oThis.onResult(pResult)}
 			).fail(
 				function(pEv,pSt,pEr){oThis.onError(pEv,pSt,pEr)}
-			);
-	};
+			)
+	}
 	
 	//**************************************************************
 	this.post = function(psUrl, poData){
-		var oThis = this;
-		this.url = psUrl;
-		this.correct_url();
-		this.data = poData;
+		var oThis = this
+		this.url = psUrl
+		this.correct_url()
+		this.data = poData
 		
 		this.oXHR = $.post(
 			this.url, 
 			function(pResult){oThis.onResult(pResult)}
 		).fail(
 			function(pEv,pSt,pEr){oThis.onError(pEv,pSt,pEr)}
-		);
-	};
+		)
+	}
 	
 	this.correct_url = function(){
 		if (this.url.match(/^http/) == null){
-			this.url = cBrowser.baseUrl() + this.url;
+			this.url = cBrowser.baseUrl() + this.url
 		}
 		
-	};
+	}
 	
 	//***************************************************************
 	this.stop=function(){
-		this.stopping = true;
+		this.stopping = true
 		if (this.oXHR){
 			try{
-				this.oXHR.abort();
+				this.oXHR.abort()
 			}catch(e){
-				cDebug.write("cant stop while getting it on!");
+				cDebug.write("cant stop while getting it on!")
 			}
-			this.oXHR = null;
+			this.oXHR = null
 		}
 	}
 	
@@ -148,19 +150,19 @@ function cHttp2(){
 	//# Events
 	//################################################################
 	this.onResult = function(poResponse){
-		if (this.stopping) return;
+		if (this.stopping) return
 		
-		this.response = poResponse;
-		bean.fire(this,"result", this); //notify subscriber 
-	};
+		this.response = poResponse
+		bean.fire(this,"result", this) //notify subscriber 
+	}
 	
 	//**************************************************************
 	this.onError = function(poEvent, psStatus, poError){
-		if (this.stopping) return;
-		this.event = poEvent;
-		this.error = poError;
-		this.errorStatus = psStatus;
-		cDebug.write_err("URL error: " + this.url);
-		bean.fire(this,"error", this); //notify subscriber 
+		if (this.stopping) return
+		this.event = poEvent
+		this.error = poError
+		this.errorStatus = psStatus
+		cDebug.write_err("URL error: " + this.url)
+		bean.fire(this,"error", this) //notify subscriber 
 	}
 }
