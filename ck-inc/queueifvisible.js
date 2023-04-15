@@ -3,7 +3,7 @@
 /* globals bean, cHttpQueue , cHttp2, cHttpQueueItem*/
 
 class cQueueifVisibleQueue {			//static
-	queue = new cHttpQueue
+	static queue = new cHttpQueue
 }
 
 //###########################################################################################
