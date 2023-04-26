@@ -6,9 +6,17 @@ class cQueueifVisibleQueue {			//static
 	static queue = new cHttpQueue
 }
 
+
 //###########################################################################################
 // eslint-disable-next-line no-unused-vars
 class cQueueifVisible {
+	static EVENT = {
+		START: "start",
+		STATUS: "status",
+		RESULT : "result",
+		ERROR : "error"
+	}
+
 	constructor() {
 		this.element = null
 		this.url = null
@@ -73,7 +81,7 @@ class cQueueifVisible {
 	//*******************************************************************
 	pr__send_status(psMsg) {
 		this.status = psMsg
-		bean.fire(this, "status", psMsg)
+		bean.fire(this, cQueueifVisible.EVENT.STATUS, psMsg)
 	}
 
 	//#################################################################
@@ -144,7 +152,7 @@ class cQueueifVisible {
 	onResult(poHttp) {
 		try {
 			this.pr__send_status("got a response from server: ")
-			bean.fire(this, "result", poHttp)
+			bean.fire(this, cQueueifVisible.EVENT.RESULT, poHttp)
 		} catch (e) {
 			console.error(e)
 		}
@@ -158,7 +166,7 @@ class cQueueifVisible {
 		}
 		try {
 			this.pr__send_status("making server call")
-			bean.fire(this, "start", poItem)
+			bean.fire(this, cQueueifVisible.EVENT.START, poItem)
 		} catch (e) {
 			console.error(e)
 		}
@@ -166,7 +174,7 @@ class cQueueifVisible {
 
 	//*******************************************************************
 	onError(poHttp) {
-		bean.fire(this, "error", poHttp)
+		bean.fire(this, cQueueifVisible.EVENT.ERROR, poHttp)
 		this.pr__add_forcebutton()
 	}
 
