@@ -90,14 +90,15 @@ class cRenderMDL{
 		return sHTML
 	}
 
-	static card( psTitle=null){
+	static card( psTitle=null, poBody = null){
 		var oParams = {
 			class:"mdl-card mdl-shadow--2dp rapport-card",
 			id:"CARDID_" + this.cardID 
 		}
-		var oDiv = $("DIV", oParams)
-		if (psTitle !== null)	oDiv.append(this.title(psTitle))
-		return oDiv
+		var oCardDiv = $("DIV", oParams)
+		if (psTitle !== null)	oCardDiv.append(this.title(psTitle))
+		if (poBody !== null) oCardDiv.append( this.body(poBody))
+		return oCardDiv
 	}
 
 	//**************************************************************************
@@ -109,11 +110,13 @@ class cRenderMDL{
 	static body_start(){
 		return "<div class='mdl-card__supporting-text'>"
 	}
-	static body(){
+	
+	static body(poBody = null){
 		var oParams = {
 			class:"mdl-card__supporting-text"
 		}
 		var oDiv = $("DIV", oParams)
+		if (poBody !== null) oDiv.append( poBody)
 		return oDiv
 	}
 
