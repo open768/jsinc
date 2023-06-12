@@ -1,3 +1,16 @@
 *.old
 *secret*
 /extra
+CamanJS/
+bean/
+datepickr/
+fabricJS/
+jquery*/
+jsbn/
+Materialise/
+pixlr/
+rgraph/
+sceditor/
+smartmenus/
+tablesorter/
+uri-parser/
