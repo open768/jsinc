@@ -1,6 +1,6 @@
 'use strict'
 //note is  very slow if there are lots of items
-/* globals bean, cHttpQueue , cHttp2, cHttpQueueItem*/
+
 
 class cQueueifVisibleQueue {			//static
 	static queue = new cHttpQueue

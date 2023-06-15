@@ -1,5 +1,4 @@
 'use strict'
-/* globals bean,cDebug,cHttp2 */
 
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013-2018
