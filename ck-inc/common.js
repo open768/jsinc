@@ -12,37 +12,37 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 var STATUS_ID = "status";
-var SINGLE_WINDOW =true;
+var SINGLE_WINDOW = true;
 
 
 //###############################################################
 //# STRINGS
 //###############################################################
 class cString {
-	static last(psText, psSearch){
+	static last(psText, psSearch) {
 		var sReverseTxt = this.reverse(psText);
 		var sReverseSearch = this.reverse(psSearch);
-		
+
 		var iFound = sReverseTxt.search(sReverseSearch);
-		
+
 		if (iFound != -1)
 			iFound = psText.length - iFound;
 		return iFound;
 	}
-	
+
 	//***************************************************************
-	static reverse(psText){
+	static reverse(psText) {
 		return psText.split("").reverse().join("");
 	}
-	
+
 	//***************************************************************
 	//count common characters from left
-	static count_common_chars(ps1, ps2){
-	
+	static count_common_chars(ps1, ps2) {
+
 		var iCheckLen = Math.min(ps1.length, ps2.length);
 		var i;
-		
-		for ( i=0; i<iCheckLen ;i++)
+
+		for (i = 0; i < iCheckLen; i++)
 			if (ps1[i] !== ps2[i])
 				break;
 		return i;
@@ -50,9 +50,9 @@ class cString {
 }
 
 if (!String.prototype.padLeft)
-	String.prototype.padLeft = function(psPad, piSize) { 
+	String.prototype.padLeft = function (psPad, piSize) {
 		var iDiff = piSize - this.length;
-		if (iDiff >0)
+		if (iDiff > 0)
 			return psPad.repeat(iDiff) + this;
 		else
 			return this;
@@ -63,71 +63,73 @@ if (!String.prototype.padLeft)
 //# JQUERY
 //###############################################################
 /** Your class description */
+/* eslint-disable-next-line no-unused-vars */
 class cJquery {
 	//***************************************************************
 	//https://forum.jquery.com/topic/know-if-a-css-class-exists-in-document
 	static styleSheetContains(psClass) {
-	   var bFound = false, iSheet, oSheet, iClass, oClass, aClasses, sSearch;
-       var aSheets = document.styleSheets;	   
-	   sSearch = "."+psClass;
-       for (iSheet = 0; iSheet < aSheets.length; iSheet++) {
+		var bFound = false, iSheet, oSheet, iClass, oClass, aClasses, sSearch;
+		var aSheets = document.styleSheets;
+		sSearch = "." + psClass;
+		for (iSheet = 0; iSheet < aSheets.length; iSheet++) {
 			oSheet = aSheets[iSheet];
 			aClasses = null;
-			try{
-				aClasses = oSheet.cssRules ;
-			}catch (e){
-				try{
-					aClasses = oSheet.rules ;
-				}catch (e){}
+			try {
+				aClasses = oSheet.cssRules;
+			} catch (e) {
+				try {
+					aClasses = oSheet.rules;
+				} catch (e) {//do nothing }
+				}
+				if (aClasses == null) continue;
+
+				for (iClass = 0; iClass < aClasses.length; iClass++) {
+					oClass = aClasses[iClass];
+					if (oClass.selectorText == sSearch) {
+						bFound = true;
+						break;
+					}
+				}
 			}
-			if (aClasses == null) continue;
-			
-            for ( iClass = 0; iClass < aClasses.length; iClass++) {
-                oClass = aClasses[iClass];
-				if (oClass.selectorText == sSearch) {
-                    bFound = true; 
-					break;
-                }
-            }
-        }
-        return bFound;
-    }
-	
+			return bFound;
+		}
+	}
+
 	//***************************************************************
-	static bringToFront(poElement){
-		$(".ui-front").each( 
-			function(piIndex){
-				$(this).removeClass("ui-front"); 
+	static bringToFront(poElement) {
+		$(".ui-front").each(
+			function () {
+				$(this).removeClass("ui-front");
 			}
 		);
-		
+
 		if (poElement) poElement.addClass("ui-front");
 	}
-	
+
 	//***************************************************************
-	static setTopZindex(poElement){
+	static setTopZindex(poElement) {
 		//var iZindex = $('.ui-dialog').css('z-index');
 		var iZindex = $('.ui-front').css('z-index');
 		poElement.css({
 			'z-index': iZindex + 1,
 			position: "relative"
-			
+
 		});
 	}
-	
+
 	//***************************************************************
-	static child_ID (poElement, psID){
+	static child_ID(poElement, psID) {
 		return poElement.attr("id") + psID;
 	}
-	
+
 	//***************************************************************
-	static get_padding_width(poElement){
-		return (poElement.outerWidth() -  poElement.width())/2;
+	static get_padding_width(poElement) {
+		return (poElement.outerWidth() - poElement.width()) / 2;
 	}
-	
+
 	//***************************************************************
-	static get_padding_height(poElement){
-		return (poElement.outerHeight() -  poElement.height())/2;
+	static get_padding_height(poElement) {
+		return (poElement.outerHeight() - poElement.height()) / 2;
 	}
 
 	/**
@@ -135,34 +137,35 @@ class cJquery {
 	 * @param {Element} poElement
 	 * @param {Boolean} pbEnabled=true
 	 */
-	static enable_element(poElement, pbEnabled = true ){
+	static enable_element(poElement, pbEnabled = true) {
 		var oElement = poElement;
-		if ( typeof poElement == "string")	oElement = $("#" + poElement);
+		if (typeof poElement == "string") oElement = $("#" + poElement);
 
 		if (pbEnabled)
 			oElement.removeAttr("disabled");
 		else
-			oElement.attr("disabled",true);
+			oElement.attr("disabled", true);
 	}
 }
 
 //###############################################################
 //# common
 //###############################################################
-class cCommon{
-	static deep_copy(poThing){
+/* eslint-disable-next-line no-unused-vars */
+class cCommon {
+	static deep_copy(poThing) {
 		return JSON.parse(JSON.stringify(poThing));
 	}
-	
+
 	//***************************************************************
-	static obj_is(poObj, psClassName){
-		if (poObj == null)	throw ("obj_is: null param1!");
-		if (typeof poObj !== "object")	throw ("obj_is: object expected for param1");
-		
-		if (typeof psClassName === "string")	
+	static obj_is(poObj, psClassName) {
+		if (poObj == null) throw ("obj_is: null param1!");
+		if (typeof poObj !== "object") throw ("obj_is: object expected for param1");
+
+		if (typeof psClassName === "string")
 			return (poObj.constructor.name === psClassName);
 		else
-			throw ("param2: string expected, got: " + typeof psClassName );
+			throw ("param2: string expected, got: " + typeof psClassName);
 	}
 }
 
@@ -171,134 +174,128 @@ class cCommon{
 //###############################################################
 class cBrowser {
 	static data = null;
-	
+
 	//***************************************************************
-	static init(){
+	static init() {
 		var oResult = {}, aPairs;
 		var sKey, sValue;
 
 		aPairs = location.search.slice(1).split('&');
-		aPairs.forEach(function(sPair) {
+		aPairs.forEach(function (sPair) {
 			var aPair = sPair.split('=');
 			sKey = aPair[0];
 			sValue = decodeURI(aPair[1]).replace(/\+/g, ' ');
-			oResult[sKey] =  sValue || '';
+			oResult[sKey] = sValue || '';
 		});
 
 		this.data = oResult;
 	}
-	
+
 	//***************************************************************
-	static pageUrl(){
+	static pageUrl() {
 		return document.URL.split("?")[0];
 	}
-	
+
 	//***************************************************************
-	static baseUrl(){
+	static baseUrl() {
 		var sUrl, iLast, sBase;
-		
+
 		sUrl = this.pageUrl();
-		cDebug.write("page url: "+ sUrl);
+		cDebug.write("page url: " + sUrl);
 		iLast = cString.last(sUrl, "/");
 		if (iLast == -1)
 			sBase = "";
 		else
-			sBase = sUrl.substring(0,iLast);
-		
+			sBase = sUrl.substring(0, iLast);
+
 		//cDebug.write("base url is "+ sBase);
 		return sBase;
 	}
-	
+
 	//***************************************************************
-	static pushState(psTitle, psUrl){
-		if (window.history.pushState){
+	static pushState(psTitle, psUrl) {
+		if (window.history.pushState) {
 			window.history.pushState("", psTitle, psUrl);
 			this.init();
 		}
 	}
-	
+
 	//***************************************************************
-	static openWindow(psUrl, psWindow){
+	static openWindow(psUrl, psWindow) {
 		if (SINGLE_WINDOW)
 			document.location.href = psUrl;
 		else
 			window.open(psUrl, psWindow);
 	}
-	
+
 	//***************************************************************
-	static buildUrl(psPage, poParams){
+	static buildUrl(psPage, poParams) {
 		if (psPage.search(/\?/) == -1)
-			return  psPage + "?" + $.param(poParams,true);
+			return psPage + "?" + $.param(poParams, true);
 		else
-			return  psPage + "&" + $.param(poParams,true);
+			return psPage + "&" + $.param(poParams, true);
 	}
-	
+
 	//***************************************************************
 	//read_from_clipboard
-	static paste_from_clipboard(pfnCallBack){
+	static paste_from_clipboard(pfnCallBack) {
 		var oThis = this;
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
 			navigator.clipboard.readText().then(
-				text => {  
+				text => {
 					oThis.writeConsoleWarning("pasted from clipboard: " + text);
 					pfnCallBack(text);
-				} 
+				}
 			);	//async fetch from clipboard, will display a warning to user if permissions not set
 		else
-			$.error("browser not compatible for clipboard operation");		
+			$.error("browser not compatible for clipboard operation");
 	}
-	
+
 	//***************************************************************
-	static copy_to_clipboard(psID){
-		var body = document.body, range, sel;
-		
-		if (navigator && navigator.clipboard && navigator.clipboard.writeText){
+	static copy_to_clipboard(psID) {
+		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			var sText = psID;
-			if (psID.substring(0,1) === "#"){
+			if (psID.substring(0, 1) === "#") {
 				var oEl = $("#" + psID);
 				sText = oEl.text();
 			}
 			navigator.clipboard.writeText(psID);
 			this.writeConsoleWarning("sent to clipboard: " + sText);
-		}else
+		} else
 			this.writeConsoleWarning("browser not compatible for copy operation");
 	}
-	
+
 	//***************************************************************
-	static get_clipboard_permissions( pbWrite = false){
+	static get_clipboard_permissions(pbWrite = false) {
 		var sPermissionsName = "clipboard-read";
 		if (pbWrite) sPermissionsName = "clipboard-write";
 		this.get_permissions(sPermissionsName);
 	}
-	
+
 	//***************************************************************
-	static get_permissions( psName){
+	static get_permissions(psName) {
 		var oThis = this;
-		
-		navigator.permissions.query({name:psName}).then(
-			function (poStatus){
+
+		navigator.permissions.query({ name: psName }).then(
+			function (poStatus) {
 				oThis.writeConsoleWarning("permission for " + psName + " is " + poStatus.state);
 				if (poStatus.state !== "granted")
 					oThis.writeConsoleWarning("check site permissions");
 			}
 		);
 	}
-	
+
 	//***************************************************************
-	static writeConsole(psMessage){
+	static writeConsole(psMessage) {
 		if (console) console.log(psMessage);
 	}
 	//***************************************************************
-	static writeConsoleWarning(psMessage){
+	static writeConsoleWarning(psMessage) {
 		if (console) console.warn(psMessage);
 	}
-	
+
 	//***************************************************************
-	static get_permission(psName){
-	}
-	
-	//***************************************************************
-	static get_url_param(psName){
+	static get_url_param(psName) {
 		var sQueryString = window.location.search;
 		var oParams = new URLSearchParams(sQueryString);
 		return oParams.get(psName);
@@ -310,24 +307,26 @@ cBrowser.init();
 //###############################################################
 //# MISC
 //###############################################################
-function set_error_status(psStatus){
-	$("#"+STATUS_ID).html("<font color='red'>" + psStatus + "</font>");
-	cDebug.write("Error: " + psStatus );
+/* eslint-disable-next-line no-unused-vars */
+function set_error_status(psStatus) {
+	$("#" + STATUS_ID).html("<font color='red'>" + psStatus + "</font>");
+	cDebug.write("Error: " + psStatus);
 }
 //***************************************************************
-function set_status(psStatus){
-	var oElement;
-	$("#"+STATUS_ID).html(psStatus);
+/* eslint-disable-next-line no-unused-vars */
+function set_status(psStatus) {
+	$("#" + STATUS_ID).html(psStatus);
 	cDebug.write("status: " + psStatus);
 }
 
 //***************************************************************
-function getRadioButtonValue(psID){
+/* eslint-disable-next-line no-unused-vars */
+function getRadioButtonValue(psID) {
 	var oRadios = document.getElementsByName(psID);
 	var sValue = null;
 	var oRadio;
-	
-	for (var i = 0; i<oRadios.length; i++){
+
+	for (var i = 0; i < oRadios.length; i++) {
 		oRadio = oRadios[i];
 		if (oRadio.checked) {
 			cDebug.write("found a checked radio");
@@ -335,6 +334,6 @@ function getRadioButtonValue(psID){
 			break;
 		}
 	}
-		
+
 	return sValue;
 }

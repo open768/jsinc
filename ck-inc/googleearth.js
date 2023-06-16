@@ -1,5 +1,4 @@
 'use strict'
-/*global google,cDebug, set_status*/
 /**************************************************************************
 Copyright (C) Chicken Katsu 2014 
 

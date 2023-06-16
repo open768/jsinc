@@ -8,6 +8,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
+/* eslint-disable-next-line no-unused-vars */
 function cQueue(){
 	this.prKey = null
 	this.prData = null

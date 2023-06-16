@@ -1,0 +1,12 @@
+{
+  "name": "jsinc",
+  "version": "1.0.0",
+  "description": "useful js functions",
+  "scripts": {
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.37.0"
+  }
+}

@@ -94,14 +94,11 @@ $.widget( "ck.slideout",{
 	
 	//***************************************************************************
 	onClickSlideout: function(){
-		var oThis = this;
 		var oOptions = this.options;
-		oElement = this.element;
+		var oElement = this.element;
 		
 		var sLower = oElement.attr("id") + this.consts.LOWERID_SUFFIX;
-		var sUpper = oElement.attr("id") + this.consts.UPPERID_SUFFIX;
 		var oLower = $("#" + sLower);
-		var oUpper = $("#" + sUpper);
 		
 		var iLeft = oLower.position().left;
 		if (iLeft === oOptions.left_in){			

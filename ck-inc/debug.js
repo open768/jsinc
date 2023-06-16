@@ -1,5 +1,4 @@
 'use strict'
-/*global cBrowser*/
 /**************************************************************************
 Copyright (C) Chicken Katsu 2016 
 

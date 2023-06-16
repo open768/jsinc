@@ -1,5 +1,4 @@
 'use strict'
-/* global cBrowser,cDebug,bean,set_error_status*/
 /**************************************************************************
 Copyright (C) Chicken Katsu 2014 
 
