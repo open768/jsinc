@@ -12,22 +12,22 @@ module.exports = {
     },
     "globals": {
         "$": "readonly",
+        "bean": "readonly",
         "cBrowser":"readonly",
         "cDebug": "readonly",
-        "bean": "readonly",
-        "cQueue": "readonly",
-        "cHttp2": "readonly",
-        "ga": "readonly",
-        "cSecret": "readonly",
-        "cLocations": "readonly",
         "cHttp": "readonly",
-        "set_status": "readonly",
+        "cHttp2": "readonly",
         "cHttpQueue": "readonly",
         "cHttpQueueItem": "readonly",
+        "cJquery": "readonly",
+        "cLocations": "readonly",
+        "cQueue": "readonly",
+        "cSecret": "readonly",
+        "ga": "readonly",
         "google": "readonly",
-        "set_error_status": "readonly",
         "jQuery": "readonly",
-        "cJquery": "readonly"
+        "set_error_status": "readonly",
+        "set_status": "readonly"
     }
 
 }
