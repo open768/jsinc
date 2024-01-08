@@ -42,8 +42,14 @@ class cDebug {
 		sDebugValue = cBrowser.get_url_param("debug2")
 		if (sDebugValue !== null)
 			this.on(cDebugTypes.levels.extra)
+
+		if (!this.DEBUGGING){
+			this.ONE_TIME_DEBUGGING = true
+			this.write("for debugging use querystring ?debug or ?debug2")
+		}
 	}
 
+	//*****************************************************
 	//*****************************************************
 	static write_err(psMessage) {
 		cBrowser.writeConsoleWarning("ERROR> " + psMessage)
@@ -53,6 +59,12 @@ class cDebug {
 		cBrowser.writeConsoleWarning("WARN> " + psMessage)
 	}
 
+	static write_exception(pEx) {
+		this.write_err("Exception: " + pEx.message)
+		this.write_err("stacktrace: " + pEx.stack)
+	}
+
+	//*****************************************************
 	//*****************************************************
 	static write(psMessage, piLevel = cDebugTypes.levels.off) {
 		if (this.DEBUGGING || this.ONE_TIME_DEBUGGING) {
@@ -74,11 +86,15 @@ class cDebug {
 	}
 
 	//*****************************************************
-	static write_exception(pEx) {
-		this.write_err("Exception: " + pEx.message)
-		this.write_err("stacktrace: " + pEx.stack)
+	//*****************************************************
+	static on(piLevel = 1) {
+		if (piLevel > cDebugTypes.levels.extended) throw new Error("unknown debug level - max is " + cDebugTypes.levels.extended)
+		this.DEBUGGING = true
+		this.write("Debugging on with level " + piLevel)
+		this.level = piLevel
 	}
 
+	//*****************************************************
 	//*****************************************************
 	static enter() {
 		var sFn
@@ -89,13 +105,6 @@ class cDebug {
 		this.stack.push(sFn)
 	}
 
-	//*****************************************************
-	static on(piLevel = 1) {
-		if (piLevel > cDebugTypes.levels.extended) throw new Error("unknown debug level - max is " + cDebugTypes.levels.extended)
-		this.DEBUGGING = true
-		this.write("Debugging on with level " + piLevel)
-		this.level = piLevel
-	}
 
 	//*****************************************************
 	static leave() {
