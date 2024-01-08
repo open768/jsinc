@@ -300,6 +300,16 @@ class cBrowser {
 		var oParams = new URLSearchParams(sQueryString);
 		return oParams.get(psName);
 	}
+
+	static async getHeapMemoryUsed(){
+		//this will be deprecated in favour of 
+		if (performance.measureUserAgentSpecificMemory)
+			return await performance.measureUserAgentSpecificMemory();
+		else if (performance.memory)
+			return performance.memory.usedJSHeapSize
+		else
+			$.error("unable to get heap memory")
+	}
 }
 cBrowser.init();
 
