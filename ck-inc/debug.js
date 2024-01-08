@@ -63,8 +63,14 @@ class cDebug {
 		}
 	}
 
+	//*****************************************************
 	static extra_debug(psMessage) {
 		this.write(psMessage, cDebugTypes.levels.extra)
+	}
+
+	//*****************************************************
+	static extended_debug(psMessage){
+		this.write(psMessage, cDebugTypes.levels.extended)
 	}
 
 	//*****************************************************
