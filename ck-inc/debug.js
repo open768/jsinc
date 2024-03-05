@@ -27,7 +27,7 @@ class cDebugTypes {
 class cDebug {
 	static DEBUGGING = false
 	static ONE_TIME_DEBUGGING = false
-	static stack = []
+	static #stack = []
 	static level = cDebugTypes.levels.off
 
 	//*****************************************************
@@ -43,9 +43,8 @@ class cDebug {
 		if (sDebugValue !== null)
 			this.on(cDebugTypes.levels.extra)
 
-		if (!this.DEBUGGING){
-			this.ONE_TIME_DEBUGGING = true
-			this.write("for debugging use querystring ?debug or ?debug2")
+		if (!this.DEBUGGING && !this.ONE_TIME_DEBUGGING ){
+			cBrowser.writeConsoleWarning("for debugging use querystring ?debug or ?debug2")
 		}
 	}
 
@@ -71,8 +70,8 @@ class cDebug {
 	static write(psMessage, piLevel = cDebugTypes.levels.off) {
 		if (this.DEBUGGING || this.ONE_TIME_DEBUGGING) {
 			if (this.level >= piLevel) {
-				this.ONE_TIME_DEBUGGING = false
-				cBrowser.writeConsole("DEBUG> " + "  ".repeat(this.stack.length) + psMessage)
+				if (this.ONE_TIME_DEBUGGING) this.ONE_TIME_DEBUGGING = false
+				cBrowser.writeConsole("DEBUG> " + "  ".repeat(this.#stack.length) + psMessage)
 			}
 		}
 	}
@@ -104,7 +103,7 @@ class cDebug {
 
 		sFn = this.pr__getCaller("enter")
 		this.extra_debug(">> Entering " + sFn)
-		this.stack.push(sFn)
+		this.#stack.push(sFn)
 	}
 
 
@@ -112,11 +111,11 @@ class cDebug {
 	static leave() {
 		var sFn
 		if (!this.DEBUGGING) return
-		if (this.stack.length == 0) return
+		if (this.#stack.length == 0) return
 
 		sFn = this.pr__getCaller("leave")
-		if (sFn == this.stack[this.stack.length - 1]) {
-			this.stack.pop()
+		if (sFn == this.#stack[this.#stack.length - 1]) {
+			this.#stack.pop()
 			this.extra_debug(">> Leaving " + sFn)
 		}
 	}
