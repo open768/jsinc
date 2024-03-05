@@ -167,6 +167,14 @@ class cCommon {
 		else
 			throw ("param2: string expected, got: " + typeof psClassName);
 	}
+
+	//***************************************************************
+	//from https://gist.github.com/lanqy/5193417
+	static bytesToSize(bytes) {
+		const units = ["byte", "kilobyte", "megabyte", "terabyte", "petabyte"];
+		const unit = Math.floor(Math.log(bytes) / Math.log(1024));
+		return new Intl.NumberFormat("en", {style: "unit", unit: units[unit]}).format(bytes / 1024 ** unit);
+	}
 }
 
 //###############################################################
