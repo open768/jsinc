@@ -51,8 +51,10 @@ class cDebug {
 
 	//*****************************************************
 	//*****************************************************
-	static write_err(psMessage) {
+	static write_err(psMessage, pbWriteToDoc = false) {
 		cBrowser.writeConsoleWarning("ERROR> " + psMessage)
+		if (pbWriteToDoc)
+			document.write("<font color='red' size=20>" + psMessage + "</font>")
 	}
 
 	static warn(psMessage) {
