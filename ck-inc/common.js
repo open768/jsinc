@@ -162,10 +162,13 @@ class cCommon {
 		if (poObj == null) throw ("obj_is: null param1!");
 		if (typeof poObj !== "object") throw ("obj_is: object expected for param1");
 
-		if (typeof psClassName === "string")
+		var sObjType = typeof psClassName
+		if ( sObjType === "string")
 			return (poObj.constructor.name === psClassName);
+		else if ( sObjType === "object")
+			return (poObj.constructor.name === psClassName.constructor.name);
 		else
-			throw ("param2: string expected, got: " + typeof psClassName);
+			throw ("param2: string expected, got: " + sObjType);
 	}
 
 	//***************************************************************
