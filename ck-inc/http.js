@@ -27,7 +27,7 @@ function cHttpFailer(){
 	//TODO when this fails its not graceful, should call the caller and tell them theres an error
 	this.url = null
 	this.fail = function( jqxhr, textStatus, error ){
-		set_error_status("call failed: check console" )
+		cCommonStatus.set_error_status("call failed: check console" )
 		cDebug.write("ERROR: " + textStatus + "," + error + " : " + this.url)		
 	}
 }

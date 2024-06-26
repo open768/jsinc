@@ -12,7 +12,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 var STATUS_ID = "status";
-var SINGLE_WINDOW = true;
 
 
 //###############################################################
@@ -153,6 +152,8 @@ class cJquery {
 //###############################################################
 /* eslint-disable-next-line no-unused-vars */
 class cCommon {
+	static SINGLE_WINDOW = true;
+
 	static deep_copy(poThing) {
 		return JSON.parse(JSON.stringify(poThing));
 	}
@@ -230,7 +231,7 @@ class cBrowser {
 
 	//***************************************************************
 	static openWindow(psUrl, psWindow) {
-		if (SINGLE_WINDOW)
+		if (this.SINGLE_WINDOW)
 			document.location.href = psUrl;
 		else
 			window.open(psUrl, psWindow);
@@ -326,15 +327,17 @@ cBrowser.init();
 //# MISC
 //###############################################################
 /* eslint-disable-next-line no-unused-vars */
-function set_error_status(psStatus) {
-	$("#" + STATUS_ID).html("<font color='red'>" + psStatus + "</font>");
-	cDebug.write("Error: " + psStatus);
-}
-//***************************************************************
-/* eslint-disable-next-line no-unused-vars */
-function set_status(psStatus) {
-	$("#" + STATUS_ID).html(psStatus);
-	cDebug.write("status: " + psStatus);
+class cCommonStatus {
+	static set_error_status(psStatus) {
+		$("#" + STATUS_ID).html("<font color='red'>" + psStatus + "</font>");
+		cDebug.write("Error: " + psStatus);
+	}
+	//***************************************************************
+	/* eslint-disable-next-line no-unused-vars */
+	static set_status(psStatus) {
+		$("#" + STATUS_ID).html(psStatus);
+		cDebug.write("status: " + psStatus);
+	}
 }
 
 //***************************************************************

@@ -26,8 +26,8 @@
         "ga": "readonly",
         "google": "readonly",
         "jQuery": "readonly",
-        "set_error_status": "readonly",
-        "set_status": "readonly",
+        "cCommonStatus.set_error_status": "readonly",
+        "cCommonStatus.set_status": "readonly",
         "cMission": "readonly"
     }
 }

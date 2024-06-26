@@ -4,6 +4,14 @@
 //	https://developers.facebook.com/apps/1595545160675026/fb-login/quickstart/
 
 //get the serverside details
+$phpinc="../../../php/phpinc";
+$home = "$phpinc/ckinc";
+require_once ("$home/secret.php");
+require_once ("$home/debug.php");
+require_once ("$home/facebook.php");
+cDebug::check_GET_or_POST();
+
+//Facebook stuff
 $FBAPPID=cFacebook_ServerSide::getAppID()->id;	
 $FBSESSUSER=cFacebook_ServerSide::getSessionUser();	
 $FBSERVERSIDE="php/rest/facebook.php";
@@ -51,22 +59,22 @@ cDebug.DEBUGGING = true; //DEBUG
 //###############################################################################
 //#
 //###############################################################################
-var cFacebook = {
-	AppID:"<?=$FBAPPID?>",
-	ServerUser:"<?=$FBSESSUSER?>",
-	fbGetUserURL: null, // url must be set in application
-	fbUserID: null,
-	fbAccessToken: null,
-	fbAccessExpire: null,
-	statusID:null,
+class cFacebook {
+	static AppID = "<?=$FBAPPID?>"
+	static ServerUser = "<?=$FBSESSUSER?>"
+	static fbGetUserURL = null  // url must be set in application
+	static fbUserID = null
+	static fbAccessToken = null
+	static fbAccessExpire = null
+	static statusID =null
 
 	//################################################################
-	pr_set_status:function(psText){
+	static set_status(psText){
 		$( this.statusID).html(psText);
-	},
+	}
 
 	//################################################################
-	checkLoginStatus: function(){
+	static checkLoginStatus(){
 		var oThis = this;
 		cDebug.enter();
 		cDebug.write("checking login status");
@@ -74,10 +82,10 @@ var cFacebook = {
 			oThis.onFBLoginStatus(response);
 		});
 		cDebug.leave();
-	},
+	}
 
 	//**************************************************************
-	getFBUser: function(){
+	static getFBUser(){
 		cDebug.enter();
 		
 		if (this.ServerUser !== ""){
@@ -117,11 +125,11 @@ var cFacebook = {
 		var oThis = this;
 		cHttp.post("<?=$FBSERVERSIDE?>", oData, function(poJson){oThis.onGetUserResponse(poJson);});
 		cDebug.leave();
-	},
+	}
 
 	//################################################################
 	//see https://developers.facebook.com/docs/facebook-login/web/login-button/
-	onFBLoginStatus: function (poResponse){	
+	static onFBLoginStatus (poResponse){	
 		cDebug.enter();
 		if (poResponse.status == "connected"){
 			cDebug.write("user is logged in to facebook");
@@ -129,17 +137,17 @@ var cFacebook = {
 			this.fbUserID = oFBAuthResponse.userID;
 			this.fbAccessToken = oFBAuthResponse.accessToken;
 			this.fbAccessExpire = oFBAuthResponse.data_access_expiration_time;
-			this.pr_set_status("Welcome ...");
+			this.set_status("Welcome ...");
 			this.getFBUser();
 		}else{
 			cDebug.write("user not logged into Facebook app");
-			this.pr_set_status(" click here &gt; &gt; &gt;");
+			this.set_status(" click here &gt; &gt; &gt;");
 		}
 		cDebug.leave();
-	},
+	}
 
 	//**************************************************************
-	onGetUserResponse :function(psData){
+	static onGetUserResponse (psData){
 		var sUser, dNow;
 		cDebug.enter();
 		cDebug.write("Auth got response from FB");
@@ -159,20 +167,20 @@ var cFacebook = {
 		}
 		this.onFBGotUser(sUser);
 		cDebug.leave();
-	},
+	}
 	
 
 	//**************************************************************
-	onFBGotUser: function(psUser){
+	static onFBGotUser(psUser){
 		cDebug.enter();
-		this.pr_set_status("Welcome " + psUser);
+		this.set_status("Welcome " + psUser);
 		bean.fire(this,"gotUser");	
 		cDebug.leave();
-	},
+	}
 	
 	//**************************************************************
 	//https://developers.facebook.com/docs/reference/javascript/FB.Event.subscribe/v10.0
-	OnFBResponseChange: function (poEvent){
+	static OnFBResponseChange (poEvent){
 		var oThis;
 		cDebug.enter();
 		oThis = this;

@@ -14,7 +14,7 @@ var cComments = {
 	//********************************************************************************
 	get: function(psSol,psInstr, psProduct, pfnCallback){
 		var sUrl = this.phpBaseURL + "?o=get&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct
-		set_status("getting comments")
+		cCommonStatus.set_status("getting comments")
 		cHttp.fetch_json(sUrl, pfnCallback)
 	},
 
@@ -22,7 +22,7 @@ var cComments = {
 	set: function(psSol,psInstr, psProduct, psComment, pfnCallback){
 		var sUrl
 		sUrl = this.phpBaseURL + "?o=set&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct+"&v="+escape(psComment)
-		set_status("setting tag " + sUrl)
+		cCommonStatus.set_status("setting tag " + sUrl)
 		cHttp.fetch_json(sUrl, pfnCallback)
 	}
 }
