@@ -13,7 +13,10 @@
     "globals": {
         "$": "readonly",
         "bean": "readonly",
+        "cAuth": "readonly",
         "cBrowser": "readonly",
+        "cCommonStatus.set_error_status": "readonly",
+        "cCommonStatus.set_status": "readonly",
         "cDebug": "readonly",
         "cHttp": "readonly",
         "cHttp2": "readonly",
@@ -21,13 +24,12 @@
         "cHttpQueueItem": "readonly",
         "cJquery": "readonly",
         "cLocations": "readonly",
+        "cMission": "readonly",
         "cQueue": "readonly",
         "cSecret": "readonly",
+        "FB":"readonly",
         "ga": "readonly",
         "google": "readonly",
-        "jQuery": "readonly",
-        "cCommonStatus.set_error_status": "readonly",
-        "cCommonStatus.set_status": "readonly",
-        "cMission": "readonly"
+        "jQuery": "readonly"
     }
 }

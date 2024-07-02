@@ -1,24 +1,3 @@
-<?php
-//see 
-//	https://developers.facebook.com/docs/facebook-login/web/login-button/
-//	https://developers.facebook.com/apps/1595545160675026/fb-login/quickstart/
-
-//get the serverside details
-$phpinc="../../../php/phpinc";
-$home = "$phpinc/ckinc";
-require_once ("$home/secret.php");
-require_once ("$home/debug.php");
-require_once ("$home/facebook.php");
-cDebug::check_GET_or_POST();
-
-//Facebook stuff
-$FBAPPID=cFacebook_ServerSide::getAppID()->id;	
-$FBSESSUSER=cFacebook_ServerSide::getSessionUser();	
-$FBSERVERSIDE="php/rest/facebook.php";
-$FBVERSION = "v11.0";
-
-?>
-<script>	
 'use strict';
 var AUTH_COOKIE_TIMEOUT =3600; //time out the cookie in 1hr.
 var AUTH_USER_COOKIE="fbuser";
@@ -27,41 +6,11 @@ var AUTH_DATE_COOKIE="fbdate";
 //###############################################################################
 //#
 //###############################################################################
-//**************************************************
-//* called when facebook initialises
-window.fbAsyncInit = function() {
-    FB.init({
-		appId      : '<?=$FBAPPID?>',
-		cookie     : true,
-		xfbml      : true,
-		version    : '<?=$FBVERSION?>'
-	});
-	
-    FB.AppEvents.logPageView();   
-	FB.Event.subscribe('auth.authResponseChange', function(poEvent){cFacebook.OnFBResponseChange(poEvent);});
-	setTimeout( function(){	cFacebook.checkLoginStatus()}, 0);
-};
-
-//**************************************************
-//* fires up facebook
-(
-	function(d, s, id){
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) {return;}
-		js = d.createElement(s); js.id = id;
-		js.src = "https://connect.facebook.net/en_US/sdk.js";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk')
-);
-
-cDebug.DEBUGGING = true; //DEBUG
-
-//###############################################################################
-//#
-//###############################################################################
 class cFacebook {
-	static AppID = "<?=$FBAPPID?>"
-	static ServerUser = "<?=$FBSESSUSER?>"
+	static AppID = "not set"
+	static ServerUser = "not set"
+	static ServerSide = "not set"
+	static Version = "not set"
 	static fbGetUserURL = null  // url must be set in application
 	static fbUserID = null
 	static fbAccessToken = null
@@ -123,7 +72,7 @@ class cFacebook {
 			token: this.fbAccessToken
 		}
 		var oThis = this;
-		cHttp.post("<?=$FBSERVERSIDE?>", oData, function(poJson){oThis.onGetUserResponse(poJson);});
+		cHttp.post(this.ServerSide, oData, function(poJson){oThis.onGetUserResponse(poJson);});
 		cDebug.leave();
 	}
 
@@ -157,7 +106,7 @@ class cFacebook {
 			$.removeCookie(AUTH_USER_COOKIE);
 			$.removeCookie(AUTH_DATE_COOKIE);
 			cDebug.write("error: unable to get FB username");
-			cDebug.write("try: <?=$FBSERVERSIDE?>?o=getuser&user="+this.fbUserID+"&token="+this.fbAccessToken);
+			cDebug.write("try: "+this.ServerSide+"?o=getuser&user="+this.fbUserID+"&token="+this.fbAccessToken);
 		}else{
 			cDebug.write(sUser);
 			cAuth.setUser(sUser);
@@ -184,9 +133,39 @@ class cFacebook {
 		var oThis;
 		cDebug.enter();
 		oThis = this;
+		//not implemented
 		//setTimeout( function(){	oThis.checkLoginStatus()}, 0);
 		cDebug.leave();
 	}
 }
 
-</script>
+//###############################################################################
+//#
+//###############################################################################
+//* called when facebook initialises
+window.fbAsyncInit = function() {
+    FB.init({
+		appId      : this.AppID,
+		cookie     : true,
+		xfbml      : true,
+		version    : this.Version
+	});
+	
+    FB.AppEvents.logPageView();   
+	FB.Event.subscribe('auth.authResponseChange', function(poEvent){cFacebook.OnFBResponseChange(poEvent);});
+	setTimeout( function(){	cFacebook.checkLoginStatus()}, 0);
+};
+
+//**************************************************
+//* fires up facebook
+(
+	function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src = "https://connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk')
+);
+
+cDebug.DEBUGGING = true; //DEBUG
