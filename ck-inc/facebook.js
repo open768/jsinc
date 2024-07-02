@@ -145,10 +145,10 @@ class cFacebook {
 //* called when facebook initialises
 window.fbAsyncInit = function() {
     FB.init({
-		appId      : this.AppID,
+		appId      : cFacebook.AppID,
 		cookie     : true,
 		xfbml      : true,
-		version    : this.Version
+		version    : cFacebook.Version
 	});
 	
     FB.AppEvents.logPageView();   
