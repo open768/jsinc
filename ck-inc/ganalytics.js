@@ -13,7 +13,7 @@ try {
 		m.parentNode.insertBefore(a, m)
 	})(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga')
 
-	ga('create', cSecret.GTrackingID, 'mars-tourist-guide.co.uk')
+	ga('create', cSecret.GA_TrackingID, cSecret.GA_App)
 	ga('send', 'pageview')
 }
 catch (err) {

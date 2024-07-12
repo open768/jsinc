@@ -1,5 +1,5 @@
 /**************************************************************************
-Copyright (C) Chicken Katsu 2017-2021
+Copyright (C) Chicken Katsu 2013 - 2024
  * Licensed under the MIT license.
  
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED

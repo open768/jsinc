@@ -1,5 +1,5 @@
 /**************************************************************************
-Copyright (C) Chicken Katsu 2017-2018
+Copyright (C) Chicken Katsu 2013-2024
  * Licensed under the MIT license.
  
 based on http://opensource.teamdf.com/visible/jquery.visible.js
