@@ -7,38 +7,39 @@ http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
+/* global cCommonStatus */
 // eslint-disable-next-line no-unused-vars
 var cComments = {
-  phpBaseURL: cLocations.rest + "/comments.php",
+	phpBaseURL: cLocations.rest + "/comments.php",
 
-  //********************************************************************************
-  get: function (psSol, psInstr, psProduct, pfnCallback) {
-    var sUrl =
-      this.phpBaseURL +
-      "?o=get&s=" +
-      psSol +
-      "&i=" +
-      psInstr +
-      "&p=" +
-      psProduct
-    cCommonStatus.set_status("getting comments")
-    cHttp.fetch_json(sUrl, pfnCallback)
-  },
+	//********************************************************************************
+	get: function (psSol, psInstr, psProduct, pfnCallback) {
+		var sUrl =
+			this.phpBaseURL +
+			"?o=get&s=" +
+			psSol +
+			"&i=" +
+			psInstr +
+			"&p=" +
+			psProduct
+		cCommonStatus.set_status("getting comments")
+		cHttp.fetch_json(sUrl, pfnCallback)
+	},
 
-  //********************************************************************************
-  set: function (psSol, psInstr, psProduct, psComment, pfnCallback) {
-    var sUrl
-    sUrl =
-      this.phpBaseURL +
-      "?o=set&s=" +
-      psSol +
-      "&i=" +
-      psInstr +
-      "&p=" +
-      psProduct +
-      "&v=" +
-      escape(psComment)
-    cCommonStatus.set_status("setting tag " + sUrl)
-    cHttp.fetch_json(sUrl, pfnCallback)
-  },
+	//********************************************************************************
+	set: function (psSol, psInstr, psProduct, psComment, pfnCallback) {
+		var sUrl
+		sUrl =
+			this.phpBaseURL +
+			"?o=set&s=" +
+			psSol +
+			"&i=" +
+			psInstr +
+			"&p=" +
+			psProduct +
+			"&v=" +
+			escape(psComment)
+		cCommonStatus.set_status("setting tag " + sUrl)
+		cHttp.fetch_json(sUrl, pfnCallback)
+	},
 }
