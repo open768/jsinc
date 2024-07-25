@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013-2024
 This code is protected by copyright under the terms of the 
@@ -9,20 +9,36 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 // eslint-disable-next-line no-unused-vars
 var cComments = {
-	phpBaseURL: cLocations.rest + "/comments.php",
-	
-	//********************************************************************************
-	get: function(psSol,psInstr, psProduct, pfnCallback){
-		var sUrl = this.phpBaseURL + "?o=get&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct
-		cCommonStatus.set_status("getting comments")
-		cHttp.fetch_json(sUrl, pfnCallback)
-	},
+  phpBaseURL: cLocations.rest + "/comments.php",
 
-	//********************************************************************************
-	set: function(psSol,psInstr, psProduct, psComment, pfnCallback){
-		var sUrl
-		sUrl = this.phpBaseURL + "?o=set&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct+"&v="+escape(psComment)
-		cCommonStatus.set_status("setting tag " + sUrl)
-		cHttp.fetch_json(sUrl, pfnCallback)
-	}
+  //********************************************************************************
+  get: function (psSol, psInstr, psProduct, pfnCallback) {
+    var sUrl =
+      this.phpBaseURL +
+      "?o=get&s=" +
+      psSol +
+      "&i=" +
+      psInstr +
+      "&p=" +
+      psProduct
+    cCommonStatus.set_status("getting comments")
+    cHttp.fetch_json(sUrl, pfnCallback)
+  },
+
+  //********************************************************************************
+  set: function (psSol, psInstr, psProduct, psComment, pfnCallback) {
+    var sUrl
+    sUrl =
+      this.phpBaseURL +
+      "?o=set&s=" +
+      psSol +
+      "&i=" +
+      psInstr +
+      "&p=" +
+      psProduct +
+      "&v=" +
+      escape(psComment)
+    cCommonStatus.set_status("setting tag " + sUrl)
+    cHttp.fetch_json(sUrl, pfnCallback)
+  },
 }

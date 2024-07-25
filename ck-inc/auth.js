@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013 - 2024
 This code is protected by copyright under the terms of the 
@@ -10,17 +10,15 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-
 //requires Jquery cookie library from https://github.com/carhartl/jquery-cookie
 
 // eslint-disable-next-line no-unused-vars
 var cAuth = {
-	user:null,
-	
-	
-	//**********************************************************
-	setUser:function (psUser){
-		cDebug.write("setting cookie")
-		this.user = psUser
-	}
+  user: null,
+
+  //**********************************************************
+  setUser: function (psUser) {
+    cDebug.write("setting cookie")
+    this.user = psUser
+  },
 }
