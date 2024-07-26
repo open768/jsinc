@@ -15,7 +15,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //# add functions to Jquery
 //###############################################################
 $(function () {
-	$.postJSON = function (psUrl, poData, pfFunc) {
+	$.postJSON = (psUrl, poData, pfFunc) => {
 		return $.post(psUrl, poData, pfFunc, "json")
 	}
 })
@@ -23,10 +23,10 @@ $(function () {
 //###############################################################
 //# HTTP
 //###############################################################
-function cHttpFailer() {
+class cHttpFailer {
 	//TODO when this fails its not graceful, should call the caller and tell them theres an error
-	this.url = null
-	this.fail = function (jqxhr, textStatus, error) {
+	url = null
+	fail(jqxhr, textStatus, error) {
 		cCommonStatus.set_error_status("call failed: check console")
 		cDebug.write("ERROR: " + textStatus + "," + error + " : " + this.url)
 	}
