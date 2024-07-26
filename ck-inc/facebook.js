@@ -150,6 +150,7 @@ class cFacebook {
 
 //###############################################################################
 //# this is from https://developers.facebook.com/apps/551240839671132/fb-login/quickstart/
+//# NOTE dont change the code to OO, this is the code  FB provided
 //###############################################################################
 //* called when facebook initialises
 

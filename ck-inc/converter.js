@@ -8,11 +8,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-var cConverterEncodings = {
-  binary: "01",
-  BASE64: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,.",
+class cConverterEncodings {
+  static binary= "01"
+  static BASE64= "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,."
 
-  isBase64: function (psInput) {
+  static isBase64 (psInput) {
     for (var i = 0; i < psInput.length; i++) {
       var ch = psInput.charAt(i)
       if (this.BASE64.indexOf(ch) == -1) {
@@ -21,11 +21,12 @@ var cConverterEncodings = {
       }
     }
     return true
-  },
+  }
 }
-var cConverter = {
+
+class cConverter {
   //*********************************************************************
-  binToInt: function (psBin) {
+  static binToInt (psBin) {
     var iVal = 0
     var bFirst = true
     for (var i = 0; i < psBin.length; i++) {
@@ -39,10 +40,10 @@ var cConverter = {
       bFirst = false
     }
     return iVal
-  },
+  }
 
   //*********************************************************************
-  intToBin: function (piVal) {
+  static intToBin (piVal) {
     var iVal = piVal
     var sBin = ""
 
@@ -51,15 +52,15 @@ var cConverter = {
       iVal = iVal >>> 1
     }
     return sBin
-  },
+  }
 
   //**********************************
-  base64ToDec: function (pcChar64) {
+  static base64ToDec (pcChar64) {
     return cConverterEncodings.BASE64.indexOf(pcChar64)
-  },
+  }
 
   //**********************************
-  test: function () {
+  static test () {
     cDebug.write("testing cConverter")
     var iMax32Int = Math.pow(2, 32) - 1
     cDebug.write("- maxint is:" + iMax32Int)
@@ -73,7 +74,7 @@ var cConverter = {
 
     cDebug.write("cConverter test passed :-)")
     return true
-  },
+  }
 }
 
 /***************************************************************************/

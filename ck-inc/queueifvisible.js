@@ -135,6 +135,7 @@ class cQueueifVisible {
 		oQItem.url = this.url
 		oQItem.data = this.data
 		oQItem.fnCheckContinue = function () {
+			//doesnt add readability to make this an arrow function
 			return oThis.onCheckContinue()
 		}
 		bean.on(oQItem, "start", () => oThis.onStart(oQItem))

@@ -9,11 +9,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 /* global cCommonStatus */
 // eslint-disable-next-line no-unused-vars
-var cComments = {
-	phpBaseURL: cLocations.rest + "/comments.php",
+class cComments {
+	static phpBaseURL = cLocations.rest + "/comments.php"
 
 	//********************************************************************************
-	get: function (psSol, psInstr, psProduct, pfnCallback) {
+	static get(psSol, psInstr, psProduct, pfnCallback) {
 		var sUrl =
 			this.phpBaseURL +
 			"?o=get&s=" +
@@ -24,10 +24,10 @@ var cComments = {
 			psProduct
 		cCommonStatus.set_status("getting comments")
 		cHttp.fetch_json(sUrl, pfnCallback)
-	},
+	}
 
 	//********************************************************************************
-	set: function (psSol, psInstr, psProduct, psComment, pfnCallback) {
+	static set(psSol, psInstr, psProduct, psComment, pfnCallback) {
 		var sUrl
 		sUrl =
 			this.phpBaseURL +
@@ -41,5 +41,5 @@ var cComments = {
 			escape(psComment)
 		cCommonStatus.set_status("setting tag " + sUrl)
 		cHttp.fetch_json(sUrl, pfnCallback)
-	},
+	}
 }
