@@ -14,30 +14,37 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //###############################################################
 
 // eslint-disable-next-line no-unused-vars
-function cActionQueueItem(psName, psActionUrl, poData) {
-	this.name = psName
-	this.url = psActionUrl
-	this.data = null
-	this.oHttp = null
+class cActionQueueItem {
+	name = null
+	url = null
+	data = null
+	oHttp = null
+
+	constructor(psName, psActionUrl, poData) {
+		this.name = psName
+		this.url = psActionUrl
+		this.data = poData
+		this.oHttp = null
+	}
 }
 
 // eslint-disable-next-line no-unused-vars
-function cActionQueue() {
-	this.aBacklog = []
-	this.aTransfers = new cQueue()
-	this.bStopping = false
-	this.running = false
-	this.MAX_TRANSFERS = 10
-	this.ASYNC_DELAY = 10
+class cActionQueue {
+	aBacklog = []
+	aTransfers = new cQueue()
+	bStopping = false
+	running = false
+	MAX_TRANSFERS = 10
+	ASYNC_DELAY = 10
 
 	//***************************************************************
-	this.clear = function () {
+	clear() {
 		cDebug.write("clearing image queue")
 		this.aBacklog = []
 	}
 
 	//***************************************************************
-	this.stop = function () {
+	stop() {
 		if (this.bStopping) return
 		if (this.aBacklog.length == 0) return
 		this.bStopping = true
@@ -45,13 +52,13 @@ function cActionQueue() {
 	}
 
 	//***************************************************************
-	this.add = function (psName, psActionUrl, poData) {
+	add(psName, psActionUrl, poData) {
 		if (this.bStopping) return
 		this.aBacklog.push(new cActionQueueItem(psName, psActionUrl, poData))
 	}
 
 	//***************************************************************
-	this.start = function () {
+	start() {
 		if (this.bStopping) return
 
 		var oQueue = this
@@ -69,7 +76,7 @@ function cActionQueue() {
 			var oHttp = new cHttp2() //create a new http object to do the request
 			oItem.oHttp = oHttp
 
-			oHttp._actionqueue_name = oItem.name // this is a fudge that is just WRONG #TBD#
+			oHttp._actionqueue_name = oItem.name // this is a fudge that is just WRONG #@todo#
 			bean.on(oHttp, "result", function (poHttp) {
 				oQueue.process_response(poHttp, oItem)
 			})
@@ -80,9 +87,7 @@ function cActionQueue() {
 			//separate thread to allow UI to catch up
 			// eslint-disable-next-line no-unused-vars
 			var iThread = setTimeout(
-				function () {
-					oHttp.fetch_json(oItem.url, oItem.name)
-				}, //start transfer
+				() => oHttp.fetch_json(oItem.url, oItem.name), //start transfer
 				this.ASYNC_DELAY
 			)
 
@@ -92,7 +97,7 @@ function cActionQueue() {
 
 	//***************************************************************
 	// eslint-disable-next-line no-unused-vars
-	this.process_response = function (poHttp, poItem) {
+	process_response(poHttp, poItem) {
 		this.aTransfers.remove(poHttp.data)
 		if (this.bStopping) {
 			if (this.aTransfers.length == 0) {
@@ -109,7 +114,7 @@ function cActionQueue() {
 	}
 	//***************************************************************
 	// eslint-disable-next-line no-unused-vars
-	this.process_error = function (poHttp, poItem) {
+	process_error(poHttp, poItem) {
 		this.aTransfers.remove(poHttp.data)
 		if (this.bStopping) {
 			if (this.aTransfers.length == 0) {

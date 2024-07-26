@@ -9,6 +9,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
+/* global cCommonStatus */
 
 //###############################################################
 //# add functions to Jquery
@@ -34,10 +35,10 @@ function cHttpFailer() {
 //###############################################################
 //###############################################################
 // eslint-disable-next-line no-unused-vars
-var cHttp = {
-	//TODO make this OO not a singleton
+class cHttp {
+	//@todo make this OO not a singleton
 
-	fetch_json: function (psUrl, pfnCallBack) {
+	static fetch_json(psUrl, pfnCallBack) {
 		var oFailer
 		//if the url doesnt contain http
 		if (psUrl.search("http:") == -1)
@@ -46,10 +47,10 @@ var cHttp = {
 		oFailer = new cHttpFailer()
 		oFailer.url = psUrl
 		$.getJSON(psUrl, pfnCallBack).fail(oFailer.fail)
-	},
+	}
 
 	//***************************************************************
-	post: function (psUrl, poData, pfnCallBack) {
+	static post(psUrl, poData, pfnCallBack) {
 		if (psUrl.search("http:") == -1)
 			cDebug.write(cBrowser.baseUrl() + psUrl)
 		else cDebug.write(psUrl)
@@ -58,7 +59,7 @@ var cHttp = {
 
 		//- - - - - make the call
 		$.post(psUrl, poData, pfnCallBack).fail(oFailer.fail)
-	},
+	}
 }
 
 //###############################################################
@@ -116,14 +117,14 @@ class cHttp2 {
 		).fail((pEv, pSt, pEr) => oThis.onError(pEv, pSt, pEr))
 	}
 
-	correct_url = function () {
+	correct_url() {
 		if (this.url.match(/^http/) == null) {
 			this.url = cBrowser.baseUrl() + this.url
 		}
 	}
 
 	//***************************************************************
-	stop = function () {
+	stop() {
 		this.stopping = true
 		if (this.oXHR) {
 			try {
@@ -138,7 +139,7 @@ class cHttp2 {
 	//################################################################
 	//# Events
 	//################################################################
-	onResult = function (poResponse) {
+	onResult(poResponse) {
 		if (this.stopping) return
 
 		this.response = poResponse
@@ -146,7 +147,7 @@ class cHttp2 {
 	}
 
 	//**************************************************************
-	onError = function (poEvent, psStatus, poError) {
+	onError(poEvent, psStatus, poError) {
 		if (this.stopping) return
 		this.event = poEvent
 		this.error = poError
