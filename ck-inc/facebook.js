@@ -65,7 +65,7 @@ class cFacebook {
 		// no cookie or no server user
 		// get the information from the server
 		cDebug.write("getting Facebook user details for user " + this.fbUserID)
-		//cDebug.write("Access token: " + this.fbAccessToken);
+		//cDebug.write("Access token: " + this.fbAccessToken)
 		var oData = {
 			o: "getuser",
 			u: this.fbUserID,

@@ -112,9 +112,13 @@ class cHttp2 {
 		this.correct_url()
 		this.data = poData
 
-		this.oXHR = $.post(this.url, poData, (pResult) =>
-			oThis.onResult(pResult)
-		).fail((pEv, pSt, pEr) => oThis.onError(pEv, pSt, pEr))
+		var fnCallBack = (pResult) => oThis.onResult(pResult)
+		if (cDebug.is_debugging()) {
+			this.oXHR = $.get(this.url, poData, fnCallBack)
+		} else {
+			this.oXHR = $.post(this.url, poData, fnCallBack)
+		}
+		this.oXHR.fail((pEv, pSt, pEr) => oThis.onError(pEv, pSt, pEr))
 	}
 
 	correct_url() {
