@@ -31,7 +31,7 @@
 		}
 	}
 
-	$.fn.inViewport = function () {
+	$.fn.inViewport = () => {
 		var oWindow = $(window)
 		var oThis = $(this)
 

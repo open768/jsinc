@@ -64,11 +64,9 @@ class cHttp {
 
 //###############################################################
 //# use
-//#    success_callback = function(poHttp){ ... do something here with poHttp.response ... })
-//#    error_callback = function(poHttp){ ... do something here with pohttp.error... })
 //#		ohttp = new cHttp2();
-//# 	bean.on(ohttp,"result",		function(po){ success_callback(po.u, po.d)}	);
-//# 	bean.on(ohttp,"error",		function(poHttp) {error_callback()}			);
+//# 	bean.on(ohttp,"result",		(poResult)=>{ do something}	);
+//# 	bean.on(ohttp,"error",		(poHttp) => { do something}		);
 //#		ohttp.fetch_json("http:..","something");
 
 //###############################################################
