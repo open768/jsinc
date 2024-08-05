@@ -1,4 +1,4 @@
-;(function ($) {
+(function ($) {
 	/**************************************************************************
 	Copyright (C) Chicken Katsu 2013-2024
 	 * Licensed under the MIT license.
