@@ -12,14 +12,14 @@ class cFacebook {
 	static fbUserID = null
 	static fbAccessToken = null
 	static fbAccessExpire = null
-	static buttonID = null
+	static NameID = null
 	static AUTH_COOKIE_TIMEOUT = 3600 //time out the cookie in 1hr.
 	static AUTH_USER_COOKIE = "fbuser"
 	static AUTH_DATE_COOKIE = "fbdate"
 
 	//################################################################
 	static set_status(psText) {
-		$("#" + this.buttonID).html(psText)
+		$("#" + this.NameID).html(psText)
 	}
 
 	//################################################################
@@ -45,7 +45,7 @@ class cFacebook {
 				return
 			}
 
-			//check the cookie
+			//check whether user is allready logged in - ie the cookie sent by our server
 			var sUser = $.cookie(this.AUTH_USER_COOKIE)
 			var iDate = $.cookie(this.AUTH_DATE_COOKIE)
 			if (sUser && iDate) {
@@ -132,15 +132,22 @@ class cFacebook {
 
 	//**************************************************************
 	static onFBGotUser(psUser) {
+		var oThis = this
 		cDebug.enter()
 		this.set_status("Welcome " + psUser)
 		bean.fire(this, "gotUser")
+
+		//subscribe to logout
+		FB.Event.subscribe("auth.logout", (poEvent) =>
+			oThis.OnFBLogout(poEvent)
+		)
+
 		cDebug.leave()
 	}
 
 	//**************************************************************
 	//https://developers.facebook.com/docs/reference/javascript/FB.Event.subscribe/v10.0
-	static OnFBResponseChange(poEvent) {
+	static OnFBLogout(poEvent) {
 		cDebug.enter()
 		//not implemented
 		//setTimeout( function(){	oThis.checkLoginStatus()}, 0);
@@ -165,9 +172,10 @@ window.fbAsyncInit = function () {
 	FB.AppEvents.logPageView()
 
 	//additional stuff
-	FB.Event.subscribe("auth.authResponseChange", function (poEvent) {
-		cFacebook.OnFBResponseChange(poEvent)
+	FB.Event.subscribe("auth.logout", function (poEvent) {
+		cFacebook.OnFBLogout(poEvent)
 	})
+
 	setTimeout(() => cFacebook.checkLoginStatus())
 }
 
