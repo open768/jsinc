@@ -16,11 +16,7 @@ class cFacebook {
 	static AUTH_COOKIE_TIMEOUT = 3600 //time out the cookie in 1hr.
 	static AUTH_USER_COOKIE = "fbuser"
 	static AUTH_DATE_COOKIE = "fbdate"
-
-	//################################################################
-	static set_status(psText) {
-		$("#" + this.NameID).html(psText)
-	}
+	static STATUS_EVENT = "FBeVStatus"
 
 	//################################################################
 	static checkLoginStatus() {
@@ -90,11 +86,11 @@ class cFacebook {
 			this.fbUserID = oFBAuthResponse.userID
 			this.fbAccessToken = oFBAuthResponse.accessToken
 			this.fbAccessExpire = oFBAuthResponse.data_access_expiration_time
-			this.set_status("Welcome ...")
+			bean.fire(this, this.STATUS_EVENT, "Welcome ...")
 			setTimeout(() => oThis.getFBUser(), 0) //do this asynchronously
 		} else {
 			cDebug.write("user not logged into Facebook app")
-			this.set_status(" click here &gt; &gt; &gt;")
+			bean.fire(this, this.STATUS_EVENT, " click here &gt; &gt; &gt;")
 		}
 		cDebug.leave()
 	}
@@ -134,7 +130,7 @@ class cFacebook {
 	static onFBGotUser(psUser) {
 		var oThis = this
 		cDebug.enter()
-		this.set_status("Welcome " + psUser)
+		bean.fire(this, this.STATUS_EVENT, "Welcome " + psUser)
 		bean.fire(this, "gotUser")
 
 		//subscribe to logout
