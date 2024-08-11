@@ -9,19 +9,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 /* global cCommonStatus */
 // eslint-disable-next-line no-unused-vars
-class cComments {
+class cSpaceComments {
 	static phpBaseURL = cLocations.rest + "/comments.php"
 
 	//********************************************************************************
 	static get(psSol, psInstr, psProduct, pfnCallback) {
-		var sUrl =
-			this.phpBaseURL +
-			"?o=get&s=" +
-			psSol +
-			"&i=" +
-			psInstr +
-			"&p=" +
-			psProduct
+		var sUrl = this.phpBaseURL + "?o=get&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct
 		cCommonStatus.set_status("getting comments")
 		cHttp.fetch_json(sUrl, pfnCallback)
 	}
