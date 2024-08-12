@@ -6,32 +6,36 @@ http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
-var cImgHilite = {
-	templateID: "#box_template",
-	containerID: "#highlight",
-	baseImageID: "#baseimg",
-	baseUrl: cAppLocations.rest + "/img_highlight.php",
-	controlsID: "#controls",
-	numberID: "#number",
-	imgTarget: null,
-	ID: 0,
-	currentBox: null,
+class cImgHilite {
+	static templateID = "#box_template"
+	static containerID = "#highlight"
+	static baseImageID = "#baseimg"
+	static baseUrl = null
+	static controlsID = "#controls"
+	static numberID = "#number"
+	static imgTarget = null
+	static ID = 0
+	static currentBox = null
+
+	static {
+		this.baseUrl = cAppLocations.rest + "/img_highlight.php"
+	}
 
 	//**************************************************
-	rejectBox: function (poButton) {
+	static rejectBox(poButton) {
 		var oBox = poButton.parentNode.parentNode
 		$("#" + oBox.id).remove()
 		this.currentBox = null
-	},
+	}
 
 	//**************************************************
-	getBoxFromButton: function (poButton) {
+	static getBoxFromButton(poButton) {
 		//find the parent div and hide
 		return poButton.parentNode.parentNode
-	},
+	}
 
 	//**************************************************
-	makeBox: function (piX, piY, bDraggable) {
+	static makeBox(piX, piY, bDraggable) {
 		var oClone
 		var oContainer = $(this.containerID)
 
@@ -74,10 +78,10 @@ var cImgHilite = {
 		oBox.draggable({ containment: oImg })
 
 		return oBox
-	},
+	}
 
 	//**************************************************
-	make_fixed_box: function (psTop, psLeft) {
+	static make_fixed_box(psTop, psLeft) {
 		var oBox, oControls, oNumber
 
 		//make and position the box
@@ -97,16 +101,16 @@ var cImgHilite = {
 		$(oNumber).show()
 
 		return oBox
-	},
+	}
 
 	//**************************************************
-	remove_boxes: function () {
+	static remove_boxes() {
 		//remove everything other than the img div from the container
 		$(this.containerID).empty()
-	},
+	}
 
 	//**************************************************
-	save_highlight: function (psSol, psInstr, psProduct, psID, pfnCallback) {
+	static save_highlight(psSol, psInstr, psProduct, psID, pfnCallback) {
 		var oBox = $(psID)
 		sUrl = cBrowser.buildUrl(this.baseUrl, {
 			o: "add",
@@ -119,10 +123,10 @@ var cImgHilite = {
 		})
 		this.currentBox = null
 		cHttp.fetch_json(sUrl, pfnCallback)
-	},
+	}
 
 	//**************************************************
-	getHighlights: function (psSol, psInstr, psProduct, pfnCallBack) {
+	static getHighlights(psSol, psInstr, psProduct, pfnCallBack) {
 		sUrl = cBrowser.buildUrl(this.baseUrl, {
 			o: "get",
 			s: psSol,

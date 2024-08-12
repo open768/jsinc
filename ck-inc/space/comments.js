@@ -10,7 +10,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 /* global cCommonStatus */
 // eslint-disable-next-line no-unused-vars
 class cSpaceComments {
-	static phpBaseURL = cAppLocations.rest + "/comments.php"
+	static phpBaseURL = null
+
+	static {
+		this.phpBaseURL = cAppLocations.rest + "/comments.php"
+	}
 
 	//********************************************************************************
 	static get(psSol, psInstr, psProduct, pfnCallback) {
