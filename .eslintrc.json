@@ -23,7 +23,7 @@
         "cHttpQueue": "readonly",
         "cHttpQueueItem": "readonly",
         "cJquery": "readonly",
-        "cLocations": "readonly",
+        "cAppLocations": "readonly",
         "cMission": "readonly",
         "cQueue": "readonly",
         "cSecret": "readonly",

@@ -8,7 +8,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 class cTagging {
-	static phpBaseURL = cLocations.rest + "/tag.php"
+	static phpBaseURL = cAppLocations.rest + "/tag.php"
 
 	//********************************************************************************
 	static getTags(psSol, psInstr, psProduct, pfnCallback) {
@@ -18,7 +18,7 @@ class cTagging {
 			s: psSol,
 			i: psInstr,
 			p: psProduct,
-			m: cMission.ID,
+			m: cMission.ID
 		}
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
 		cDebug.write("getting tag")
@@ -34,7 +34,7 @@ class cTagging {
 			i: psInstr,
 			p: psProduct,
 			v: psTagname,
-			m: cMission.ID,
+			m: cMission.ID
 		}
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
 		cDebug.write("setting tag " + sUrl)
