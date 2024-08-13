@@ -1,3 +1,5 @@
+"use strict"
+
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013-2024
 This code is protected by copyright under the terms of the 
@@ -112,7 +114,7 @@ class cImgHilite {
 	//**************************************************
 	static save_highlight(psSol, psInstr, psProduct, psID, pfnCallback) {
 		var oBox = $(psID)
-		sUrl = cBrowser.buildUrl(this.baseUrl, {
+		var sUrl = cBrowser.buildUrl(this.baseUrl, {
 			o: "add",
 			s: psSol,
 			i: psInstr,
@@ -127,7 +129,7 @@ class cImgHilite {
 
 	//**************************************************
 	static getHighlights(psSol, psInstr, psProduct, pfnCallBack) {
-		sUrl = cBrowser.buildUrl(this.baseUrl, {
+		var sUrl = cBrowser.buildUrl(this.baseUrl, {
 			o: "get",
 			s: psSol,
 			i: psInstr,
