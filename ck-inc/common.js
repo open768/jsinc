@@ -107,7 +107,7 @@ class cJquery {
 		var iZindex = $(".ui-front").css("z-index")
 		poElement.css({
 			"z-index": iZindex + 1,
-			position: "relative",
+			position: "relative"
 		})
 	}
 
@@ -154,8 +154,7 @@ class cCommon {
 	//***************************************************************
 	static obj_is(poObj, psClassName) {
 		if (poObj == null) throw "obj_is: null param1!"
-		if (typeof poObj !== "object")
-			throw "obj_is: object expected for param1"
+		if (typeof poObj !== "object") throw "obj_is: object expected for param1"
 
 		var sObjType = typeof psClassName
 		if (sObjType === "string") return poObj.constructor.name === psClassName
@@ -171,7 +170,7 @@ class cCommon {
 		const unit = Math.floor(Math.log(bytes) / Math.log(1024))
 		return new Intl.NumberFormat("en", {
 			style: "unit",
-			unit: units[unit],
+			unit: units[unit]
 		}).format(bytes / 1024 ** unit)
 	}
 }
@@ -234,8 +233,7 @@ class cBrowser {
 
 	//***************************************************************
 	static buildUrl(psPage, poParams) {
-		if (psPage.search(/\?/) == -1)
-			return psPage + "?" + $.param(poParams, true)
+		if (psPage.search(/\?/) == -1) return psPage + "?" + $.param(poParams, true)
 		else return psPage + "&" + $.param(poParams, true)
 	}
 
@@ -244,7 +242,7 @@ class cBrowser {
 	static paste_from_clipboard(pfnCallBack) {
 		var oThis = this
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
-			navigator.clipboard.readText().then((text) => {
+			navigator.clipboard.readText().then(text => {
 				oThis.writeConsoleWarning("pasted from clipboard: " + text)
 				pfnCallBack(text)
 			})
@@ -262,10 +260,7 @@ class cBrowser {
 			}
 			navigator.clipboard.writeText(psID)
 			this.writeConsoleWarning("sent to clipboard: " + sText)
-		} else
-			this.writeConsoleWarning(
-				"browser not compatible for copy operation"
-			)
+		} else this.writeConsoleWarning("browser not compatible for copy operation")
 	}
 
 	//***************************************************************
@@ -280,11 +275,8 @@ class cBrowser {
 		var oThis = this
 
 		navigator.permissions.query({ name: psName }).then(function (poStatus) {
-			oThis.writeConsoleWarning(
-				"permission for " + psName + " is " + poStatus.state
-			)
-			if (poStatus.state !== "granted")
-				oThis.writeConsoleWarning("check site permissions")
+			oThis.writeConsoleWarning("permission for " + psName + " is " + poStatus.state)
+			if (poStatus.state !== "granted") oThis.writeConsoleWarning("check site permissions")
 		})
 	}
 
