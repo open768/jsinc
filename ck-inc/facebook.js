@@ -65,12 +65,12 @@ class cFacebook {
 		var oData = {
 			o: "getuser",
 			u: this.fbUserID,
-			t: this.fbAccessToken,
+			t: this.fbAccessToken
 		}
 
 		var oThis = this
 		var oHttp = new cHttp2()
-		bean.on(oHttp, "result", (poHttp) => oThis.onGetUserResponse(poHttp))
+		bean.on(oHttp, "result", poHttp => oThis.onGetUserResponse(poHttp))
 		oHttp.post(this.ServerSide, oData)
 		cDebug.leave()
 	}
@@ -131,12 +131,9 @@ class cFacebook {
 		var oThis = this
 		cDebug.enter()
 		bean.fire(this, this.STATUS_EVENT, "Welcome " + psUser)
-		bean.fire(this, "gotUser")
 
 		//subscribe to logout
-		FB.Event.subscribe("auth.logout", (poEvent) =>
-			oThis.OnFBLogout(poEvent)
-		)
+		FB.Event.subscribe("auth.logout", poEvent => oThis.OnFBLogout(poEvent))
 
 		cDebug.leave()
 	}
@@ -162,7 +159,7 @@ window.fbAsyncInit = function () {
 		appId: cFacebook.AppID,
 		cookie: true,
 		xfbml: true,
-		version: cFacebook.Version,
+		version: cFacebook.Version
 	})
 
 	FB.AppEvents.logPageView()
