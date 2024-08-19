@@ -13,7 +13,7 @@ class cQueueifVisible {
 		START: "start",
 		STATUS: "status",
 		RESULT: "result",
-		ERROR: "error",
+		ERROR: "error"
 	}
 
 	constructor() {
@@ -32,10 +32,8 @@ class cQueueifVisible {
 
 		var oThis = this
 		this.element = poElement
-		if (!$.event.special.inview)
-			$.error("inview class is missing! check includes")
-		if (!poElement.inViewport)
-			$.error("inViewport class is missing! check includes")
+		if (!$.event.special.inview) $.error("inview class is missing! check includes")
+		if (!poElement.inViewport) $.error("inViewport class is missing! check includes")
 		this.url = psUrl
 		this.data = poData
 		this.pr__send_status("waiting for page ready..")
@@ -65,9 +63,7 @@ class cQueueifVisible {
 	//*******************************************************************
 	pr__add_forcebutton() {
 		var oThis = this
-		setTimeout(function () {
-			oThis.pr__do_add_forcebutton()
-		}, this.WAIT_FORCE)
+		setTimeout(() => oThis.pr__do_add_forcebutton(), this.WAIT_FORCE)
 	}
 
 	pr__do_add_forcebutton() {
@@ -100,16 +96,12 @@ class cQueueifVisible {
 			return
 		}
 
-		this.pr__send_status(
-			"item is visible - checking again in " + this.WAIT_SCROLLING
-		)
+		this.pr__send_status("item is visible - checking again in " + this.WAIT_SCROLLING)
 		oElement.off("inview") //turn off the inview listener
 
 		//TODO use position of element in viewport to determine whether scrolling is happening
 		// eg if the element has moved more than 10 pixels since last time then wait.
-		setTimeout(function () {
-			oThis.onScrollingTimer()
-		}, this.WAIT_SCROLLING)
+		setTimeout(() => oThis.onScrollingTimer(), this.WAIT_SCROLLING)
 	}
 
 	//*******************************************************************
@@ -139,8 +131,8 @@ class cQueueifVisible {
 			return oThis.onCheckContinue()
 		}
 		bean.on(oQItem, "start", () => oThis.onStart(oQItem))
-		bean.on(oQItem, "result", (poHttp) => oThis.onResult(poHttp))
-		bean.on(oQItem, "error", (poHttp) => oThis.onError(poHttp))
+		bean.on(oQItem, "result", poHttp => oThis.onResult(poHttp))
+		bean.on(oQItem, "error", poHttp => oThis.onError(poHttp))
 		bean.on(oQItem, "Qpos", () => oThis.onQPosition(oQItem))
 
 		var oQueue = cQueueifVisibleQueue.queue

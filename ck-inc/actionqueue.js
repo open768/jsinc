@@ -64,8 +64,7 @@ class cActionQueue {
 		var oQueue = this
 
 		//------------ queue logic
-		if (this.aTransfers.length() >= this.MAX_TRANSFERS)
-			cDebug.write("Queue - full")
+		if (this.aTransfers.length() >= this.MAX_TRANSFERS) cDebug.write("Queue - full")
 		else if (this.aBacklog.length > 0) {
 			this.running = true
 			var oItem = this.aBacklog.pop() //Take item off backlog
