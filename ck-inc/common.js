@@ -132,11 +132,17 @@ class cJquery {
 	 * @param {Boolean} pbEnabled=true
 	 */
 	static enable_element(poElement, pbEnabled = true) {
-		var oElement = poElement
+		var oElement
+		oElement = poElement
 		if (typeof poElement == "string") oElement = $("#" + poElement)
 
 		if (pbEnabled) oElement.removeAttr("disabled")
 		else oElement.attr("disabled", true)
+	}
+
+	//***************************************************************
+	static disable_element(poElement) {
+		this.enable_element(poElement, false)
 	}
 }
 
