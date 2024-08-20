@@ -309,6 +309,9 @@ class cBrowser {
 		else if (performance.memory) return performance.memory.usedJSHeapSize
 		else $.error("unable to get heap memory")
 	}
+	static whitespace(piWidth) {
+		return "<span style='display:inline-block;width:", piWidth, "px'></span>"
+	}
 }
 cBrowser.init()
 
