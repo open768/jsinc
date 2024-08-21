@@ -41,8 +41,7 @@ class cHttp {
 	static fetch_json(psUrl, pfnCallBack) {
 		var oFailer
 		//if the url doesnt contain http
-		if (psUrl.search("http:") == -1)
-			cDebug.write(cBrowser.baseUrl() + psUrl)
+		if (psUrl.search("http:") == -1) cDebug.write(cBrowser.baseUrl() + psUrl)
 		else cDebug.write(psUrl)
 		oFailer = new cHttpFailer()
 		oFailer.url = psUrl
@@ -51,8 +50,7 @@ class cHttp {
 
 	//***************************************************************
 	static post(psUrl, poData, pfnCallBack) {
-		if (psUrl.search("http:") == -1)
-			cDebug.write(cBrowser.baseUrl() + psUrl)
+		if (psUrl.search("http:") == -1) cDebug.write(cBrowser.baseUrl() + psUrl)
 		else cDebug.write(psUrl)
 		var oFailer = new cHttpFailer()
 		oFailer.url = psUrl
@@ -110,7 +108,7 @@ class cHttp2 {
 		this.correct_url()
 		this.data = poData
 
-		var fnCallBack = (pResult) => oThis.onResult(pResult)
+		var fnCallBack = pResult => oThis.onResult(pResult)
 		if (cDebug.is_debugging()) {
 			this.oXHR = $.get(this.url, poData, fnCallBack)
 		} else {
