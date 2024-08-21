@@ -310,7 +310,8 @@ class cBrowser {
 		else $.error("unable to get heap memory")
 	}
 	static whitespace(piWidth) {
-		return "<span style='display:inline-block;width:", piWidth, "px'></span>"
+		var sHTML = "<span style='display:inline-block;width:" + piWidth + "px'></span>"
+		return sHTML
 	}
 }
 cBrowser.init()
