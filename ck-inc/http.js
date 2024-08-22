@@ -12,15 +12,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 /* global cCommonStatus */
 
 //###############################################################
-//# add functions to Jquery
-//###############################################################
-$(function () {
-	$.postJSON = (psUrl, poData, pfFunc) => {
-		return $.post(psUrl, poData, pfFunc, "json")
-	}
-})
-
-//###############################################################
 //# HTTP
 //###############################################################
 class cHttpFailer {
@@ -79,16 +70,29 @@ class cHttp2 {
 	stopping = false
 	oXHR = null //holds the XHR request object
 
+	/**
+	 * wrapper for jquery post
+	 *
+	 * @param {*} psUrl url to fetch from
+	 * @param {*} poData data to send
+	 * @param {*} pfFunc callback
+	 * @returns
+	 */
+	postJSON(psUrl, poData, pfFunc) {
+		return $.post(psUrl, poData, pfFunc, "json")
+	}
+
 	//**************************************************************
 	fetch_json(psUrl, poData) {
 		var oThis = this
 
 		this.url = psUrl
 		this.correct_url()
-		this.data = poData //never used
+		this.data = poData
+
 		cDebug.write("fetching url: " + this.url)
 		if (poData)
-			this.oXHR = $.postJSON(this.url, this.data, function (pResult) {
+			this.oXHR = this.postJSON(this.url, this.data, function (pResult) {
 				oThis.onResult(pResult)
 			}).fail(function (pEv, pSt, pEr) {
 				oThis.onError(pEv, pSt, pEr)
@@ -153,6 +157,7 @@ class cHttp2 {
 		this.error = poError
 		this.errorStatus = psStatus
 		cDebug.write_err("URL error: " + this.url)
+		cDebug.write_err(poError)
 		bean.fire(this, "error", this) //notify subscriber
 	}
 }
