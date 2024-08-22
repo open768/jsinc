@@ -134,7 +134,7 @@ class cJquery {
 	static enable_element(poElement, pbEnabled = true) {
 		var oElement
 		oElement = poElement
-		if (typeof poElement == "string") oElement = $("#" + poElement)
+		if (typeof poElement == "string") oElement = cJquery.element(poElement)
 
 		if (pbEnabled) oElement.removeAttr("disabled")
 		else oElement.attr("disabled", true)
@@ -143,6 +143,12 @@ class cJquery {
 	//***************************************************************
 	static disable_element(poElement) {
 		this.enable_element(poElement, false)
+	}
+
+	//***************************************************************
+	static element(psID) {
+		var oElement = $("#" + psID)
+		return oElement
 	}
 }
 
@@ -261,7 +267,7 @@ class cBrowser {
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			var sText = psID
 			if (psID.substring(0, 1) === "#") {
-				var oEl = $("#" + psID)
+				var oEl = cJquery.element(psID)
 				sText = oEl.text()
 			}
 			navigator.clipboard.writeText(psID)
@@ -322,13 +328,13 @@ cBrowser.init()
 /* eslint-disable-next-line no-unused-vars */
 class cCommonStatus {
 	static set_error_status(psStatus) {
-		$("#" + STATUS_ID).html("<font color='red'>" + psStatus + "</font>")
+		cJquery.element(STATUS_ID).html("<font color='red'>" + psStatus + "</font>")
 		cDebug.write("Error: " + psStatus)
 	}
 	//***************************************************************
 	/* eslint-disable-next-line no-unused-vars */
 	static set_status(psStatus) {
-		$("#" + STATUS_ID).html(psStatus)
+		cJquery.element(STATUS_ID).html(psStatus)
 		cDebug.write("status: " + psStatus)
 	}
 }

@@ -26,7 +26,7 @@ class cImgHilite {
 	//**************************************************
 	static rejectBox(poButton) {
 		var oBox = poButton.parentNode.parentNode
-		$("#" + oBox.id).remove()
+		cJquery.element(oBox.id).remove()
 		this.currentBox = null
 	}
 
@@ -60,7 +60,7 @@ class cImgHilite {
 
 			//add it to the container and make it visible and draggable
 			var oBox, iX, iY
-			oBox = $("#" + sID)
+			oBox = cJquery.element(sID)
 			oBox.show() //has to be shown otherwise the maths goes scewy as width/height isnt set
 
 			//save it
