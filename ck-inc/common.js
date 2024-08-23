@@ -146,8 +146,8 @@ class cJquery {
 	}
 
 	//***************************************************************
-	static element(psID) {
-		var oElement = $("#" + psID)
+	static element(psSelector) {
+		var oElement = $("#" + psSelector)
 		return oElement
 	}
 }
