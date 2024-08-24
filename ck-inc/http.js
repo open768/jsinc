@@ -29,7 +29,7 @@ class cHttpFailer {
 class cHttp {
 	//@todo make this OO not a singleton
 
-	static fetch_json(psUrl, pfnCallBack) {
+	static async fetch_json(psUrl, pfnCallBack) {
 		var oFailer
 		//if the url doesnt contain http
 		if (psUrl.search("http:") == -1) cDebug.write(cBrowser.baseUrl() + psUrl)
@@ -40,7 +40,7 @@ class cHttp {
 	}
 
 	//***************************************************************
-	static post(psUrl, poData, pfnCallBack) {
+	static async post(psUrl, poData, pfnCallBack) {
 		if (psUrl.search("http:") == -1) cDebug.write(cBrowser.baseUrl() + psUrl)
 		else cDebug.write(psUrl)
 		var oFailer = new cHttpFailer()
@@ -83,7 +83,7 @@ class cHttp2 {
 	}
 
 	//**************************************************************
-	fetch_json(psUrl, poData) {
+	async fetch_json(psUrl, poData) {
 		var oThis = this
 
 		this.url = psUrl
@@ -106,7 +106,7 @@ class cHttp2 {
 	}
 
 	//**************************************************************
-	post(psUrl, poData) {
+	async post(psUrl, poData) {
 		var oThis = this
 		this.url = psUrl
 		this.correct_url()
@@ -143,7 +143,7 @@ class cHttp2 {
 	//################################################################
 	//# Events
 	//################################################################
-	onResult(poResponse) {
+	async onResult(poResponse) {
 		if (this.stopping) return
 
 		this.response = poResponse
@@ -151,7 +151,7 @@ class cHttp2 {
 	}
 
 	//**************************************************************
-	onError(poEvent, psStatus, poError) {
+	async onError(poEvent, psStatus, poError) {
 		if (this.stopping) return
 		this.event = poEvent
 		this.error = poError
