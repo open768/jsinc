@@ -18,7 +18,12 @@ class cSpaceComments {
 
 	//********************************************************************************
 	static get(psSol, psInstr, psProduct, pfnCallback) {
-		var sUrl = this.phpBaseURL + "?o=get&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct
+		var sUrl = cBrowser.buildurl(this.phpBaseURL, {
+			o: "get",
+			s: psSol,
+			i: psInstr,
+			p: psProduct
+		})
 		cCommonStatus.set_status("getting comments")
 		cHttp.fetch_json(sUrl, pfnCallback)
 	}
@@ -26,17 +31,14 @@ class cSpaceComments {
 	//********************************************************************************
 	static set(psSol, psInstr, psProduct, psComment, pfnCallback) {
 		var sUrl
-		sUrl =
-			this.phpBaseURL +
-			"?o=set&s=" +
-			psSol +
-			"&i=" +
-			psInstr +
-			"&p=" +
-			psProduct +
-			"&v=" +
-			escape(psComment)
-		cCommonStatus.set_status("setting tag " + sUrl)
+		sUrl = cBrowser.buildurl(this.phpBaseURL, {
+			o: "set",
+			s: psSol,
+			p: psProduct,
+			i: psInstr,
+			v: escape(psComment)
+		})
+		cCommonStatus.set_status("setting comment ")
 		cHttp.fetch_json(sUrl, pfnCallback)
 	}
 }
