@@ -17,7 +17,11 @@ class cSpaceComments {
 	}
 
 	//********************************************************************************
-	static get(psSol, psInstr, psProduct, pfnCallback) {
+	static async get(psSol, psInstr, psProduct, pfnCallback) {
+		if (!psSol) cDebug.error("sol is missing")
+		if (!psInstr) cDebug.error("instrument is missing")
+		if (!psProduct) cDebug.error("product is missing")
+
 		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
 			o: "get",
 			s: psSol,
@@ -25,11 +29,13 @@ class cSpaceComments {
 			p: psProduct
 		})
 		cCommonStatus.set_status("getting comments")
-		cHttp.fetch_json(sUrl, pfnCallback)
+		const oHttp = new cHttp2()
+		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+		oHttp.fetch_json(sUrl)
 	}
 
 	//********************************************************************************
-	static set(psSol, psInstr, psProduct, psComment, pfnCallback) {
+	static async set(psSol, psInstr, psProduct, psComment, pfnCallback) {
 		var sUrl
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, {
 			o: "set",
@@ -39,6 +45,8 @@ class cSpaceComments {
 			v: escape(psComment)
 		})
 		cCommonStatus.set_status("setting comment ")
-		cHttp.fetch_json(sUrl, pfnCallback)
+		const oHttp = new cHttp2()
+		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+		cHttp.fetch_json(sUrl)
 	}
 }

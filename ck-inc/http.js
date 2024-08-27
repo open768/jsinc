@@ -30,6 +30,7 @@ class cHttp {
 	//@todo make this OO not a singleton
 
 	static async fetch_json(psUrl, pfnCallBack) {
+		cDebug.write_err("cHttp is deprecated")
 		var oFailer
 		//if the url doesnt contain http
 		if (psUrl.search("http:") == -1) cDebug.write(cBrowser.baseUrl() + psUrl)
@@ -41,6 +42,7 @@ class cHttp {
 
 	//***************************************************************
 	static async post(psUrl, poData, pfnCallBack) {
+		cDebug.write_err("cHttp is deprecated")
 		if (psUrl.search("http:") == -1) cDebug.write(cBrowser.baseUrl() + psUrl)
 		else cDebug.write(psUrl)
 		var oFailer = new cHttpFailer()

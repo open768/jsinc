@@ -63,6 +63,7 @@ class cJquery {
 
 	//***************************************************************
 	static child_ID(poElement, psID) {
+		if (!poElement.attr("id")) poElement.uniqueId()
 		return poElement.attr("id") + psID
 	}
 
