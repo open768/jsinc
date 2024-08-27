@@ -18,7 +18,7 @@ class cSpaceComments {
 
 	//********************************************************************************
 	static get(psSol, psInstr, psProduct, pfnCallback) {
-		var sUrl = cBrowser.buildurl(this.phpBaseURL, {
+		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
 			o: "get",
 			s: psSol,
 			i: psInstr,
@@ -31,7 +31,7 @@ class cSpaceComments {
 	//********************************************************************************
 	static set(psSol, psInstr, psProduct, psComment, pfnCallback) {
 		var sUrl
-		sUrl = cBrowser.buildurl(this.phpBaseURL, {
+		sUrl = cBrowser.buildUrl(this.phpBaseURL, {
 			o: "set",
 			s: psSol,
 			p: psProduct,

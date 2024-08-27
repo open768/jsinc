@@ -107,7 +107,7 @@ class cFacebook {
 			$.removeCookie(this.AUTH_USER_COOKIE)
 			$.removeCookie(this.AUTH_DATE_COOKIE)
 			cDebug.write("error: unable to get FB username")
-			var sUrl = cBrowser.buildurl(this.ServerSide, {
+			var sUrl = cBrowser.buildUrl(this.ServerSide, {
 				o: "getuser",
 				user: this.fbUserID,
 				token: this.fbAccessToken
