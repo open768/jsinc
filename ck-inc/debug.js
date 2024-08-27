@@ -18,7 +18,7 @@ class cDebugTypes {
 		off: 0,
 		basic: 1,
 		extra: 2,
-		extended: 3,
+		extended: 3
 	}
 }
 
@@ -42,9 +42,7 @@ class cDebug {
 		if (sDebugValue !== null) this.on(cDebugTypes.levels.extra)
 
 		if (!this.DEBUGGING && !this.ONE_TIME_DEBUGGING) {
-			cBrowser.writeConsoleWarning(
-				"for debugging use querystring ?debug or ?debug2"
-			)
+			cBrowser.writeConsoleWarning("for debugging use querystring ?debug or ?debug2")
 		}
 	}
 
@@ -56,8 +54,7 @@ class cDebug {
 	//*****************************************************
 	static write_err(psMessage, pbWriteToDoc = false) {
 		cBrowser.writeConsoleWarning("ERROR> " + psMessage)
-		if (pbWriteToDoc)
-			document.write("<font color='red' size=20>" + psMessage + "</font>")
+		if (pbWriteToDoc) document.write("<font color='red' size=20>" + psMessage + "</font>")
 	}
 
 	//*****************************************************
@@ -77,9 +74,7 @@ class cDebug {
 		if (this.DEBUGGING || this.ONE_TIME_DEBUGGING) {
 			if (this.level >= piLevel) {
 				if (this.ONE_TIME_DEBUGGING) this.ONE_TIME_DEBUGGING = false
-				cBrowser.writeConsole(
-					"DEBUG> " + "  ".repeat(this.#stack.length) + psMessage
-				)
+				cBrowser.writeConsole("DEBUG> " + "  ".repeat(this.#stack.length) + psMessage)
 			}
 		}
 	}
@@ -98,9 +93,7 @@ class cDebug {
 	//*****************************************************
 	static on(piLevel = 1) {
 		if (piLevel > cDebugTypes.levels.extended)
-			throw new Error(
-				"unknown debug level - max is " + cDebugTypes.levels.extended
-			)
+			throw new Error("unknown debug level - max is " + cDebugTypes.levels.extended)
 		this.DEBUGGING = true
 		this.write("Debugging on with level " + piLevel)
 		this.level = piLevel
@@ -146,6 +139,7 @@ class cDebug {
 
 	//***************************************************************
 	static error(psErr) {
+		this.write_err(psErr)
 		throw new Error(psErr)
 	}
 
@@ -192,8 +186,7 @@ class cDebug {
 					dumped_text += level_padding + "'" + item + "' ...\n"
 					dumped_text += this.pr__dump(value, level + 1)
 				} else {
-					dumped_text +=
-						level_padding + "'" + item + "' => \"" + value + '"\n'
+					dumped_text += level_padding + "'" + item + "' => \"" + value + '"\n'
 				}
 			}
 		} else dumped_text = "===>" + arr + "<===(" + typeof arr + ")"
