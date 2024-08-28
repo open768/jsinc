@@ -13,8 +13,13 @@ class cTagging {
 	static {
 		this.phpBaseURL = cAppLocations.rest + "/tag.php"
 	}
+
 	//********************************************************************************
 	static getTags(psSol, psInstr, psProduct, pfnCallback) {
+		if (cDetail.sol == null) cDebug.error("no sol set")
+		if (cDetail.instrument == null) cDebug.error("no instrument set")
+		if (cDetail.product == null) cDebug.error("no product set")
+
 		var sUrl, oData
 		oData = {
 			o: "get",
@@ -25,7 +30,10 @@ class cTagging {
 		}
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
 		cDebug.write("getting tag")
-		cHttp.fetch_json(sUrl, pfnCallback)
+
+		const oHttp = new cHttp2()
+		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+		oHttp.fetch_json(sUrl)
 	}
 
 	//********************************************************************************
@@ -40,7 +48,10 @@ class cTagging {
 			m: cMission.ID
 		}
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
+
 		cDebug.write("setting tag " + sUrl)
-		cHttp.fetch_json(sUrl, pfnCallback)
+		const oHttp = new cHttp2()
+		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+		oHttp.fetch_json(sUrl)
 	}
 }
