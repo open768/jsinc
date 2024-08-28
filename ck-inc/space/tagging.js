@@ -37,7 +37,7 @@ class cTagging {
 	}
 
 	//********************************************************************************
-	setTag(psSol, psInstr, psProduct, psTagname, pfnCallback) {
+	static setTag(psSol, psInstr, psProduct, psTagname, pfnCallback) {
 		var sUrl, oData
 		oData = {
 			o: "set",
