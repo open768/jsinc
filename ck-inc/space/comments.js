@@ -47,6 +47,6 @@ class cSpaceComments {
 		cCommonStatus.set_status("setting comment ")
 		const oHttp = new cHttp2()
 		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
-		cHttp.fetch_json(sUrl)
+		oHttp.fetch_json(sUrl)
 	}
 }

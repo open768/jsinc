@@ -124,7 +124,10 @@ class cImgHilite {
 			l: oBox.css("left")
 		})
 		this.currentBox = null
-		cHttp.fetch_json(sUrl, pfnCallback)
+
+		var oHttp = new cHttp2()
+		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+		oHttp.fetch_json(sUrl)
 	}
 
 	//**************************************************
