@@ -139,6 +139,9 @@ class cImgHilite {
 			p: psProduct,
 			m: cMission.ID
 		})
-		cHttp.fetch_json(sUrl, pfnCallBack)
+
+		var oHttp = new cHttp2()
+		bean.on(oHttp, "result", poHttp => pfnCallBack(poHttp))
+		oHttp.fetch_json(sUrl)
 	}
 }
