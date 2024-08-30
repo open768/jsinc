@@ -54,4 +54,15 @@ class cTagging {
 		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
 		oHttp.fetch_json(sUrl)
 	}
+
+	//********************************************************************************
+	static searchTags(psPartial, pfnCallBack) {
+		var sUrl = cBrowser.buildUrl(cAppLocations.rest + "/" + this.REST_TAGS_URL, {
+			o: "search",
+			v: psPartial
+		})
+		var oHttp = new cHttp2()
+		bean.on(oHttp, "result", pfnCallBack)
+		oHttp.fetch_json(sUrl)
+	}
 }
