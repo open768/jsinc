@@ -57,7 +57,7 @@ class cTagging {
 
 	//********************************************************************************
 	static searchTags(psPartial, pfnCallBack) {
-		var sUrl = cBrowser.buildUrl(cAppLocations.rest + "/" + this.REST_TAGS_URL, {
+		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
 			o: "search",
 			v: psPartial
 		})
