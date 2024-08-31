@@ -97,11 +97,10 @@ class cFacebook {
 
 	//**************************************************************
 	static onGetUserResponse(poHttp) {
-		var sUser, dNow
+		var dNow
 		cDebug.enter()
 		cDebug.write("Auth got response from FB")
-		var sRawData = poHttp.response
-		sUser = $.parseJSON(sRawData)
+		var sUser = poHttp.response
 		if (sUser.trim() === "") {
 			sUser = "uh-oh I couldnt get your name"
 			$.removeCookie(this.AUTH_USER_COOKIE)
