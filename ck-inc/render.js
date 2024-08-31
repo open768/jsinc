@@ -16,8 +16,7 @@ class cRender {
 
 	//**************************************************************************
 	static button(psCaption, psUrl) {
-		var sClass =
-			"mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+		var sClass = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
 		var sHTML =
 			"<button " +
 			"class='" +
@@ -119,7 +118,7 @@ class cRenderMDL {
 	static card(psTitle = null, poBody = null) {
 		var oParams = {
 			class: "mdl-card mdl-shadow--2dp rapport-card",
-			id: "CARDID_" + this.cardID,
+			id: "CARDID_" + this.cardID
 		}
 		var oCardDiv = $("DIV", oParams)
 		if (psTitle !== null) oCardDiv.append(this.title(psTitle))
@@ -139,7 +138,7 @@ class cRenderMDL {
 
 	static body(poBody = null) {
 		var oParams = {
-			class: "mdl-card__supporting-text",
+			class: "mdl-card__supporting-text"
 		}
 		var oDiv = $("DIV", oParams)
 		if (poBody !== null) oDiv.append(poBody)
@@ -157,8 +156,9 @@ class cRenderMDL {
 //# see https://fonts.google.com/icons
 // eslint-disable-next-line no-unused-vars
 class cRenderGoogleFont {
-	static create_icon(psIconName) {
+	static create_icon(psIconName, psElementStyle = null) {
 		var oSpan = $("<SPAN>", { class: "material-symbols-outlined" })
+		if (psElementStyle) oSpan.attr("style", psElementStyle)
 		oSpan.append(psIconName)
 		return oSpan
 	}

@@ -205,6 +205,7 @@ class cBrowser {
 		return oParams.get(psName)
 	}
 
+	//***************************************************************
 	static async getHeapMemoryUsed() {
 		//this will be deprecated in favour of
 		if (performance.measureUserAgentSpecificMemory)
@@ -212,9 +213,24 @@ class cBrowser {
 		else if (performance.memory) return performance.memory.usedJSHeapSize
 		else $.error("unable to get heap memory")
 	}
+
+	//***************************************************************
 	static whitespace(piWidth) {
 		var sHTML = "<span style='display:inline-block;width:" + piWidth + "px'></span>"
 		return sHTML
+	}
+
+	//***************************************************************
+	static unbindInputKeyPress() {
+		var oWindow = $(window)
+		window.CBkeypressfn = oWindow.keypress
+
+		$(":input").each(function (index, oInput) {
+			if ($(oInput).attr("type") === "text") {
+				$(oInput).focus(() => $(window).unbind("keypress"))
+				$(oInput).blur(() => $(window).keypress(window.CBkeypressfn))
+			}
+		})
 	}
 }
 cBrowser.init()
