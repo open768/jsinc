@@ -22,25 +22,26 @@ class cFacebook {
 	static checkLoginStatus() {
 		var oThis = this
 		cDebug.enter()
+
 		cDebug.write("checking login status")
-		FB.getLoginStatus(function (response) {
-			oThis.onFBLoginStatus(response)
-		})
+		FB.getLoginStatus(response => oThis.onFBLoginStatus(response))
 		cDebug.leave()
 	}
 
 	//**************************************************************
 	static getFBUser() {
 		cDebug.enter()
+		var oThis = this
 
 		if (this.ServerUser !== "") {
 			if (cAuth.user) {
 				cDebug.write("previously authenticated")
-				this.onFBGotUser(sUser)
+				this.onFBGotUser(cAuth.user)
 				cDebug.leave()
 				return
 			}
 
+			cDebug.write("checking authentication cookies")
 			//check whether user is allready logged in - ie the cookie sent by our server
 			var sUser = $.cookie(this.AUTH_USER_COOKIE)
 			var iDate = $.cookie(this.AUTH_DATE_COOKIE)
@@ -61,14 +62,12 @@ class cFacebook {
 		// no cookie or no server user
 		// get the information from the server
 		cDebug.write("getting Facebook user details for user " + this.fbUserID)
-		//cDebug.write("Access token: " + this.fbAccessToken)
 		var oData = {
 			o: "getuser",
 			u: this.fbUserID,
 			t: this.fbAccessToken
 		}
 
-		var oThis = this
 		var oHttp = new cHttp2()
 		bean.on(oHttp, "result", poHttp => oThis.onGetUserResponse(poHttp))
 		oHttp.post(this.ServerSide, oData)
@@ -101,6 +100,8 @@ class cFacebook {
 		cDebug.enter()
 		cDebug.write("Auth got response from FB")
 		var sUser = poHttp.response
+		if (typeof sUser !== "string") $.error("user response is not a string")
+
 		if (sUser.trim() === "") {
 			sUser = "uh-oh I couldnt get your name"
 			$.removeCookie(this.AUTH_USER_COOKIE)
@@ -111,7 +112,7 @@ class cFacebook {
 				user: this.fbUserID,
 				token: this.fbAccessToken
 			})
-			cDebug.write("try: " + sUrl)
+			cDebug.write("try entering this in the browser: " + sUrl)
 		} else {
 			cDebug.write(sUser)
 			cAuth.setUser(sUser)

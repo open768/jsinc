@@ -116,7 +116,9 @@ class cHttp2 {
 
 		var fnCallBack = pResult => oThis.onResult(pResult)
 		if (cDebug.is_debugging()) {
-			this.oXHR = $.get(this.url, poData, fnCallBack)
+			var sGetUrl = cBrowser.buildUrl(this.url, poData)
+			cDebug.write("posting url: " + sGetUrl)
+			this.oXHR = $.get(sGetUrl, null, fnCallBack)
 		} else {
 			this.oXHR = $.post(this.url, poData, fnCallBack)
 		}
