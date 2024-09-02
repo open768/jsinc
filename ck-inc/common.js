@@ -126,6 +126,12 @@ class cBrowser {
 		return sBase
 	}
 
+	static pageName() {
+		var sPageUrl = this.pageUrl()
+		var aParts = sPageUrl.split("/")
+		return aParts[aParts.length - 1]
+	}
+
 	//***************************************************************
 	static pushState(psTitle, psUrl) {
 		if (window.history.pushState) {
@@ -231,6 +237,10 @@ class cBrowser {
 				$(oInput).blur(() => $(window).keypress(window.CBkeypressfn))
 			}
 		})
+	}
+
+	static queryString(psKey) {
+		return this.data[psKey]
 	}
 }
 cBrowser.init()
