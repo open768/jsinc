@@ -255,7 +255,6 @@ class cCommonStatus {
 		cDebug.write("Error: " + psStatus)
 	}
 	//***************************************************************
-	/* eslint-disable-next-line no-unused-vars */
 	static set_status(psStatus) {
 		cJquery.element(STATUS_ID).html(psStatus)
 		cDebug.write("status: " + psStatus)

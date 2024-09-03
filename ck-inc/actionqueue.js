@@ -13,7 +13,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // A simple generic class to manage the batch processing of stuff
 //###############################################################
 
-// eslint-disable-next-line no-unused-vars
 class cActionQueueItem {
 	name = null
 	url = null
