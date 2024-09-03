@@ -16,9 +16,9 @@ class cTagging {
 
 	//********************************************************************************
 	static getTags(psSol, psInstr, psProduct, pfnCallback) {
-		if (cDetail.sol == null) cDebug.error("no sol set")
-		if (cDetail.instrument == null) cDebug.error("no instrument set")
-		if (cDetail.product == null) cDebug.error("no product set")
+		if (psSol == null) cDebug.error("no sol set")
+		if (psInstr == null) cDebug.error("no instrument set")
+		if (psProduct == null) cDebug.error("no product set")
 
 		var sUrl, oData
 		oData = {
