@@ -30,8 +30,10 @@ class cSpaceComments {
 		})
 		cCommonStatus.set_status("getting comments")
 		const oHttp = new cHttp2()
-		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
-		oHttp.fetch_json(sUrl)
+		{
+			bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+			oHttp.fetch_json(sUrl)
+		}
 	}
 
 	//********************************************************************************
@@ -46,7 +48,9 @@ class cSpaceComments {
 		})
 		cCommonStatus.set_status("setting comment ")
 		const oHttp = new cHttp2()
-		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
-		oHttp.fetch_json(sUrl)
+		{
+			bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+			oHttp.fetch_json(sUrl)
+		}
 	}
 }

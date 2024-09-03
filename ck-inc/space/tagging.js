@@ -32,8 +32,10 @@ class cTagging {
 		cDebug.write("getting tag")
 
 		const oHttp = new cHttp2()
-		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
-		oHttp.fetch_json(sUrl)
+		{
+			bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+			oHttp.fetch_json(sUrl)
+		}
 	}
 
 	//********************************************************************************
@@ -51,8 +53,10 @@ class cTagging {
 
 		cDebug.write("setting tag " + sUrl)
 		const oHttp = new cHttp2()
-		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
-		oHttp.fetch_json(sUrl)
+		{
+			bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+			oHttp.fetch_json(sUrl)
+		}
 	}
 
 	//********************************************************************************
@@ -62,7 +66,9 @@ class cTagging {
 			v: psPartial
 		})
 		var oHttp = new cHttp2()
-		bean.on(oHttp, "result", pfnCallBack)
-		oHttp.fetch_json(sUrl)
+		{
+			bean.on(oHttp, "result", pfnCallBack)
+			oHttp.fetch_json(sUrl)
+		}
 	}
 }

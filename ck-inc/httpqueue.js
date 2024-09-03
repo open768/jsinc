@@ -124,13 +124,14 @@ class cHttpQueue {
 		cDebug.write("getting URL: " + poItem.url)
 		this.inProgressQ.set(poItem.url, poItem)
 		var oHttp = new cHttp2()
-		oHttp.data = poItem.data
-		poItem.ohttp = oHttp
+		{
+			oHttp.data = poItem.data
+			poItem.ohttp = oHttp
 
-		bean.on(oHttp, "result", (poHttp) => oThis.onResult(poHttp, poItem))
-		bean.on(oHttp, "error", (poHttp) => oThis.onError(poHttp, poItem))
-		oHttp.fetch_json(poItem.url, poItem.data)
-
+			bean.on(oHttp, "result", poHttp => oThis.onResult(poHttp, poItem))
+			bean.on(oHttp, "error", poHttp => oThis.onError(poHttp, poItem))
+			oHttp.fetch_json(poItem.url, poItem.data)
+		}
 		//go on to the next transfer
 		this.pr_process_next()
 	}

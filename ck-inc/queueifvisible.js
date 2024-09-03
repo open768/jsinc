@@ -28,7 +28,6 @@ class cQueueifVisible {
 	//*******************************************************************
 	go(poElement, psUrl, poData = null) {
 		if (!bean) $.error("bean class is missing! check includes")
-		if (!cHttp2) $.error("http2 class is missing! check includes")
 
 		var oThis = this
 		this.element = poElement

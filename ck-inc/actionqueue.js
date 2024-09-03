@@ -73,22 +73,20 @@ class cActionQueue {
 			bean.fire(this, "starting", oItem.name) //notify subscriber
 
 			var oHttp = new cHttp2() //create a new http object to do the request
-			oItem.oHttp = oHttp
+			{
+				oItem.oHttp = oHttp
 
-			oHttp._actionqueue_name = oItem.name // this is a fudge that is just WRONG #@todo#
-			bean.on(oHttp, "result", function (poHttp) {
-				oQueue.process_response(poHttp, oItem)
-			})
-			bean.on(oHttp, "error", function (poHttp) {
-				oQueue.process_error(poHttp, oItem)
-			})
+				oHttp._actionqueue_name = oItem.name // this is a fudge that is just WRONG #@todo#
+				bean.on(oHttp, "result", poHttp => oQueue.process_response(poHttp, oItem))
+				bean.on(oHttp, "error", poHttp => oQueue.process_error(poHttp, oItem))
 
-			//separate thread to allow UI to catch up
-			// eslint-disable-next-line no-unused-vars
-			var iThread = setTimeout(
-				() => oHttp.fetch_json(oItem.url, oItem.name), //start transfer
-				this.ASYNC_DELAY
-			)
+				//separate thread to allow UI to catch up
+				// eslint-disable-next-line no-unused-vars
+				var iThread = setTimeout(
+					() => oHttp.fetch_json(oItem.url, oItem.name), //start transfer
+					this.ASYNC_DELAY
+				)
+			}
 
 			this.start() //continue the processing of the queue
 		}

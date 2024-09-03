@@ -126,8 +126,10 @@ class cImgHilite {
 		this.currentBox = null
 
 		var oHttp = new cHttp2()
-		bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
-		oHttp.fetch_json(sUrl)
+		{
+			bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+			oHttp.fetch_json(sUrl)
+		}
 	}
 
 	//**************************************************
@@ -141,7 +143,9 @@ class cImgHilite {
 		})
 
 		var oHttp = new cHttp2()
-		bean.on(oHttp, "result", poHttp => pfnCallBack(poHttp))
-		oHttp.fetch_json(sUrl)
+		{
+			bean.on(oHttp, "result", poHttp => pfnCallBack(poHttp))
+			oHttp.fetch_json(sUrl)
+		}
 	}
 }
