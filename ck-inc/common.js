@@ -82,6 +82,10 @@ class cCommon {
 			unit: units[unit]
 		}).format(bytes / 1024 ** unit)
 	}
+
+	static is_numeric(psThing) {
+		return !isNaN(psThing)
+	}
 }
 
 //###############################################################
