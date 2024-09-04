@@ -105,8 +105,12 @@ class cJquery {
 	static element(psID) {
 		if (cCommon.is_string_empty(psID)) cDebug.error("empty string")
 
-		var oElement = psID.charAt(0 === "#") ? $(psID) : $("#" + psID)
+		var oThing = null
+		var cFirst = psID.charAt(0)
+		if (cFirst === "#") oThing = $(psID)
+		else oThing = $("#" + psID)
 
-		return oElement
+		if (oThing.length == 0) cDebug.error("no element found for " + psID)
+		return oThing
 	}
 }
