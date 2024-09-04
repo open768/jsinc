@@ -67,8 +67,7 @@ class cCommon {
 
 		var sObjType = typeof psClassName
 		if (sObjType === "string") return poObj.constructor.name === psClassName
-		else if (sObjType === "object")
-			return poObj.constructor.name === psClassName.constructor.name
+		else if (sObjType === "object") return poObj.constructor.name === psClassName.constructor.name
 		else throw "param2: string expected, got: " + sObjType
 	}
 
@@ -85,6 +84,10 @@ class cCommon {
 
 	static is_numeric(psThing) {
 		return !isNaN(psThing)
+	}
+
+	static is_string_empty(psText) {
+		return psText === null || psText === ""
 	}
 }
 
@@ -218,8 +221,7 @@ class cBrowser {
 	//***************************************************************
 	static async getHeapMemoryUsed() {
 		//this will be deprecated in favour of
-		if (performance.measureUserAgentSpecificMemory)
-			return await performance.measureUserAgentSpecificMemory()
+		if (performance.measureUserAgentSpecificMemory) return await performance.measureUserAgentSpecificMemory()
 		else if (performance.memory) return performance.memory.usedJSHeapSize
 		else $.error("unable to get heap memory")
 	}

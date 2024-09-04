@@ -13,6 +13,7 @@ export default [
 				cAppLocations: "readonly",
 				cAuth: "readonly",
 				cBrowser: "readonly",
+				cCommon: "readonly",
 				cDebug: "readonly",
 				cDetail: "readonly",
 				cHttp2: "readonly",

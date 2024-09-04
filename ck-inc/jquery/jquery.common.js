@@ -1,5 +1,5 @@
 "use strict"
-
+/* global cCommon */
 //###############################################################
 //# JQUERY
 //###############################################################
@@ -102,8 +102,11 @@ class cJquery {
 	}
 
 	//***************************************************************
-	static element(psSelector) {
-		var oElement = $("#" + psSelector)
+	static element(psID) {
+		if (cCommon.is_string_empty(psID)) cDebug.error("empty string")
+
+		var oElement = psID.charAt(0 === "#") ? $(psID) : $("#" + psID)
+
 		return oElement
 	}
 }
