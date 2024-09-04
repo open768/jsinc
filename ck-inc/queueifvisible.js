@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 //note is  very slow if there are lots of items
 
 class cQueueifVisibleQueue {
@@ -10,10 +10,10 @@ class cQueueifVisibleQueue {
 // eslint-disable-next-line no-unused-vars
 class cQueueifVisible {
 	static EVENT = {
-		START: "start",
-		STATUS: "status",
-		RESULT: "result",
-		ERROR: "error"
+		START: 'start',
+		STATUS: 'status',
+		RESULT: 'result',
+		ERROR: 'error'
 	}
 
 	constructor() {
@@ -27,15 +27,15 @@ class cQueueifVisible {
 	}
 	//*******************************************************************
 	go(poElement, psUrl, poData = null) {
-		if (!bean) $.error("bean class is missing! check includes")
+		if (!bean) $.error('bean class is missing! check includes')
 
 		var oThis = this
 		this.element = poElement
-		if (!$.event.special.inview) $.error("inview class is missing! check includes")
-		if (!poElement.inViewport) $.error("inViewport class is missing! check includes")
+		if (!$.event.special.inview) $.error('inview class is missing! check includes')
+		if (!poElement.inViewport) $.error('inViewport class is missing! check includes')
 		this.url = psUrl
 		this.data = poData
-		this.pr__send_status("waiting for page ready..")
+		this.pr__send_status('waiting for page ready..')
 		$(function () {
 			oThis.pr__setInViewListener()
 		})
@@ -52,8 +52,8 @@ class cQueueifVisible {
 			this.pr__add_forcebutton()
 
 			//set the event listeners
-			this.pr__send_status("waiting for item to be visible..")
-			oElement.on("inview", function (poEvent, pbIsInView) {
+			this.pr__send_status('waiting for item to be visible..')
+			oElement.on('inview', function (poEvent, pbIsInView) {
 				oThis.onInView(pbIsInView)
 			})
 		} else this.onScrollingTimer()
@@ -69,7 +69,7 @@ class cQueueifVisible {
 		var oThis = this
 		var oElement = this.element
 
-		var btnForce = $("<button>").append("load")
+		var btnForce = $('<button>').append('load')
 		oElement.append(btnForce)
 		btnForce.click(function () {
 			oThis.onInView(true)
@@ -91,12 +91,12 @@ class cQueueifVisible {
 
 		//check if element is visible
 		if (!pbIsInView) {
-			this.pr__send_status("Waiting to become visible")
+			this.pr__send_status('Waiting to become visible')
 			return
 		}
 
-		this.pr__send_status("item is visible - checking again in " + this.WAIT_SCROLLING)
-		oElement.off("inview") //turn off the inview listener
+		this.pr__send_status('item is visible - checking again in ' + this.WAIT_SCROLLING)
+		oElement.off('inview') //turn off the inview listener
 
 		//TODO use position of element in viewport to determine whether scrolling is happening
 		// eg if the element has moved more than 10 pixels since last time then wait.
@@ -112,13 +112,13 @@ class cQueueifVisible {
 
 		if (!oElement.inViewport()) {
 			//check if really in viewport
-			this.pr__send_status("not visible after waiting.. ")
+			this.pr__send_status('not visible after waiting.. ')
 			this.pr__setInViewListener()
 			return
 		}
 
 		//loading message
-		this.pr__send_status("Item is visible - Adding to processing queue")
+		this.pr__send_status('Item is visible - Adding to processing queue')
 		this.pr__add_forcebutton()
 
 		//add the data request to the http queue
@@ -129,10 +129,10 @@ class cQueueifVisible {
 			//doesnt add readability to make this an arrow function
 			return oThis.onCheckContinue()
 		}
-		bean.on(oQItem, "start", () => oThis.onStart(oQItem))
-		bean.on(oQItem, "result", poHttp => oThis.onResult(poHttp))
-		bean.on(oQItem, "error", poHttp => oThis.onError(poHttp))
-		bean.on(oQItem, "Qpos", () => oThis.onQPosition(oQItem))
+		bean.on(oQItem, 'start', () => oThis.onStart(oQItem))
+		bean.on(oQItem, 'result', poHttp => oThis.onResult(poHttp))
+		bean.on(oQItem, 'error', poHttp => oThis.onError(poHttp))
+		bean.on(oQItem, 'Qpos', () => oThis.onQPosition(oQItem))
 
 		var oQueue = cQueueifVisibleQueue.queue
 		oQueue.add(oQItem)
@@ -142,7 +142,7 @@ class cQueueifVisible {
 	onQPosition(poItem) {
 		//get the Q position from the item and fire a status event
 		try {
-			this.pr__send_status("Queue position is: " + poItem.QPosition)
+			this.pr__send_status('Queue position is: ' + poItem.QPosition)
 		} catch (e) {
 			console.error(e)
 		}
@@ -151,7 +151,7 @@ class cQueueifVisible {
 	//*******************************************************************
 	onResult(poHttp) {
 		try {
-			this.pr__send_status("got a response from server: ")
+			this.pr__send_status('got a response from server: ')
 			bean.fire(this, cQueueifVisible.EVENT.RESULT, poHttp)
 		} catch (e) {
 			console.error(e)
@@ -161,11 +161,11 @@ class cQueueifVisible {
 	//*******************************************************************
 	onStart(poItem) {
 		if (poItem == null) {
-			console.error("item was empty!")
+			console.error('item was empty!')
 			return
 		}
 		try {
-			this.pr__send_status("making server call")
+			this.pr__send_status('making server call')
 			bean.fire(this, cQueueifVisible.EVENT.START, poItem)
 		} catch (e) {
 			console.error(e)
@@ -184,7 +184,7 @@ class cQueueifVisible {
 		var bOK = true
 
 		if (!oElement.inViewport()) {
-			this.pr__send_status("Waiting to become visible again")
+			this.pr__send_status('Waiting to become visible again')
 			this.pr__setInViewListener()
 			bOK = false
 		}

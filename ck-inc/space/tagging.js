@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013-2024
 This code is protected by copyright under the terms of the 
@@ -11,29 +11,29 @@ class cTagging {
 	static phpBaseURL = null
 
 	static {
-		this.phpBaseURL = cAppLocations.rest + "/tag.php"
+		this.phpBaseURL = cAppLocations.rest + '/tag.php'
 	}
 
 	//********************************************************************************
 	static getTags(psSol, psInstr, psProduct, pfnCallback) {
-		if (psSol == null) cDebug.error("no sol set")
-		if (psInstr == null) cDebug.error("no instrument set")
-		if (psProduct == null) cDebug.error("no product set")
+		if (psSol == null) cDebug.error('no sol set')
+		if (psInstr == null) cDebug.error('no instrument set')
+		if (psProduct == null) cDebug.error('no product set')
 
 		var sUrl, oData
 		oData = {
-			o: "get",
+			o: 'get',
 			s: psSol,
 			i: psInstr,
 			p: psProduct,
 			m: cMission.ID
 		}
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
-		cDebug.write("getting tag")
+		cDebug.write('getting tag')
 
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -42,7 +42,7 @@ class cTagging {
 	static setTag(psSol, psInstr, psProduct, psTagname, pfnCallback) {
 		var sUrl, oData
 		oData = {
-			o: "set",
+			o: 'set',
 			s: psSol,
 			i: psInstr,
 			p: psProduct,
@@ -51,10 +51,10 @@ class cTagging {
 		}
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
 
-		cDebug.write("setting tag " + sUrl)
+		cDebug.write('setting tag ' + sUrl)
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -62,12 +62,12 @@ class cTagging {
 	//********************************************************************************
 	static searchTags(psPartial, pfnCallBack) {
 		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
-			o: "search",
+			o: 'search',
 			v: psPartial
 		})
 		var oHttp = new cHttp2()
 		{
-			bean.on(oHttp, "result", pfnCallBack)
+			bean.on(oHttp, 'result', pfnCallBack)
 			oHttp.fetch_json(sUrl)
 		}
 	}

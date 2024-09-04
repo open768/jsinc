@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013-2024
 This code is protected by copyright under the terms of the 
@@ -13,25 +13,25 @@ class cSpaceComments {
 	static phpBaseURL = null
 
 	static {
-		this.phpBaseURL = cAppLocations.rest + "/comments.php"
+		this.phpBaseURL = cAppLocations.rest + '/comments.php'
 	}
 
 	//********************************************************************************
 	static async get(psSol, psInstr, psProduct, pfnCallback) {
-		if (!psSol) cDebug.error("sol is missing")
-		if (!psInstr) cDebug.error("instrument is missing")
-		if (!psProduct) cDebug.error("product is missing")
+		if (!psSol) cDebug.error('sol is missing')
+		if (!psInstr) cDebug.error('instrument is missing')
+		if (!psProduct) cDebug.error('product is missing')
 
 		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
-			o: "get",
+			o: 'get',
 			s: psSol,
 			i: psInstr,
 			p: psProduct
 		})
-		cCommonStatus.set_status("getting comments")
+		cCommonStatus.set_status('getting comments')
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -40,16 +40,16 @@ class cSpaceComments {
 	static async set(psSol, psInstr, psProduct, psComment, pfnCallback) {
 		var sUrl
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, {
-			o: "set",
+			o: 'set',
 			s: psSol,
 			p: psProduct,
 			i: psInstr,
 			v: escape(psComment)
 		})
-		cCommonStatus.set_status("setting comment ")
+		cCommonStatus.set_status('setting comment ')
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, "result", poHttp => pfnCallback(poHttp))
+			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}

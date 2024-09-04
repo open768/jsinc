@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013 - 2024
 This code is protected by copyright under the terms of the 
@@ -10,7 +10,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-var STATUS_ID = "status"
+var STATUS_ID = 'status'
 
 //###############################################################
 //# STRINGS
@@ -28,7 +28,7 @@ class cString {
 
 	//***************************************************************
 	static reverse(psText) {
-		return psText.split("").reverse().join("")
+		return psText.split('').reverse().join('')
 	}
 
 	//***************************************************************
@@ -62,22 +62,22 @@ class cCommon {
 
 	//***************************************************************
 	static obj_is(poObj, psClassName) {
-		if (poObj == null) throw "obj_is: null param1!"
-		if (typeof poObj !== "object") throw "obj_is: object expected for param1"
+		if (poObj == null) throw 'obj_is: null param1!'
+		if (typeof poObj !== 'object') throw 'obj_is: object expected for param1'
 
 		var sObjType = typeof psClassName
-		if (sObjType === "string") return poObj.constructor.name === psClassName
-		else if (sObjType === "object") return poObj.constructor.name === psClassName.constructor.name
-		else throw "param2: string expected, got: " + sObjType
+		if (sObjType === 'string') return poObj.constructor.name === psClassName
+		else if (sObjType === 'object') return poObj.constructor.name === psClassName.constructor.name
+		else throw 'param2: string expected, got: ' + sObjType
 	}
 
 	//***************************************************************
 	//from https://gist.github.com/lanqy/5193417
 	static bytesToSize(bytes) {
-		const units = ["byte", "kilobyte", "megabyte", "terabyte", "petabyte"]
+		const units = ['byte', 'kilobyte', 'megabyte', 'terabyte', 'petabyte']
 		const unit = Math.floor(Math.log(bytes) / Math.log(1024))
-		return new Intl.NumberFormat("en", {
-			style: "unit",
+		return new Intl.NumberFormat('en', {
+			style: 'unit',
 			unit: units[unit]
 		}).format(bytes / 1024 ** unit)
 	}
@@ -87,7 +87,7 @@ class cCommon {
 	}
 
 	static is_string_empty(psText) {
-		return psText === null || psText === ""
+		return psText === null || psText === ''
 	}
 }
 
@@ -103,12 +103,12 @@ class cBrowser {
 			aPairs
 		var sKey, sValue
 
-		aPairs = location.search.slice(1).split("&")
+		aPairs = location.search.slice(1).split('&')
 		aPairs.forEach(function (sPair) {
-			var aPair = sPair.split("=")
+			var aPair = sPair.split('=')
 			sKey = aPair[0]
-			sValue = decodeURI(aPair[1]).replace(/\+/g, " ")
-			oResult[sKey] = sValue || ""
+			sValue = decodeURI(aPair[1]).replace(/\+/g, ' ')
+			oResult[sKey] = sValue || ''
 		})
 
 		this.data = oResult
@@ -116,7 +116,7 @@ class cBrowser {
 
 	//***************************************************************
 	static pageUrl() {
-		return document.URL.split("?")[0]
+		return document.URL.split('?')[0]
 	}
 
 	//***************************************************************
@@ -124,9 +124,9 @@ class cBrowser {
 		var sUrl, iLast, sBase
 
 		sUrl = this.pageUrl()
-		cDebug.write("page url: " + sUrl)
-		iLast = cString.last(sUrl, "/")
-		if (iLast == -1) sBase = ""
+		cDebug.write('page url: ' + sUrl)
+		iLast = cString.last(sUrl, '/')
+		if (iLast == -1) sBase = ''
 		else sBase = sUrl.substring(0, iLast)
 
 		//cDebug.write("base url is "+ sBase);
@@ -135,14 +135,14 @@ class cBrowser {
 
 	static pageName() {
 		var sPageUrl = this.pageUrl()
-		var aParts = sPageUrl.split("/")
+		var aParts = sPageUrl.split('/')
 		return aParts[aParts.length - 1]
 	}
 
 	//***************************************************************
-	static pushState(psTitle, psUrl) {
-		if (window.history.pushState) {
-			window.history.pushState("", psTitle, psUrl)
+	static update_state(psTitle, psUrl) {
+		if (window.history.update_state) {
+			window.history.update_state('', psTitle, psUrl)
 			this.init()
 		}
 	}
@@ -155,8 +155,8 @@ class cBrowser {
 
 	//***************************************************************
 	static buildUrl(psPage, poParams) {
-		if (psPage.search(/\?/) == -1) return psPage + "?" + $.param(poParams, true)
-		else return psPage + "&" + $.param(poParams, true)
+		if (psPage.search(/\?/) == -1) return psPage + '?' + $.param(poParams, true)
+		else return psPage + '&' + $.param(poParams, true)
 	}
 
 	//***************************************************************
@@ -165,30 +165,30 @@ class cBrowser {
 		var oThis = this
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
 			navigator.clipboard.readText().then(text => {
-				oThis.writeConsoleWarning("pasted from clipboard: " + text)
+				oThis.writeConsoleWarning('pasted from clipboard: ' + text)
 				pfnCallBack(text)
 			})
 		//async fetch from clipboard, will display a warning to user if permissions not set
-		else $.error("browser not compatible for clipboard operation")
+		else $.error('browser not compatible for clipboard operation')
 	}
 
 	//***************************************************************
 	static copy_to_clipboard(psID) {
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			var sText = psID
-			if (psID.substring(0, 1) === "#") {
+			if (psID.substring(0, 1) === '#') {
 				var oEl = cJquery.element(psID)
 				sText = oEl.text()
 			}
 			navigator.clipboard.writeText(psID)
-			this.writeConsoleWarning("sent to clipboard: " + sText)
-		} else this.writeConsoleWarning("browser not compatible for copy operation")
+			this.writeConsoleWarning('sent to clipboard: ' + sText)
+		} else this.writeConsoleWarning('browser not compatible for copy operation')
 	}
 
 	//***************************************************************
 	static get_clipboard_permissions(pbWrite = false) {
-		var sPermissionsName = "clipboard-read"
-		if (pbWrite) sPermissionsName = "clipboard-write"
+		var sPermissionsName = 'clipboard-read'
+		if (pbWrite) sPermissionsName = 'clipboard-write'
 		this.get_permissions(sPermissionsName)
 	}
 
@@ -197,8 +197,8 @@ class cBrowser {
 		var oThis = this
 
 		navigator.permissions.query({ name: psName }).then(function (poStatus) {
-			oThis.writeConsoleWarning("permission for " + psName + " is " + poStatus.state)
-			if (poStatus.state !== "granted") oThis.writeConsoleWarning("check site permissions")
+			oThis.writeConsoleWarning('permission for ' + psName + ' is ' + poStatus.state)
+			if (poStatus.state !== 'granted') oThis.writeConsoleWarning('check site permissions')
 		})
 	}
 
@@ -223,7 +223,7 @@ class cBrowser {
 		//this will be deprecated in favour of
 		if (performance.measureUserAgentSpecificMemory) return await performance.measureUserAgentSpecificMemory()
 		else if (performance.memory) return performance.memory.usedJSHeapSize
-		else $.error("unable to get heap memory")
+		else $.error('unable to get heap memory')
 	}
 
 	//***************************************************************
@@ -237,9 +237,9 @@ class cBrowser {
 		var oWindow = $(window)
 		window.CBkeypressfn = oWindow.keypress
 
-		$(":input").each(function (index, oInput) {
-			if ($(oInput).attr("type") === "text") {
-				$(oInput).focus(() => $(window).unbind("keypress"))
+		$(':input').each(function (index, oInput) {
+			if ($(oInput).attr('type') === 'text') {
+				$(oInput).focus(() => $(window).unbind('keypress'))
 				$(oInput).blur(() => $(window).keypress(window.CBkeypressfn))
 			}
 		})
@@ -257,13 +257,13 @@ cBrowser.init()
 /* eslint-disable-next-line no-unused-vars */
 class cCommonStatus {
 	static set_error_status(psStatus) {
-		cJquery.element(STATUS_ID).html("<font color='red'>" + psStatus + "</font>")
-		cDebug.write("Error: " + psStatus)
+		cJquery.element(STATUS_ID).html("<font color='red'>" + psStatus + '</font>')
+		cDebug.write('Error: ' + psStatus)
 	}
 	//***************************************************************
 	static set_status(psStatus) {
 		cJquery.element(STATUS_ID).html(psStatus)
-		cDebug.write("status: " + psStatus)
+		cDebug.write('status: ' + psStatus)
 	}
 }
 
@@ -277,7 +277,7 @@ function getRadioButtonValue(psID) {
 	for (var i = 0; i < oRadios.length; i++) {
 		oRadio = oRadios[i]
 		if (oRadio.checked) {
-			cDebug.write("found a checked radio")
+			cDebug.write('found a checked radio')
 			sValue = oRadio.value
 			break
 		}

@@ -1,4 +1,4 @@
-(function ($) {
+;(function ($) {
 	/**************************************************************************
 	Copyright (C) Chicken Katsu 2013-2024
 	 * Licensed under the MIT license.
@@ -22,12 +22,7 @@
 			//classic square in square
 			//see https://silentmatt.com/rectangle-intersection/
 
-			return (
-				this.C1.x <= poRect.C2.x &&
-				this.C2.x >= poRect.C1.x &&
-				this.C1.y <= poRect.C2.y &&
-				this.C2.y >= poRect.C1.y
-			)
+			return this.C1.x <= poRect.C2.x && this.C2.x >= poRect.C1.x && this.C1.y <= poRect.C2.y && this.C2.y >= poRect.C1.y
 		}
 	}
 
@@ -50,5 +45,5 @@
 		return oViewPort.rect_intersect(oRect)
 	}
 
-	cBrowser.writeConsole("***** Loaded jQuery inViewport plugin *****")
+	cBrowser.writeConsole('***** Loaded jQuery inViewport plugin *****')
 })(jQuery)

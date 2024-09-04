@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 /* global cCommon */
 //###############################################################
 //# JQUERY
@@ -16,7 +16,7 @@ class cJquery {
 			aClasses,
 			sSearch
 		var aSheets = document.styleSheets
-		sSearch = "." + psClass
+		sSearch = '.' + psClass
 		for (iSheet = 0; iSheet < aSheets.length; iSheet++) {
 			oSheet = aSheets[iSheet]
 			aClasses = null
@@ -44,27 +44,27 @@ class cJquery {
 
 	//***************************************************************
 	static bringToFront(poElement) {
-		$(".ui-front").each(function () {
-			$(this).removeClass("ui-front")
+		$('.ui-front').each(function () {
+			$(this).removeClass('ui-front')
 		})
 
-		if (poElement) poElement.addClass("ui-front")
+		if (poElement) poElement.addClass('ui-front')
 	}
 
 	//***************************************************************
 	static setTopZindex(poElement) {
 		//var iZindex = $('.ui-dialog').css('z-index');
-		var iZindex = $(".ui-front").css("z-index")
+		var iZindex = $('.ui-front').css('z-index')
 		poElement.css({
-			"z-index": iZindex + 1,
-			position: "relative"
+			'z-index': iZindex + 1,
+			position: 'relative'
 		})
 	}
 
 	//***************************************************************
 	static child_ID(poElement, psID) {
-		if (!poElement.attr("id")) poElement.uniqueId()
-		return poElement.attr("id") + psID
+		if (!poElement.attr('id')) poElement.uniqueId()
+		return poElement.attr('id') + psID
 	}
 
 	static get_child(poElement, psID) {
@@ -90,10 +90,10 @@ class cJquery {
 	static enable_element(poElement, pbEnabled = true) {
 		var oElement
 		oElement = poElement
-		if (typeof poElement == "string") oElement = cJquery.element(poElement)
+		if (typeof poElement == 'string') oElement = cJquery.element(poElement)
 
-		if (pbEnabled) oElement.removeAttr("disabled")
-		else oElement.attr("disabled", true)
+		if (pbEnabled) oElement.removeAttr('disabled')
+		else oElement.attr('disabled', true)
 	}
 
 	//***************************************************************
@@ -103,14 +103,14 @@ class cJquery {
 
 	//***************************************************************
 	static element(psID) {
-		if (cCommon.is_string_empty(psID)) cDebug.error("empty string")
+		if (cCommon.is_string_empty(psID)) cDebug.error('empty string')
 
 		var oThing = null
 		var cFirst = psID.charAt(0)
-		if (cFirst === "#") oThing = $(psID)
-		else oThing = $("#" + psID)
+		if (cFirst === '#') oThing = $(psID)
+		else oThing = $('#' + psID)
 
-		if (oThing.length == 0) cDebug.error("no element found for " + psID)
+		if (oThing.length == 0) cDebug.error('no element found for ' + psID)
 		return oThing
 	}
 }

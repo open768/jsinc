@@ -1,7 +1,7 @@
-"use strict"
+'use strict'
 try {
 	;(function (i, s, o, g, r, a, m) {
-		i["GoogleAnalyticsObject"] = r
+		i['GoogleAnalyticsObject'] = r
 		;(i[r] =
 			i[r] ||
 			function () {
@@ -12,10 +12,10 @@ try {
 		a.async = 1
 		a.src = g
 		m.parentNode.insertBefore(a, m)
-	})(window, document, "script", "http://www.google-analytics.com/analytics.js", "ga")
+	})(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga')
 
-	ga("create", cSecret.GA_TrackingID, cSecret.GA_App)
-	ga("send", "pageview")
+	ga('create', cSecret.GA_TrackingID, cSecret.GA_App)
+	ga('send', 'pageview')
 } catch (err) {
-	cDebug.write("err with google analytics code" + err)
+	cDebug.write('err with google analytics code' + err)
 }

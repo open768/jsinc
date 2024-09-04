@@ -1,29 +1,29 @@
-"use strict"
+'use strict'
 
 //###############################################################################
 //#
 //###############################################################################
 class cFacebook {
-	static AppID = "not set"
-	static ServerUser = "not set"
-	static ServerSide = "not set"
-	static Version = "not set"
+	static AppID = 'not set'
+	static ServerUser = 'not set'
+	static ServerSide = 'not set'
+	static Version = 'not set'
 	static fbGetUserURL = null // url must be set in application
 	static fbUserID = null
 	static fbAccessToken = null
 	static fbAccessExpire = null
 	static NameID = null
 	static AUTH_COOKIE_TIMEOUT = 3600 //time out the cookie in 1hr.
-	static AUTH_USER_COOKIE = "fbuser"
-	static AUTH_DATE_COOKIE = "fbdate"
-	static STATUS_EVENT = "FBeVStatus"
+	static AUTH_USER_COOKIE = 'fbuser'
+	static AUTH_DATE_COOKIE = 'fbdate'
+	static STATUS_EVENT = 'FBeVStatus'
 
 	//################################################################
 	static checkLoginStatus() {
 		var oThis = this
 		cDebug.enter()
 
-		cDebug.write("checking login status")
+		cDebug.write('checking login status')
 		FB.getLoginStatus(response => oThis.onFBLoginStatus(response))
 		cDebug.leave()
 	}
@@ -33,15 +33,15 @@ class cFacebook {
 		cDebug.enter()
 		var oThis = this
 
-		if (this.ServerUser !== "") {
+		if (this.ServerUser !== '') {
 			if (cAuth.user) {
-				cDebug.write("previously authenticated")
+				cDebug.write('previously authenticated')
 				this.onFBGotUser(cAuth.user)
 				cDebug.leave()
 				return
 			}
 
-			cDebug.write("checking authentication cookies")
+			cDebug.write('checking authentication cookies')
 			//check whether user is allready logged in - ie the cookie sent by our server
 			var sUser = $.cookie(this.AUTH_USER_COOKIE)
 			var iDate = $.cookie(this.AUTH_DATE_COOKIE)
@@ -50,27 +50,27 @@ class cFacebook {
 				var dNow = new Date()
 				var iNow = dNow.getTime()
 				if (iNow - iDate > this.AUTH_COOKIE_TIMEOUT) {
-					cDebug.write("user is cached: " + sUser)
+					cDebug.write('user is cached: ' + sUser)
 					cAuth.setUser(sUser)
 					this.onFBGotUser(sUser)
 					cDebug.leave()
 					return
-				} else cDebug.write("expired login cookie: ")
+				} else cDebug.write('expired login cookie: ')
 			}
 		}
 
 		// no cookie or no server user
 		// get the information from the server
-		cDebug.write("getting Facebook user details for user " + this.fbUserID)
+		cDebug.write('getting Facebook user details for user ' + this.fbUserID)
 		var oData = {
-			o: "getuser",
+			o: 'getuser',
 			u: this.fbUserID,
 			t: this.fbAccessToken
 		}
 
 		var oHttp = new cHttp2()
 		{
-			bean.on(oHttp, "result", poHttp => oThis.onGetUserResponse(poHttp))
+			bean.on(oHttp, 'result', poHttp => oThis.onGetUserResponse(poHttp))
 			oHttp.post(this.ServerSide, oData)
 		}
 		cDebug.leave()
@@ -81,17 +81,17 @@ class cFacebook {
 	static onFBLoginStatus(poResponse) {
 		cDebug.enter()
 		var oThis = this
-		if (poResponse.status == "connected") {
-			cDebug.write("user is logged in to facebook")
+		if (poResponse.status == 'connected') {
+			cDebug.write('user is logged in to facebook')
 			var oFBAuthResponse = poResponse.authResponse
 			this.fbUserID = oFBAuthResponse.userID
 			this.fbAccessToken = oFBAuthResponse.accessToken
 			this.fbAccessExpire = oFBAuthResponse.data_access_expiration_time
-			bean.fire(this, this.STATUS_EVENT, "Welcome ...")
+			bean.fire(this, this.STATUS_EVENT, 'Welcome ...')
 			setTimeout(() => oThis.getFBUser(), 0) //do this asynchronously
 		} else {
-			cDebug.write("user not logged into Facebook app")
-			bean.fire(this, this.STATUS_EVENT, " click here &gt; &gt; &gt;")
+			cDebug.write('user not logged into Facebook app')
+			bean.fire(this, this.STATUS_EVENT, ' click here &gt; &gt; &gt;')
 		}
 		cDebug.leave()
 	}
@@ -100,21 +100,21 @@ class cFacebook {
 	static onGetUserResponse(poHttp) {
 		var dNow
 		cDebug.enter()
-		cDebug.write("Auth got response from FB")
+		cDebug.write('Auth got response from FB')
 		var sUser = poHttp.response
-		if (typeof sUser !== "string") $.error("user response is not a string")
+		if (typeof sUser !== 'string') $.error('user response is not a string')
 
-		if (sUser.trim() === "") {
-			sUser = "uh-oh I couldnt get your name"
+		if (sUser.trim() === '') {
+			sUser = 'uh-oh I couldnt get your name'
 			$.removeCookie(this.AUTH_USER_COOKIE)
 			$.removeCookie(this.AUTH_DATE_COOKIE)
-			cDebug.write("error: unable to get FB username")
+			cDebug.write('error: unable to get FB username')
 			var sUrl = cBrowser.buildUrl(this.ServerSide, {
-				o: "getuser",
+				o: 'getuser',
 				user: this.fbUserID,
 				token: this.fbAccessToken
 			})
-			cDebug.write("try entering this in the browser: " + sUrl)
+			cDebug.write('try entering this in the browser: ' + sUrl)
 		} else {
 			cDebug.write(sUser)
 			cAuth.setUser(sUser)
@@ -130,10 +130,10 @@ class cFacebook {
 	static onFBGotUser(psUser) {
 		var oThis = this
 		cDebug.enter()
-		bean.fire(this, this.STATUS_EVENT, "Welcome " + psUser)
+		bean.fire(this, this.STATUS_EVENT, 'Welcome ' + psUser)
 
 		//subscribe to logout
-		FB.Event.subscribe("auth.logout", poEvent => oThis.OnFBLogout(poEvent))
+		FB.Event.subscribe('auth.logout', poEvent => oThis.OnFBLogout(poEvent))
 
 		cDebug.leave()
 	}
@@ -165,7 +165,7 @@ window.fbAsyncInit = function () {
 	FB.AppEvents.logPageView()
 
 	//additional stuff
-	FB.Event.subscribe("auth.logout", function (poEvent) {
+	FB.Event.subscribe('auth.logout', function (poEvent) {
 		cFacebook.OnFBLogout(poEvent)
 	})
 
@@ -181,6 +181,6 @@ window.fbAsyncInit = function () {
 	}
 	js = d.createElement(s)
 	js.id = id
-	js.src = "https://connect.facebook.net/en_US/sdk.js"
+	js.src = 'https://connect.facebook.net/en_US/sdk.js'
 	fjs.parentNode.insertBefore(js, fjs)
-})(document, "script", "facebook-jssdk")
+})(document, 'script', 'facebook-jssdk')

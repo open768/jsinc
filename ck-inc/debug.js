@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013 - 2024
 This code is protected by copyright under the terms of the 
@@ -32,17 +32,17 @@ class cDebug {
 	//*****************************************************
 	//static init
 	static {
-		var sDebugValue = cBrowser.get_url_param("debug")
+		var sDebugValue = cBrowser.get_url_param('debug')
 		if (sDebugValue !== null) {
 			var iValue = parseInt(sDebugValue)
 			if (isNaN(iValue)) iValue = cDebugTypes.levels.basic
 			this.on(iValue)
 		}
-		sDebugValue = cBrowser.get_url_param("debug2")
+		sDebugValue = cBrowser.get_url_param('debug2')
 		if (sDebugValue !== null) this.on(cDebugTypes.levels.extra)
 
 		if (!this.DEBUGGING && !this.ONE_TIME_DEBUGGING) {
-			cBrowser.writeConsoleWarning("for debugging use querystring ?debug or ?debug2")
+			cBrowser.writeConsoleWarning('for debugging use querystring ?debug or ?debug2')
 		}
 	}
 
@@ -53,19 +53,19 @@ class cDebug {
 
 	//*****************************************************
 	static write_err(psMessage, pbWriteToDoc = false) {
-		cBrowser.writeConsoleWarning("ERROR> " + psMessage)
-		if (pbWriteToDoc) document.write("<font color='red' size=20>" + psMessage + "</font>")
+		cBrowser.writeConsoleWarning('ERROR> ' + psMessage)
+		if (pbWriteToDoc) document.write("<font color='red' size=20>" + psMessage + '</font>')
 	}
 
 	//*****************************************************
 	static warn(psMessage) {
-		cBrowser.writeConsoleWarning("WARN> " + psMessage)
+		cBrowser.writeConsoleWarning('WARN> ' + psMessage)
 	}
 
 	//*****************************************************
 	static write_exception(pEx) {
-		this.write_err("Exception: " + pEx.message)
-		this.write_err("stacktrace: " + pEx.stack)
+		this.write_err('Exception: ' + pEx.message)
+		this.write_err('stacktrace: ' + pEx.stack)
 	}
 
 	//*****************************************************
@@ -74,7 +74,7 @@ class cDebug {
 		if (this.DEBUGGING || this.ONE_TIME_DEBUGGING) {
 			if (this.level >= piLevel) {
 				if (this.ONE_TIME_DEBUGGING) this.ONE_TIME_DEBUGGING = false
-				cBrowser.writeConsole("DEBUG> " + "  ".repeat(this.#stack.length) + psMessage)
+				cBrowser.writeConsole('DEBUG> ' + '  '.repeat(this.#stack.length) + psMessage)
 			}
 		}
 	}
@@ -92,10 +92,9 @@ class cDebug {
 	//*****************************************************
 	//*****************************************************
 	static on(piLevel = 1) {
-		if (piLevel > cDebugTypes.levels.extended)
-			throw new Error("unknown debug level - max is " + cDebugTypes.levels.extended)
+		if (piLevel > cDebugTypes.levels.extended) throw new Error('unknown debug level - max is ' + cDebugTypes.levels.extended)
 		this.DEBUGGING = true
-		this.write("Debugging on with level " + piLevel)
+		this.write('Debugging on with level ' + piLevel)
 		this.level = piLevel
 	}
 
@@ -105,8 +104,8 @@ class cDebug {
 		var sFn
 		if (!this.DEBUGGING) return
 
-		sFn = this.pr__getCaller("enter")
-		this.extra_debug(">> Entering " + sFn)
+		sFn = this.pr__getCaller('enter')
+		this.extra_debug('>> Entering ' + sFn)
 		this.#stack.push(sFn)
 	}
 
@@ -116,10 +115,10 @@ class cDebug {
 		if (!this.DEBUGGING) return
 		if (this.#stack.length == 0) return
 
-		sFn = this.pr__getCaller("leave")
+		sFn = this.pr__getCaller('leave')
 		if (sFn == this.#stack[this.#stack.length - 1]) {
 			this.#stack.pop()
-			this.extra_debug(">> Leaving " + sFn)
+			this.extra_debug('>> Leaving ' + sFn)
 		}
 	}
 
@@ -150,7 +149,7 @@ class cDebug {
 		var aStack, iIndex, sTarget, aMatches
 		aStack = this.pr__getStack()
 		iIndex = aStack.findIndex(function (pS) {
-			return pS.indexOf("cDebug." + psPrevious) >= 0
+			return pS.indexOf('cDebug.' + psPrevious) >= 0
 		})
 		sTarget = aStack[iIndex + 1]
 		aMatches = sTarget.match(/at\s+(\S+)\s/)
@@ -169,27 +168,27 @@ class cDebug {
 
 	//***************************************************************
 	static pr__dump(arr, level) {
-		var dumped_text = ""
+		var dumped_text = ''
 		if (!level) level = 0
 
 		//The padding given at the beginning of the line.
-		var level_padding = ""
-		for (var j = 0; j < level + 1; j++) level_padding += "\t"
+		var level_padding = ''
+		for (var j = 0; j < level + 1; j++) level_padding += '\t'
 
-		if (typeof arr == "object") {
+		if (typeof arr == 'object') {
 			//Array/Hashes/Objects
 			for (var item in arr) {
 				var value = arr[item]
 
-				if (typeof value == "object") {
+				if (typeof value == 'object') {
 					//If it is an array,
 					dumped_text += level_padding + "'" + item + "' ...\n"
 					dumped_text += this.pr__dump(value, level + 1)
 				} else {
-					dumped_text += level_padding + "'" + item + "' => \"" + value + '"\n'
+					dumped_text += level_padding + "'" + item + '\' => "' + value + '"\n'
 				}
 			}
-		} else dumped_text = "===>" + arr + "<===(" + typeof arr + ")"
+		} else dumped_text = '===>' + arr + '<===(' + typeof arr + ')'
 		return dumped_text
 	}
 }

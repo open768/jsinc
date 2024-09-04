@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //#
@@ -7,35 +7,22 @@
 class cRender {
 	//**************************************************************************
 	static messagebox(psMsg) {
-		return (
-			"<div class='w3-panel w3-blue w3-round-large w3-padding-16 w3-leftbar'>" +
-			psMsg +
-			"</div>"
-		)
+		return "<div class='w3-panel w3-blue w3-round-large w3-padding-16 w3-leftbar'>" + psMsg + '</div>'
 	}
 
 	//**************************************************************************
 	static button(psCaption, psUrl) {
-		var sClass = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
-		var sHTML =
-			"<button " +
-			"class='" +
-			sClass +
-			"' " +
-			"onclick='window.stop();document.location=\"" +
-			psUrl +
-			"\";return false;'>" +
-			psCaption +
-			"</button>"
+		var sClass = 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
+		var sHTML = '<button ' + "class='" + sClass + "' " + 'onclick=\'window.stop();document.location="' + psUrl + '";return false;\'>' + psCaption + '</button>'
 		return sHTML
 	}
 
 	//**************************************************************************
 	static put_in_wbrs(psInput, piInterval = 20) {
-		if (psInput.indexOf(" ") > 0) return psInput
+		if (psInput.indexOf(' ') > 0) return psInput
 		else {
 			var aSplit = psInput.split(piInterval)
-			var sJoined = aSplit.join("<wbr>")
+			var sJoined = aSplit.join('<wbr>')
 			return sJoined
 		}
 	}
@@ -56,23 +43,23 @@ class cRender {
 	//**************************************************************************
 	static hide_menus_and_links() {
 		// hide all forms
-		$("form").each(function (pi, poEl) {
+		$('form').each(function (pi, poEl) {
 			$(poEl).hide()
 		})
 		// hide all buttons
-		$("button").each(function (pi, poEl) {
+		$('button').each(function (pi, poEl) {
 			$(poEl).hide()
 		})
 		// remove hyperlinks
-		$("a[href]").each(function (pi, poEl) {
-			$(poEl).removeAttr("href")
+		$('a[href]').each(function (pi, poEl) {
+			$(poEl).removeAttr('href')
 		})
 		//remove menus
-		$("div[type=admenus]").each(function (pi, poEl) {
+		$('div[type=admenus]').each(function (pi, poEl) {
 			$(poEl).hide()
 		})
 
-		$("#btn_hider").show()
+		$('#btn_hider').show()
 		return false
 	}
 }
@@ -80,14 +67,8 @@ class cRender {
 //###############################################################################
 // eslint-disable-next-line no-unused-vars
 class cRenderW3 {
-	static tag(psTag, psColour = "w3-light-grey") {
-		return (
-			"<span class='w3-tag " +
-			psColour +
-			" w3-round w3-border ' style='text-align:left'>" +
-			psTag +
-			"</span> "
-		)
+	static tag(psTag, psColour = 'w3-light-grey') {
+		return "<span class='w3-tag " + psColour + " w3-round w3-border ' style='text-align:left'>" + psTag + '</span> '
 	}
 }
 
@@ -98,11 +79,7 @@ class cRenderMDL {
 
 	//**********************************************************
 	static title(psTitle) {
-		return (
-			"<div class='mdl-card__title'><font class='card_::TITLE_QS'>" +
-			psTitle +
-			"</font></div>"
-		)
+		return "<div class='mdl-card__title'><font class='card_::TITLE_QS'>" + psTitle + '</font></div>'
 	}
 
 	//**********************************************************
@@ -110,17 +87,17 @@ class cRenderMDL {
 		this.cardID++
 		var sClass = "class='mdl-card mdl-shadow--2dp rapport-card'"
 
-		var sHTML = "<div " + sClass + " id='CARDID_" + this.cardID + "'>"
+		var sHTML = '<div ' + sClass + " id='CARDID_" + this.cardID + "'>"
 		if (psTitle !== null) sHTML += this.title(psTitle)
 		return sHTML
 	}
 
 	static card(psTitle = null, poBody = null) {
 		var oParams = {
-			class: "mdl-card mdl-shadow--2dp rapport-card",
-			id: "CARDID_" + this.cardID
+			class: 'mdl-card mdl-shadow--2dp rapport-card',
+			id: 'CARDID_' + this.cardID
 		}
-		var oCardDiv = $("DIV", oParams)
+		var oCardDiv = $('DIV', oParams)
 		if (psTitle !== null) oCardDiv.append(this.title(psTitle))
 		if (poBody !== null) oCardDiv.append(this.body(poBody))
 		return oCardDiv
@@ -138,9 +115,9 @@ class cRenderMDL {
 
 	static body(poBody = null) {
 		var oParams = {
-			class: "mdl-card__supporting-text"
+			class: 'mdl-card__supporting-text'
 		}
-		var oDiv = $("DIV", oParams)
+		var oDiv = $('DIV', oParams)
 		if (poBody !== null) oDiv.append(poBody)
 		return oDiv
 	}
@@ -148,7 +125,7 @@ class cRenderMDL {
 	//**************************************************************************
 	static fade_element_and_hide_card(poEl) {
 		poEl.fadeOut(1000, function () {
-			poEl.closest(".mdl-card").remove()
+			poEl.closest('.mdl-card').remove()
 		})
 	}
 }
@@ -157,8 +134,8 @@ class cRenderMDL {
 // eslint-disable-next-line no-unused-vars
 class cRenderGoogleFont {
 	static create_icon(psIconName, psElementStyle = null) {
-		var oSpan = $("<SPAN>", { class: "material-symbols-outlined" })
-		if (psElementStyle) oSpan.attr("style", psElementStyle)
+		var oSpan = $('<SPAN>', { class: 'material-symbols-outlined' })
+		if (psElementStyle) oSpan.attr('style', psElementStyle)
 		oSpan.append(psIconName)
 		return oSpan
 	}
