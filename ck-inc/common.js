@@ -141,8 +141,8 @@ class cBrowser {
 
 	//***************************************************************
 	static update_state(psTitle, psUrl) {
-		if (window.history.update_state) {
-			window.history.update_state('', psTitle, psUrl)
+		if (history.pushState) {
+			history.pushState({ title: psTitle }, null, psUrl)
 			this.init()
 		}
 	}
