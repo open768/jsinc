@@ -8,7 +8,7 @@ based on http://opensource.teamdf.com/visible/jquery.visible.js
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
-var cMission = {
-	name: 'curiosity',
-	ID: 'MSL'
+class cMission {
+	static name = 'curiosity'
+	static ID = 'MSL'
 }
