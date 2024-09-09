@@ -8,7 +8,73 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
+//#######################################################################
 /* eslint-disable-next-line no-unused-vars */
+class cQueueRunner {
+	static EVENT_START = 'start'
+	static EVENT_STOP = 'stop'
+	static EVENT_STEP = 'step'
+
+	delay = 500 //ms
+	queue = new cQueue()
+	stopping = false
+	running = false
+
+	constructor(piDelayms) {
+		this.delay = piDelayms
+	}
+
+	//*****************************************************
+	start() {
+		if (this.stopping || this.running) return
+		this.running = true
+		bean.fire(this, cQueueRunner.EVENT_START)
+		this.step()
+	}
+
+	//*****************************************************
+	stop() {
+		if (this.stopping || !this.running) return
+		this.stopping = true
+	}
+
+	//*****************************************************
+	step() {
+		if (!this.running) return
+
+		if (this.stopping) {
+			this.pr_stop()
+			return
+		}
+
+		//------get the  item off the queue
+		var oQ = this.queue
+		const oItem = oQ.pop()
+		if (oItem == null) {
+			this.pr_stop()
+			return
+		}
+		bean.fire(this, cQueueRunner.EVENT_STEP, oItem)
+		const oThis = this
+		setTimeout(() => oThis.step(), this.delay)
+	}
+
+	//*****************************************************
+	reset() {
+		this.pr_stop()
+		cQueueRunner.queue = new cQueue()
+	}
+
+	//*****************************************************
+	//*****************************************************
+	pr_stop() {
+		this.running = false
+		this.stopping = false
+		bean.fire(this, cQueueRunner.EVENT_STOP)
+	}
+}
+
+//#######################################################################
 class cQueue {
 	prKey = null
 	prData = null
