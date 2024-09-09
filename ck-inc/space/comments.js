@@ -44,7 +44,7 @@ class cSpaceComments {
 			s: psSol,
 			p: psProduct,
 			i: psInstr,
-			v: escape(psComment)
+			v: encodeURIComponent(psComment)
 		})
 		cCommonStatus.set_status('setting comment ')
 		const oHttp = new cHttp2()
