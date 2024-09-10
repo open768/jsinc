@@ -71,7 +71,7 @@ class cQueueifVisible {
 
 		var btnForce = $('<button>').append('load')
 		oElement.append(btnForce)
-		btnForce.click(function () {
+		btnForce.on('click', function () {
 			oThis.onInView(true)
 		})
 	}

@@ -88,7 +88,7 @@ $.widget('ck.slideout', {
 		oOptions.left_in = oLowerDiv.position().left
 
 		//set up the click handlers
-		oLowerDiv.click(function () {
+		oLowerDiv.on('click', function () {
 			oThis.onClickSlideout()
 		})
 	},
