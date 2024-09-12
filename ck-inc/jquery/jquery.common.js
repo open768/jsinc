@@ -1,5 +1,5 @@
 'use strict'
-/* global cCommon */
+/* global cString */
 //###############################################################
 //# JQUERY
 //###############################################################
@@ -103,7 +103,7 @@ class cJquery {
 
 	//***************************************************************
 	static element(psID) {
-		if (cCommon.is_string_empty(psID)) cDebug.error('empty string')
+		if (cString.is_string_empty(psID)) cDebug.error('empty string')
 
 		var oThing = null
 		var cFirst = psID.charAt(0)

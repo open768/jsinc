@@ -40,6 +40,11 @@ class cString {
 		for (i = 0; i < iCheckLen; i++) if (ps1[i] !== ps2[i]) break
 		return i
 	}
+
+	//***************************************************************
+	static is_string_empty(psText) {
+		return psText === null || psText === ''
+	}
 }
 
 if (!String.prototype.padLeft)
@@ -84,10 +89,6 @@ class cCommon {
 
 	static is_numeric(psThing) {
 		return !isNaN(psThing)
-	}
-
-	static is_string_empty(psText) {
-		return psText === null || psText === ''
 	}
 }
 
