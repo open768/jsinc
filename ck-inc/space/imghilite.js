@@ -9,6 +9,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 class cImgHilite {
+	static ID_TEMPLATE_ACCEPT = 'tmpl_accept'
+	static ID_TEMPLATE_CANCEL = 'tmpl_cancel'
 	static templateID = '#box_template'
 	static containerID = '#highlight'
 	static baseImageID = '#baseimg'
@@ -36,13 +38,28 @@ class cImgHilite {
 		return poButton.parentNode.parentNode
 	}
 
+	static onLoad() {
+		const oThis = this
+		var oTmplCancel = cJquery.element(this.ID_TEMPLATE_CANCEL)
+		oTmplCancel.off('click')
+		oTmplCancel.on('click', poEvent => oThis.rejectBox(poEvent.currentTarget))
+	}
+
+	static set_onclick_accept(pFn) {
+		const oTmplAccept = cJquery.element(this.ID_TEMPLATE_ACCEPT)
+		oTmplAccept.off('click')
+		oTmplAccept.on('click', pFn)
+	}
+
 	//**************************************************
 	static makeBox(piX, piY, bDraggable) {
 		var oClone
 		var oContainer = $(this.containerID)
 
-		if (bDraggable && this.currentBox) oBox = this.currentBox
-		else {
+		if (bDraggable && this.currentBox) {
+			//if there is a current box use it
+			oBox = this.currentBox
+		} else {
 			//make a unique ID
 			var sID = 'box' + this.ID
 			this.ID++
@@ -59,9 +76,9 @@ class cImgHilite {
 			if (oImg.length == 0) throw new Error('Oops cant find image')
 
 			//add it to the container and make it visible and draggable
-			var oBox, iX, iY
+			var oBox
 			oBox = cJquery.element(sID)
-			oBox.show() //has to be shown otherwise the maths goes scewy as width/height isnt set
+			oBox.show() //has to be shown otherwise the maths goes screwy as width/height isnt set
 
 			//save it
 			if (bDraggable) this.currentBox = oBox
@@ -72,8 +89,8 @@ class cImgHilite {
 		var iParentTop = oParent.offsetTop
 		var iParentLeft = oParent.offsetLeft
 
-		iX = piX - iParentLeft - oBox.width() / 2
-		iY = piY - iParentTop - oBox.height() / 2
+		var iX = piX - iParentLeft - oBox.width() / 2
+		var iY = piY - iParentTop - oBox.height() / 2
 		oBox.css({
 			position: 'absolute',
 			top: '' + iY + 'px',
