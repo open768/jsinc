@@ -5,6 +5,7 @@ Copyright (C) Chicken Katsu 2013 - 2024
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
+//todo move these into PHP
 class cSpaceBrowser {
 	static SOL_PARAM = 's'
 	static INSTR_PARAM = 'i'
