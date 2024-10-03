@@ -44,6 +44,7 @@ class cDebug {
 		if (!this.DEBUGGING && !this.ONE_TIME_DEBUGGING) {
 			cBrowser.writeConsoleWarning('for debugging use querystring ?debug or ?debug2')
 		}
+
 	}
 
 	//*****************************************************
