@@ -20,7 +20,7 @@ class cFacebook {
 
 	//################################################################
 	static checkLoginStatus() {
-		var oThis = this
+		const oThis = this
 		cDebug.enter()
 
 		cDebug.write('checking login status')
@@ -31,7 +31,7 @@ class cFacebook {
 	//**************************************************************
 	static getFBUser() {
 		cDebug.enter()
-		var oThis = this
+		const oThis = this
 
 		if (this.ServerUser !== '') {
 			if (cAuth.user) {
@@ -80,7 +80,7 @@ class cFacebook {
 	//see https://developers.facebook.com/docs/facebook-login/web/login-button/
 	static onFBLoginStatus(poResponse) {
 		cDebug.enter()
-		var oThis = this
+		const oThis = this
 		if (poResponse.status == 'connected') {
 			cDebug.write('user is logged in to facebook')
 			var oFBAuthResponse = poResponse.authResponse
@@ -128,7 +128,7 @@ class cFacebook {
 
 	//**************************************************************
 	static onFBGotUser(psUser) {
-		var oThis = this
+		const oThis = this
 		cDebug.enter()
 		bean.fire(this, this.STATUS_EVENT, 'Welcome ' + psUser)
 

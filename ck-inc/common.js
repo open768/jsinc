@@ -163,7 +163,7 @@ class cBrowser {
 	//***************************************************************
 	//read_from_clipboard
 	static paste_from_clipboard(pfnCallBack) {
-		var oThis = this
+		const oThis = this
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
 			navigator.clipboard.readText().then(text => {
 				oThis.writeConsoleWarning('pasted from clipboard: ' + text)
@@ -195,7 +195,7 @@ class cBrowser {
 
 	//***************************************************************
 	static get_permissions(psName) {
-		var oThis = this
+		const oThis = this
 
 		navigator.permissions.query({ name: psName }).then(function (poStatus) {
 			oThis.writeConsoleWarning('permission for ' + psName + ' is ' + poStatus.state)

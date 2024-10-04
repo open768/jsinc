@@ -28,7 +28,7 @@
 
 	$.fn.inViewport = () => {
 		var oWindow = $(window)
-		var oThis = $(this)
+		const oThis = $(this)
 
 		var oViewPort = new cRectangle()
 		oViewPort.C1.x = oWindow.scrollLeft()

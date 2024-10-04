@@ -30,10 +30,10 @@ $.widget('ck.slideout', {
 	//# Constructor
 	//#################################################################`
 	_create: function () {
-		var oThis, oElement
+		const oThis = this
+		var oElement
 
 		//set basic stuff
-		oThis = this
 		oElement = oThis.element
 		oElement.uniqueId()
 
