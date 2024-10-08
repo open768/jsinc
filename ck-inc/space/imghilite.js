@@ -22,7 +22,7 @@ class cImgHilite {
 	static currentBox = null
 
 	static {
-		this.baseUrl = cAppLocations.rest + '/img_highlight.php'
+		this.baseUrl = cAppRest.base_url('img_highlight.php')
 	}
 
 	//**************************************************

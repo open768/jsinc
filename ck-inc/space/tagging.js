@@ -11,7 +11,7 @@ class cTagging {
 	static phpBaseURL = null
 
 	static {
-		this.phpBaseURL = cAppLocations.rest + '/tag.php'
+		this.phpBaseURL = cAppRest.base_url('tag.php')
 	}
 
 	//********************************************************************************
