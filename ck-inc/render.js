@@ -7,7 +7,15 @@
 class cRender {
 	//**************************************************************************
 	static messagebox(psMsg) {
-		return "<div class='w3-panel w3-blue w3-round-large w3-padding-16 w3-leftbar'>" + psMsg + '</div>'
+		const oDiv = $('<div>', { class: 'w3-panel w3-blue w3-round-large w3-padding-16 w3-leftbar' })
+		oDiv.append(psMsg)
+		return oDiv
+	}
+
+	static errorbox(psMsg) {
+		const oDiv = $('<div>', { class: 'w3-panel w3-deep-orange w3-padding-16 w3-leftbar w3-border-yellow' })
+		oDiv.append(psMsg)
+		return oDiv
 	}
 
 	//**************************************************************************
@@ -69,6 +77,10 @@ class cRender {
 class cRenderW3 {
 	static tag(psTag, psColour = 'w3-light-grey') {
 		return "<span class='w3-tag " + psColour + " w3-round w3-border ' style='text-align:left'>" + psTag + '</span> '
+	}
+
+	static error(psMessage) {
+		$oDiv = $('<DIV>', { class: '' })
 	}
 }
 
