@@ -22,11 +22,11 @@ class cTagging {
 
 		var sUrl, oData
 		oData = {
-			o: 'get',
-			s: psSol,
-			i: psInstr,
-			p: psProduct,
-			m: cMission.ID
+			[cAppUrlParams.OPERATION]: 'get',
+			[cSpaceUrlParams.SOL]: psSol,
+			[cSpaceUrlParams.INSTRUMENT]: psInstr,
+			[cSpaceUrlParams.PRODUCT]: psProduct,
+			[cSpaceUrlParams.MISSION]: cMission.ID
 		}
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
 		cDebug.write('getting tag')
@@ -42,12 +42,12 @@ class cTagging {
 	static setTag(psSol, psInstr, psProduct, psTagname, pfnCallback) {
 		var sUrl, oData
 		oData = {
-			o: 'set',
-			s: psSol,
-			i: psInstr,
-			p: psProduct,
-			v: psTagname,
-			m: cMission.ID
+			[cAppUrlParams.OPERATION]: 'set',
+			[cSpaceUrlParams.SOL]: psSol,
+			[cSpaceUrlParams.INSTRUMENT]: psInstr,
+			[cSpaceUrlParams.PRODUCT]: psProduct,
+			[cAppUrlParams.VALUE]: psTagname,
+			[cSpaceUrlParams.MISSION]: cMission.ID
 		}
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
 
@@ -62,8 +62,8 @@ class cTagging {
 	//********************************************************************************
 	static searchTags(psPartial, pfnCallBack) {
 		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
-			o: 'search',
-			v: psPartial
+			[cAppUrlParams.OPERATION]: 'search',
+			[cAppUrlParams.VALUE]: psPartial
 		})
 		var oHttp = new cHttp2()
 		{

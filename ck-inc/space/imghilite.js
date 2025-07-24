@@ -136,11 +136,11 @@ class cImgHilite {
 	static save_highlight(psSol, psInstr, psProduct, psID, pfnCallback) {
 		var oBox = $(psID)
 		var sUrl = cBrowser.buildUrl(this.baseUrl, {
-			o: 'add',
-			s: psSol,
-			i: psInstr,
-			p: psProduct,
-			m: cMission.ID,
+			[cAppUrlParams.OPERATION]: 'add',
+			[cSpaceUrlParams.SOL]: psSol,
+			[cSpaceUrlParams.INSTRUMENT]: psInstr,
+			[cSpaceUrlParams.PRODUCT]: psProduct,
+			[cSpaceUrlParams.MISSION]: cMission.ID,
 			t: oBox.css('top'),
 			l: oBox.css('left')
 		})
@@ -156,11 +156,11 @@ class cImgHilite {
 	//**************************************************
 	static getHighlights(psSol, psInstr, psProduct, pfnCallBack) {
 		var sUrl = cBrowser.buildUrl(this.baseUrl, {
-			o: 'get',
-			s: psSol,
-			i: psInstr,
-			p: psProduct,
-			m: cMission.ID
+			[cAppUrlParams.OPERATION]: 'get',
+			[cSpaceUrlParams.SOL]: psSol,
+			[cSpaceUrlParams.INSTRUMENT]: psInstr,
+			[cSpaceUrlParams.PRODUCT]: psProduct,
+			[cSpaceUrlParams.MISSION]: cMission.ID
 		})
 
 		var oHttp = new cHttp2()

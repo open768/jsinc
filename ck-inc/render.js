@@ -78,10 +78,6 @@ class cRenderW3 {
 	static tag(psTag, psColour = 'w3-light-grey') {
 		return "<span class='w3-tag " + psColour + " w3-round w3-border ' style='text-align:left'>" + psTag + '</span> '
 	}
-
-	static error(psMessage) {
-		$oDiv = $('<DIV>', { class: '' })
-	}
 }
 
 //###############################################################################

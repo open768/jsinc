@@ -63,7 +63,7 @@ class cFacebook {
 		// get the information from the server
 		cDebug.write('getting Facebook user details for user ' + this.fbUserID)
 		var oData = {
-			o: 'getuser',
+			[cAppUrlParams.OPERATION]: 'getuser',
 			u: this.fbUserID,
 			t: this.fbAccessToken
 		}
@@ -110,7 +110,7 @@ class cFacebook {
 			$.removeCookie(this.AUTH_DATE_COOKIE)
 			cDebug.write('error: unable to get FB username')
 			var sUrl = cBrowser.buildUrl(this.ServerSide, {
-				o: 'getuser',
+				[cAppUrlParams.OPERATION]: 'getuser',
 				user: this.fbUserID,
 				token: this.fbAccessToken
 			})
