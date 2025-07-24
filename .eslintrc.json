@@ -1,5 +1,5 @@
 {
-    "root":true,
+    "root": true,
     "env": {
         "browser": true,
         "commonjs": true,
@@ -9,7 +9,11 @@
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "ignorePatterns": ["extra/*", "node_modules/*", "ck-inc/space/*"],
+    "ignorePatterns": [
+        "extra/*",
+        "node_modules/*",
+        "ck-inc/space/*"
+    ],
     "globals": {
         "$": "readonly",
         "bean": "readonly",
@@ -27,7 +31,7 @@
         "cMission": "readonly",
         "cQueue": "readonly",
         "cSecret": "readonly",
-        "FB":"readonly",
+        "FB": "readonly",
         "ga": "readonly",
         "google": "readonly",
         "jQuery": "readonly"
