@@ -34,6 +34,8 @@
         "FB": "readonly",
         "ga": "readonly",
         "google": "readonly",
-        "jQuery": "readonly"
+        "jQuery": "readonly",
+        "cFBConfig": "readonly",
+        "cAppUrlParams": "readonly"
     }
 }

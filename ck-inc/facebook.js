@@ -6,8 +6,6 @@
 class cFacebook {
 	static AppID = 'not set'
 	static ServerUser = 'not set'
-	static ServerSide = 'not set'
-	static Version = 'not set'
 	static fbGetUserURL = null // url must be set in application
 	static fbUserID = null
 	static fbAccessToken = null
@@ -71,7 +69,7 @@ class cFacebook {
 		var oHttp = new cHttp2()
 		{
 			bean.on(oHttp, 'result', poHttp => oThis.onGetUserResponse(poHttp))
-			oHttp.post(this.ServerSide, oData)
+			oHttp.post(cFBConfig.$SERVER_SIDE, oData)
 		}
 		cDebug.leave()
 	}
@@ -109,7 +107,7 @@ class cFacebook {
 			$.removeCookie(this.AUTH_USER_COOKIE)
 			$.removeCookie(this.AUTH_DATE_COOKIE)
 			cDebug.write('error: unable to get FB username')
-			var sUrl = cBrowser.buildUrl(this.ServerSide, {
+			var sUrl = cBrowser.buildUrl(cFBConfig.$SERVER_SIDE, {
 				[cAppUrlParams.OPERATION]: 'getuser',
 				user: this.fbUserID,
 				token: this.fbAccessToken
@@ -159,7 +157,7 @@ window.fbAsyncInit = function () {
 		appId: cFacebook.AppID,
 		cookie: true,
 		xfbml: true,
-		version: cFacebook.Version
+		version: cFBConfig.VERSION
 	})
 
 	FB.AppEvents.logPageView()
