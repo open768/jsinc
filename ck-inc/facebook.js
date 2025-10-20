@@ -69,7 +69,7 @@ class cFacebook {
 		var oHttp = new cHttp2()
 		{
 			bean.on(oHttp, 'result', poHttp => oThis.onGetUserResponse(poHttp))
-			oHttp.post(cFBConfig.$SERVER_SIDE, oData)
+			oHttp.post(cFBConfig.SERVER_SIDE, oData)
 		}
 		cDebug.leave()
 	}
