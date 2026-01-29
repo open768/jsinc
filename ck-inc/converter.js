@@ -114,10 +114,13 @@ class cCASimpleBase64 {
 			if (bIsPadding)
 				var iPadLen = piRemaining > 5 ? this.BIN_LENGTH : piRemaining //padded
 			else iPadLen = this.BIN_LENGTH
-			sBin = sBin.padLeft('0', iPadLen)
+			sBin = sBin.padStart(iPadLen, '0')
 			sOutBin = sOutBin + sBin
 			piRemaining -= this.BIN_LENGTH
 		}
+		//use a regex to check if output string containsonly 1s and 0s
+		if (!/^[01]+$/.test(sOutBin)) throw new Error('toBinary produced invalid binary string')
+
 		return sOutBin
 	}
 
