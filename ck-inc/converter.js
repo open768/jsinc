@@ -10,7 +10,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 class cConverterEncodings {
 	static binary = '01'
-	static BASE64 = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,.'
+	static BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"	//rfc4648
+
 
 	static isBase64(psInput) {
 		for (var i = 0; i < psInput.length; i++) {
@@ -79,7 +80,7 @@ class cConverter {
 
 /***************************************************************************/
 // eslint-disable-next-line no-unused-vars
-class cCASimpleBase64 {
+class cSimpleBase64 {
 	static BIN_LENGTH = 6
 
 	static toBase64(psBin) {
@@ -129,7 +130,7 @@ class cCASimpleBase64 {
 		var sBinIn = ''
 		var iLength = Math.floor(50 + Math.random() * 50)
 
-		cDebug.write('Testing cCASimpleBase64')
+		cDebug.write('Testing cSimpleBase64')
 		for (var i = 0; i < iLength; i++) {
 			var iRand = Math.floor(Math.random() * 1.99)
 			sBinIn = sBinIn + iRand
