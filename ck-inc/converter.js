@@ -99,25 +99,32 @@ class cSimpleBase64 {
 	//*********************************************************************
 	static toBinary(ps64, piOutLen) {
 		var sOutBin = ''
-		var bIsPadding = true
+		var bCustomEndBinPadding = true
 
 		if (piOutLen == null) {
-			cDebug.write('no expected binary length set')
-			cDebug.write('default pad length set to ' + this.BIN_LENGTH)
-			bIsPadding = false
+			cDebug.write('no expected binary length set - no custom end padding applied')
+			bCustomEndBinPadding = false
 		}
+		if (!cConverterEncodings.isBase64(ps64)) throw new Error('input contains non-base64 characters')
 
-		var piRemaining = piOutLen
+		var iRemaining = piOutLen
+		//work through each character
 		for (var i = 0; i < ps64.length; i++) {
+
+			//convert the base64 char to its binary value
 			var ch = ps64.charAt(i)
 			var iVal = cConverter.base64ToDec(ch)
 			var sBin = cConverter.intToBin(iVal)
-			if (bIsPadding)
-				var iPadLen = piRemaining > 5 ? this.BIN_LENGTH : piRemaining //padded
-			else iPadLen = this.BIN_LENGTH
+
+			//pad the character to the correct length
+			var iPadLen = this.BIN_LENGTH
+			if (bCustomEndBinPadding && iRemaining <= this.BIN_LENGTH)
+				iPadLen = iRemaining //padding to remaining characters
 			sBin = sBin.padStart(iPadLen, '0')
+
+			//add the character to the output
 			sOutBin = sOutBin + sBin
-			piRemaining -= this.BIN_LENGTH
+			iRemaining -= this.BIN_LENGTH
 		}
 		//use a regex to check if output string containsonly 1s and 0s
 		if (!/^[01]+$/.test(sOutBin)) throw new Error('toBinary produced invalid binary string')
