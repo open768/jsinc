@@ -39,7 +39,7 @@ class cImgHilite {
 	}
 
 	static onLoad() {
-		const oThis = this
+		const oThis = this	/** @type cImgHilite */
 		var oTmplCancel = cJquery.element(this.ID_TEMPLATE_CANCEL)
 		oTmplCancel.off('click')
 		oTmplCancel.on('click', poEvent => oThis.rejectBox(poEvent.currentTarget))

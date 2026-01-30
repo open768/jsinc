@@ -86,7 +86,7 @@ class cHttp2 {
 
 	//**************************************************************
 	async fetch_json(psUrl, poData) {
-		const oThis = this
+		const oThis = this	/** @type cHttp2 */
 
 		this.url = psUrl
 		this.correct_url()
@@ -109,7 +109,7 @@ class cHttp2 {
 
 	//**************************************************************
 	async post(psUrl, poData) {
-		const oThis = this
+		const oThis = this	/** @type cHttp2 */
 		this.url = psUrl
 		this.correct_url()
 		this.data = poData
