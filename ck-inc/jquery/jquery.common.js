@@ -113,4 +113,10 @@ class cJquery {
 		if (oThing.length == 0) cDebug.error('no element found for ' + psID)
 		return oThing
 	}
+
+	static add_widget_header( poElement, psTitle){
+		var oDiv = $("<DIV>", { class: "ui-widget-header" })
+		oDiv.append(psTitle)
+		poElement.append(oDiv)
+	}
 }
