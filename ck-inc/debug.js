@@ -26,7 +26,7 @@ class cDebugTypes {
 class cDebug {
 	static DEBUGGING = false
 	static ONE_TIME_DEBUGGING = false
-	static #stack = []
+	static stack = []
 	static level = cDebugTypes.levels.off
 
 	//*****************************************************
@@ -75,7 +75,7 @@ class cDebug {
 		if (this.DEBUGGING || this.ONE_TIME_DEBUGGING) {
 			if (this.level >= piLevel) {
 				if (this.ONE_TIME_DEBUGGING) this.ONE_TIME_DEBUGGING = false
-				cBrowser.writeConsole('DEBUG> ' + '  '.repeat(this.#stack.length) + psMessage)
+				cBrowser.writeConsole('DEBUG> ' + '  '.repeat(this.stack.length) + psMessage)
 			}
 		}
 	}
@@ -107,18 +107,18 @@ class cDebug {
 
 		sFn = this.pr__getCaller('enter')
 		this.extra_debug('>> Entering ' + sFn)
-		this.#stack.push(sFn)
+		this.stack.push(sFn)
 	}
 
 	//*****************************************************
 	static leave() {
 		var sFn
 		if (!this.DEBUGGING) return
-		if (this.#stack.length == 0) return
+		if (this.stack.length == 0) return
 
 		sFn = this.pr__getCaller('leave')
-		if (sFn == this.#stack[this.#stack.length - 1]) {
-			this.#stack.pop()
+		if (sFn == this.stack[this.stack.length - 1]) {
+			this.stack.pop()
 			this.extra_debug('>> Leaving ' + sFn)
 		}
 	}
