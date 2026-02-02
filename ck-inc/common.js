@@ -222,7 +222,9 @@ class cBrowser {
 	//***************************************************************
 	static async getHeapMemoryUsed() {
 		//this will be deprecated in favour of
+		// @ts-expect-error
 		if (performance.measureUserAgentSpecificMemory) return await performance.measureUserAgentSpecificMemory()
+		// @ts-expect-error
 		else if (performance.memory) return performance.memory.usedJSHeapSize
 		else $.error('unable to get heap memory')
 	}
