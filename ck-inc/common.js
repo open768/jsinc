@@ -48,11 +48,12 @@ class cString {
 }
 
 if (!String.prototype.padLeft)
-	String.prototype.padLeft = (psPad, piSize) => {
-		var iDiff = piSize - this.length
-		if (iDiff > 0) return psPad.repeat(iDiff) + this
-		else return this
-	}
+	String.prototype.padLeft =
+		function (psPad, piSize) {
+			var iDiff = piSize - this.length
+			if (iDiff > 0) return psPad.repeat(iDiff) + this
+			else return this
+		}
 
 //###############################################################
 //# common
@@ -165,10 +166,11 @@ class cBrowser {
 	static paste_from_clipboard(pfnCallBack) {
 		const oThis = this	/** @type cBrowser */
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
-			navigator.clipboard.readText().then(text => {
-				oThis.writeConsoleWarning('pasted from clipboard: ' + text)
-				pfnCallBack(text)
-			})
+			navigator.clipboard.readText().then(
+				function (text) {
+					oThis.writeConsoleWarning('pasted from clipboard: ' + text)
+					pfnCallBack(text)
+				})
 		//async fetch from clipboard, will display a warning to user if permissions not set
 		else $.error('browser not compatible for clipboard operation')
 	}
