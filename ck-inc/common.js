@@ -48,12 +48,11 @@ class cString {
 }
 
 if (!String.prototype.padLeft)
-	String.prototype.padLeft =
-		function (psPad, piSize) {
-			var iDiff = piSize - this.length
-			if (iDiff > 0) return psPad.repeat(iDiff) + this
-			else return this
-		}
+	String.prototype.padLeft = function (psPad, piSize) {
+		var iDiff = piSize - this.length
+		if (iDiff > 0) return psPad.repeat(iDiff) + this
+		else return this
+	}
 
 //###############################################################
 //# common
@@ -164,13 +163,13 @@ class cBrowser {
 	//***************************************************************
 	//read_from_clipboard
 	static paste_from_clipboard(pfnCallBack) {
-		const oThis = this	/** @type cBrowser */
+		/** @type cBrowser */ const oThis = this
+
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
-			navigator.clipboard.readText().then(
-				function (text) {
-					oThis.writeConsoleWarning('pasted from clipboard: ' + text)
-					pfnCallBack(text)
-				})
+			navigator.clipboard.readText().then(function (text) {
+				oThis.writeConsoleWarning('pasted from clipboard: ' + text)
+				pfnCallBack(text)
+			})
 		//async fetch from clipboard, will display a warning to user if permissions not set
 		else $.error('browser not compatible for clipboard operation')
 	}
@@ -197,7 +196,7 @@ class cBrowser {
 
 	//***************************************************************
 	static get_permissions(psName) {
-		const oThis = this	/** @type cBrowser */
+		/** @type cBrowser */ const oThis = this
 
 		navigator.permissions.query({ name: psName }).then(function (poStatus) {
 			oThis.writeConsoleWarning('permission for ' + psName + ' is ' + poStatus.state)

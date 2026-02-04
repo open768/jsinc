@@ -114,8 +114,8 @@ class cJquery {
 		return oThing
 	}
 
-	static add_widget_header( poElement, psTitle){
-		var oDiv = $("<DIV>", { class: "ui-widget-header" })
+	static add_widget_header(poElement, psTitle) {
+		var oDiv = $('<DIV>', { class: 'ui-widget-header' })
 		oDiv.append(psTitle)
 		poElement.append(oDiv)
 	}

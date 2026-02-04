@@ -10,8 +10,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 class cConverterEncodings {
 	static binary = '01'
-	static BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"	//rfc4648
-
+	static BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' //rfc4648
 
 	static isBase64(psInput) {
 		for (var i = 0; i < psInput.length; i++) {
@@ -110,7 +109,6 @@ class cSimpleBase64 {
 		var iRemaining = piOutLen
 		//work through each character
 		for (var i = 0; i < ps64.length; i++) {
-
 			//convert the base64 char to its binary value
 			var ch = ps64.charAt(i)
 			var iVal = cConverter.base64ToDec(ch)
@@ -118,8 +116,7 @@ class cSimpleBase64 {
 
 			//pad the character to the correct length
 			var iPadLen = this.BIN_LENGTH
-			if (bCustomEndBinPadding && iRemaining <= this.BIN_LENGTH)
-				iPadLen = iRemaining //padding to remaining characters
+			if (bCustomEndBinPadding && iRemaining <= this.BIN_LENGTH) iPadLen = iRemaining //padding to remaining characters
 			sBin = sBin.padStart(iPadLen, '0')
 
 			//add the character to the output

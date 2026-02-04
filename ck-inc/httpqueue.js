@@ -23,7 +23,8 @@ class cHttpQueueJquery {
 	static queues = []
 
 	static onJqueryLoad() {
-		const oThis = this	/** @type cHttpQueueJquery */
+		/** @type cHttpQueueJquery */ const oThis = this
+
 		$(window).bind('beforeunload', () => oThis.stop_all_transfers())
 	}
 
@@ -78,7 +79,8 @@ class cHttpQueue {
 
 	// ***************************************************************
 	pr_process_next() {
-		const oThis = this	/** @type cHttpQueue */
+		/** @type cHttpQueue */ const oThis = this
+
 		var oItem
 
 		if (this.stopping) return
@@ -116,7 +118,7 @@ class cHttpQueue {
 
 	// ***************************************************************
 	onTimer(poItem) {
-		const oThis = this	/** @type cHttpQueue */
+		/** @type cHttpQueue */ const oThis = this
 		if (this.stopping) return
 
 		bean.fire(poItem, 'start') //notify item has started
