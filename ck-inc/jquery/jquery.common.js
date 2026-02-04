@@ -3,7 +3,7 @@
 //###############################################################
 //# JQUERY
 //###############################################################
-/* eslint-disable-next-line no-unused-vars */
+
 class cJquery {
 	//***************************************************************
 	//https://forum.jquery.com/topic/know-if-a-css-class-exists-in-document

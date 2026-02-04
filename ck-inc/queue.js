@@ -9,7 +9,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 //#######################################################################
-/* eslint-disable-next-line no-unused-vars */
+
 class cQueueRunner {
 	static EVENT_START = 'start'
 	static EVENT_STOP = 'stop'

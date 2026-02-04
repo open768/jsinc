@@ -58,7 +58,7 @@ if (!String.prototype.padLeft)
 //###############################################################
 //# common
 //###############################################################
-/* eslint-disable-next-line no-unused-vars */
+
 class cCommon {
 	static SINGLE_WINDOW = true
 
@@ -259,7 +259,7 @@ cBrowser.init()
 //###############################################################
 //# MISC
 //###############################################################
-/* eslint-disable-next-line no-unused-vars */
+
 class cCommonStatus {
 	static set_error_status(psStatus) {
 		cJquery.element(STATUS_ID).html("<font color='red'>" + psStatus + '</font>')
@@ -273,7 +273,7 @@ class cCommonStatus {
 }
 
 //***************************************************************
-/* eslint-disable-next-line no-unused-vars */
+
 function getRadioButtonValue(psID) {
 	var oRadios = document.getElementsByName(psID)
 	var sValue = null
