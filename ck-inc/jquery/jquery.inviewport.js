@@ -22,7 +22,12 @@
 			//classic square in square
 			//see https://silentmatt.com/rectangle-intersection/
 
-			return this.C1.x <= poRect.C2.x && this.C2.x >= poRect.C1.x && this.C1.y <= poRect.C2.y && this.C2.y >= poRect.C1.y
+			return (
+				this.C1.x <= poRect.C2.x &&
+				this.C2.x >= poRect.C1.x &&
+				this.C1.y <= poRect.C2.y &&
+				this.C2.y >= poRect.C1.y
+			)
 		}
 	}
 

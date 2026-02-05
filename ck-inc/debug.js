@@ -92,7 +92,8 @@ class cDebug {
 	//*****************************************************
 	//*****************************************************
 	static on(piLevel = 1) {
-		if (piLevel > cDebugTypes.levels.extended) throw new Error('unknown debug level - max is ' + cDebugTypes.levels.extended)
+		if (piLevel > cDebugTypes.levels.extended)
+			throw new Error('unknown debug level - max is ' + cDebugTypes.levels.extended)
 		this.DEBUGGING = true
 		this.write('Debugging on with level ' + piLevel)
 		this.level = piLevel

@@ -84,7 +84,8 @@ class cSimpleBase64 {
 
 	static toBase64(psBin) {
 		var s64 = ''
-		if (psBin.length % this.BIN_LENGTH !== 0) cDebug.write('binary length not exactly divisible by ' + this.BIN_LENGTH)
+		if (psBin.length % this.BIN_LENGTH !== 0)
+			cDebug.write('binary length not exactly divisible by ' + this.BIN_LENGTH)
 
 		for (var istart = 0; istart < psBin.length; istart += this.BIN_LENGTH) {
 			var sFragment = psBin.substr(istart, this.BIN_LENGTH) //grab 6 characters

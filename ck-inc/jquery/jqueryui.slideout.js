@@ -68,7 +68,12 @@ $.widget('ck.slideout', {
 		var sLower = oElement.attr('id') + this.consts.LOWERID_SUFFIX
 		var oLowerDiv = $('<div>', { id: sLower })
 		var iBorderW = oOptions.border_width
-		var iLeft = oUpperDiv.position().left + oUpperDiv.width() - oOptions.slideout_width + oOptions.border_width + oOptions.padding
+		var iLeft =
+			oUpperDiv.position().left +
+			oUpperDiv.width() -
+			oOptions.slideout_width +
+			oOptions.border_width +
+			oOptions.padding
 		oLowerDiv.css({
 			position: 'absolute',
 			'z-index': 5,

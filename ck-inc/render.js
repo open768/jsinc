@@ -21,7 +21,16 @@ class cRender {
 	//**************************************************************************
 	static button(psCaption, psUrl) {
 		var sClass = 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
-		var sHTML = '<button ' + "class='" + sClass + "' " + 'onclick=\'window.stop();document.location="' + psUrl + '";return false;\'>' + psCaption + '</button>'
+		var sHTML =
+			'<button ' +
+			"class='" +
+			sClass +
+			"' " +
+			'onclick=\'window.stop();document.location="' +
+			psUrl +
+			'";return false;\'>' +
+			psCaption +
+			'</button>'
 		return sHTML
 	}
 
