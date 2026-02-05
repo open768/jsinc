@@ -150,7 +150,7 @@ class cBrowser {
 
 	//***************************************************************
 	static openWindow(psUrl, psWindow) {
-		if (this.SINGLE_WINDOW) document.location.href = psUrl
+		if (cCommon.SINGLE_WINDOW) document.location.href = psUrl
 		else window.open(psUrl, psWindow)
 	}
 
@@ -163,11 +163,9 @@ class cBrowser {
 	//***************************************************************
 	//read_from_clipboard
 	static paste_from_clipboard(pfnCallBack) {
-		/** @type cBrowser */ const oThis = this
-
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
-			navigator.clipboard.readText().then(function (text) {
-				oThis.writeConsoleWarning('pasted from clipboard: ' + text)
+			navigator.clipboard.readText().then(text => {
+				this.writeConsoleWarning('pasted from clipboard: ' + text)
 				pfnCallBack(text)
 			})
 		//async fetch from clipboard, will display a warning to user if permissions not set
@@ -196,11 +194,11 @@ class cBrowser {
 
 	//***************************************************************
 	static get_permissions(psName) {
-		/** @type cBrowser */ const oThis = this
+		/** @type cBrowser */
 
-		navigator.permissions.query({ name: psName }).then(function (poStatus) {
-			oThis.writeConsoleWarning('permission for ' + psName + ' is ' + poStatus.state)
-			if (poStatus.state !== 'granted') oThis.writeConsoleWarning('check site permissions')
+		navigator.permissions.query({ name: psName }).then(poStatus => {
+			this.writeConsoleWarning('permission for ' + psName + ' is ' + poStatus.state)
+			if (poStatus.state !== 'granted') this.writeConsoleWarning('check site permissions')
 		})
 	}
 

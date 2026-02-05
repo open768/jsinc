@@ -3,6 +3,8 @@
 //###############################################################################
 //#
 //###############################################################################
+/* global FB */
+
 class cFacebook {
 	static AppID = 'not set'
 	static ServerUser = 'not set'
@@ -18,19 +20,17 @@ class cFacebook {
 
 	//################################################################
 	static checkLoginStatus() {
-		/** @type cFacebook */ const oThis = this
-
 		cDebug.enter()
 
 		cDebug.write('checking login status')
-		FB.getLoginStatus(response => oThis.onFBLoginStatus(response))
+		// @ts-expect-error
+		FB.getLoginStatus(response => this.onFBLoginStatus(response))
 		cDebug.leave()
 	}
 
 	//**************************************************************
 	static getFBUser() {
 		cDebug.enter()
-		/** @type cFacebook */ const oThis = this
 
 		if (this.ServerUser !== '') {
 			if (cAuth.user) {
@@ -69,7 +69,7 @@ class cFacebook {
 
 		var oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => oThis.onGetUserResponse(poHttp))
+			bean.on(oHttp, 'result', poHttp => this.onGetUserResponse(poHttp))
 			oHttp.post(cFBConfig.SERVER_SIDE, oData)
 		}
 		cDebug.leave()
@@ -79,7 +79,6 @@ class cFacebook {
 	//see https://developers.facebook.com/docs/facebook-login/web/login-button/
 	static onFBLoginStatus(poResponse) {
 		cDebug.enter()
-		const oThis = this
 		/** @type cFacebook */
 		if (poResponse.status == 'connected') {
 			cDebug.write('user is logged in to facebook')
@@ -88,7 +87,7 @@ class cFacebook {
 			this.fbAccessToken = oFBAuthResponse.accessToken
 			this.fbAccessExpire = oFBAuthResponse.data_access_expiration_time
 			bean.fire(this, this.STATUS_EVENT, 'Welcome ...')
-			setTimeout(() => oThis.getFBUser(), 0) //do this asynchronously
+			setTimeout(() => this.getFBUser(), 0) //do this asynchronously
 		} else {
 			cDebug.write('user not logged into Facebook app')
 			bean.fire(this, this.STATUS_EVENT, ' click here &gt; &gt; &gt;')
@@ -128,13 +127,11 @@ class cFacebook {
 
 	//**************************************************************
 	static onFBGotUser(psUser) {
-		const oThis = this
-		/** @type cFacebook */
 		cDebug.enter()
 		bean.fire(this, this.STATUS_EVENT, 'Welcome ' + psUser)
 
-		//subscribe to logout
-		FB.Event.subscribe('auth.logout', poEvent => oThis.OnFBLogout(poEvent))
+		// @ts-expect-error
+		FB.Event.subscribe('auth.logout', poEvent => this.OnFBLogout(poEvent))
 
 		cDebug.leave()
 	}
@@ -144,7 +141,6 @@ class cFacebook {
 	static OnFBLogout(poEvent) {
 		cDebug.enter()
 		//not implemented
-		//setTimeout( function(){	oThis.checkLoginStatus()}, 0);
 		cDebug.leave()
 	}
 }

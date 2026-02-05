@@ -30,11 +30,8 @@ $.widget('ck.slideout', {
 	//# Constructor
 	//#################################################################`
 	_create: function () {
-		const oThis = this
-		var oElement
-
 		//set basic stuff
-		oElement = oThis.element
+		var oElement = this.element
 		oElement.uniqueId()
 
 		//check for required options
@@ -93,7 +90,7 @@ $.widget('ck.slideout', {
 		oOptions.left_in = oLowerDiv.position().left
 
 		//set up the click handlers
-		oLowerDiv.on('click', () => oThis.onClickSlideout())
+		oLowerDiv.on('click', () => this.onClickSlideout())
 	},
 
 	//***************************************************************************

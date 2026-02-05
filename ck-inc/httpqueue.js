@@ -23,9 +23,7 @@ class cHttpQueueJquery {
 	static queues = []
 
 	static onJqueryLoad() {
-		/** @type cHttpQueueJquery */ const oThis = this
-
-		$(window).bind('beforeunload', () => oThis.stop_all_transfers())
+		$(window).bind('beforeunload', () => this.stop_all_transfers())
 	}
 
 	static stop_all_transfers() {
@@ -79,8 +77,6 @@ class cHttpQueue {
 
 	// ***************************************************************
 	pr_process_next() {
-		/** @type cHttpQueue */ const oThis = this
-
 		var oItem
 
 		if (this.stopping) return
@@ -104,7 +100,7 @@ class cHttpQueue {
 		if (oItem.fnCheckContinue) if (!oItem.fnCheckContinue()) return
 
 		if (oItem.abort) return
-		setTimeout(() => oThis.onTimer(oItem), this.NICENESS_DELAY)
+		setTimeout(() => this.onTimer(oItem), this.NICENESS_DELAY)
 
 		//notify the remaining backlogQ items their position in the queue
 		//TBD
@@ -118,7 +114,6 @@ class cHttpQueue {
 
 	// ***************************************************************
 	onTimer(poItem) {
-		/** @type cHttpQueue */ const oThis = this
 		if (this.stopping) return
 
 		bean.fire(poItem, 'start') //notify item has started
@@ -130,8 +125,8 @@ class cHttpQueue {
 			oHttp.data = poItem.data
 			poItem.ohttp = oHttp
 
-			bean.on(oHttp, 'result', poHttp => oThis.onResult(poHttp, poItem))
-			bean.on(oHttp, 'error', poHttp => oThis.onError(poHttp, poItem))
+			bean.on(oHttp, 'result', poHttp => this.onResult(poHttp, poItem))
+			bean.on(oHttp, 'error', poHttp => this.onError(poHttp, poItem))
 			oHttp.fetch_json(poItem.url, poItem.data)
 		}
 		//go on to the next transfer

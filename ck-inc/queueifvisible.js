@@ -29,25 +29,19 @@ class cQueueifVisible {
 	go(poElement, psUrl, poData = null) {
 		if (!bean) $.error('bean class is missing! check includes')
 
-		/** @type cQueueifVisible */ const oThis = this
-
 		this.element = poElement
 		if (!$.event.special.inview) $.error('inview class is missing! check includes')
 		if (!poElement.inViewport) $.error('inViewport class is missing! check includes')
 		this.url = psUrl
 		this.data = poData
 		this.pr__send_status('waiting for page ready..')
-		$(function () {
-			oThis.pr__setInViewListener()
-		})
+		$(() => this.pr__setInViewListener())
 	}
 
 	//#################################################################
 	//# privates
 	//#################################################################`
 	pr__setInViewListener() {
-		/** @type cQueueifVisible */ const oThis = this
-
 		var oElement = this.element
 
 		if (!oElement.inViewport()) {
@@ -55,26 +49,21 @@ class cQueueifVisible {
 
 			//set the event listeners
 			this.pr__send_status('waiting for item to be visible..')
-			oElement.on('inview', function (poEvent, pbIsInView) {
-				oThis.onInView(pbIsInView)
-			})
+			oElement.on('inview', (poEvent, pbIsInView) => this.onInView(pbIsInView))
 		} else this.onScrollingTimer()
 	}
 
 	//*******************************************************************
 	pr__add_forcebutton() {
-		/** @type cQueueifVisible */ const oThis = this
-		setTimeout(() => oThis.pr__do_add_forcebutton(), this.WAIT_FORCE)
+		setTimeout(() => this.pr__do_add_forcebutton(), this.WAIT_FORCE)
 	}
 
 	pr__do_add_forcebutton() {
-		/** @type cQueueifVisible */ const oThis = this
-
 		var oElement = this.element
 
 		var btnForce = $('<button>').append('load')
 		oElement.append(btnForce)
-		btnForce.on('click', () => oThis.onInView(true))
+		btnForce.on('click', () => this.onInView(true))
 	}
 
 	//*******************************************************************
@@ -87,7 +76,6 @@ class cQueueifVisible {
 	//# events
 	//#################################################################`
 	onInView(pbIsInView) {
-		/** @type cQueueifVisible */ const oThis = this
 		var oElement = $(this.element)
 
 		//check if element is visible
@@ -101,14 +89,13 @@ class cQueueifVisible {
 
 		//TODO use position of element in viewport to determine whether scrolling is happening
 		// eg if the element has moved more than 10 pixels since last time then wait.
-		setTimeout(() => oThis.onScrollingTimer(), this.WAIT_SCROLLING)
+		setTimeout(() => this.onScrollingTimer(), this.WAIT_SCROLLING)
 	}
 
 	//*******************************************************************
 	// visible timer incase the element is being scrolled.
 	//
 	onScrollingTimer() {
-		/** @type cQueueifVisible */ const oThis = this
 		var oElement = $(this.element)
 
 		if (!oElement.inViewport()) {
@@ -130,10 +117,10 @@ class cQueueifVisible {
 			//doesnt add readability to make this an arrow function
 			return oThis.onCheckContinue()
 		}
-		bean.on(oQItem, 'start', () => oThis.onStart(oQItem))
-		bean.on(oQItem, 'result', poHttp => oThis.onResult(poHttp))
-		bean.on(oQItem, 'error', poHttp => oThis.onError(poHttp))
-		bean.on(oQItem, 'Qpos', () => oThis.onQPosition(oQItem))
+		bean.on(oQItem, 'start', () => this.onStart(oQItem))
+		bean.on(oQItem, 'result', poHttp => this.onResult(poHttp))
+		bean.on(oQItem, 'error', poHttp => this.onError(poHttp))
+		bean.on(oQItem, 'Qpos', () => this.onQPosition(oQItem))
 
 		var oQueue = cQueueifVisibleQueue.queue
 		oQueue.add(oQItem)

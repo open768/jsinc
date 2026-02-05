@@ -33,7 +33,7 @@
 
 	$.fn.inViewport = function () {
 		var oWindow = $(window)
-		const oThis = $(this)
+		const oElement = $(this)
 
 		var oViewPort = new cRectangle()
 		oViewPort.C1.x = oWindow.scrollLeft()
@@ -42,10 +42,10 @@
 		oViewPort.C2.y = oViewPort.C1.y + oWindow.height()
 
 		var oRect = new cRectangle()
-		oRect.C1.x = oThis.offset().left
-		oRect.C1.y = oThis.offset().top
-		oRect.C2.x = oRect.C1.x + oThis.width()
-		oRect.C2.y = oRect.C1.y + oThis.height()
+		oRect.C1.x = oElement.offset().left
+		oRect.C1.y = oElement.offset().top
+		oRect.C2.x = oRect.C1.x + oElement.width()
+		oRect.C2.y = oRect.C1.y + oElement.height()
 
 		return oViewPort.rect_intersect(oRect)
 	}

@@ -86,35 +86,32 @@ class cHttp2 {
 
 	//**************************************************************
 	async fetch_json(psUrl, poData) {
-		/** @type cHttp2 */ const oThis = this
-
 		this.url = psUrl
 		this.correct_url()
 		this.data = poData
 
 		cDebug.write('fetching url: ' + this.url)
 		if (poData)
-			this.oXHR = this.postJSON(this.url, this.data, function (pResult) {
-				oThis.onResult(pResult)
-			}).fail(function (pEv, pSt, pEr) {
-				oThis.onError(pEv, pSt, pEr)
+			this.oXHR = this.postJSON(this.url, this.data, pResult => {
+				this.onResult(pResult)
+			}).fail((pEv, pSt, pEr) => {
+				this.onError(pEv, pSt, pEr)
 			})
 		else
-			this.oXHR = $.getJSON(this.url, function (pResult) {
-				oThis.onResult(pResult)
-			}).fail(function (pEv, pSt, pEr) {
-				oThis.onError(pEv, pSt, pEr)
+			this.oXHR = $.getJSON(this.url, pResult => {
+				this.onResult(pResult)
+			}).fail((pEv, pSt, pEr) => {
+				this.onError(pEv, pSt, pEr)
 			})
 	}
 
 	//**************************************************************
 	async post(psUrl, poData) {
-		/** @type cHttp2 */ const oThis = this
 		this.url = psUrl
 		this.correct_url()
 		this.data = poData
 
-		var fnCallBack = pResult => oThis.onResult(pResult)
+		var fnCallBack = pResult => this.onResult(pResult)
 		if (cDebug.is_debugging()) {
 			var sGetUrl = cBrowser.buildUrl(this.url, poData)
 			cDebug.write('posting url: ' + sGetUrl)
@@ -122,7 +119,7 @@ class cHttp2 {
 		} else {
 			this.oXHR = $.post(this.url, poData, fnCallBack)
 		}
-		this.oXHR.fail((pEv, pSt, pEr) => oThis.onError(pEv, pSt, pEr))
+		this.oXHR.fail((pEv, pSt, pEr) => this.onError(pEv, pSt, pEr))
 	}
 
 	correct_url() {

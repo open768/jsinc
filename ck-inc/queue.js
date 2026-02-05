@@ -55,9 +55,7 @@ class cQueueRunner {
 			return
 		}
 		bean.fire(this, cQueueRunner.EVENT_STEP, oItem)
-		/** @type cQueueRunner */ const oThis = this
-
-		setTimeout(() => oThis.step(), this.delay)
+		setTimeout(() => this.step(), this.delay)
 	}
 
 	//*****************************************************
