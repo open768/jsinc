@@ -103,7 +103,7 @@ class cDebug {
 	//*****************************************************
 	static enter() {
 		var sFn
-		if (!this.DEBUGGING) return
+		if (this.level < cDebugTypes.levels.extra) return
 
 		sFn = this.pr__getCaller('enter')
 		this.extra_debug('>> Entering ' + sFn)
@@ -113,7 +113,7 @@ class cDebug {
 	//*****************************************************
 	static leave() {
 		var sFn
-		if (!this.DEBUGGING) return
+		if (this.level < cDebugTypes.levels.extra) return
 		if (this.stack.length == 0) return
 
 		sFn = this.pr__getCaller('leave')
