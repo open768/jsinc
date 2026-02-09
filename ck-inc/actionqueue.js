@@ -27,7 +27,7 @@ class cActionQueueItem {
 	}
 }
 
-// eslint-disable-next-line no-unused-vars
+ 
 class cActionQueue {
 	aBacklog = []
 	aTransfers = new cQueue()
@@ -44,27 +44,36 @@ class cActionQueue {
 
 	//***************************************************************
 	stop() {
-		if (this.bStopping) return
-		if (this.aBacklog.length == 0) return
+		if (this.bStopping) {
+			return
+		}
+		if (this.aBacklog.length == 0) {
+			return
+		}
 		this.bStopping = true
 		this.aBacklog = []
 	}
 
 	//***************************************************************
 	add(psName, psActionUrl, poData) {
-		if (this.bStopping) return
+		if (this.bStopping) {
+			return
+		}
 		this.aBacklog.push(new cActionQueueItem(psName, psActionUrl, poData))
 	}
 
 	//***************************************************************
 	start() {
-		if (this.bStopping) return
+		if (this.bStopping) {
+			return
+		}
 
 		var oQueue = this
 
 		//------------ queue logic
-		if (this.aTransfers.length() >= this.MAX_TRANSFERS) cDebug.write('Queue - full')
-		else if (this.aBacklog.length > 0) {
+		if (this.aTransfers.length() >= this.MAX_TRANSFERS) {
+			cDebug.write('Queue - full')
+		} else if (this.aBacklog.length > 0) {
 			this.running = true
 			var oItem = this.aBacklog.pop() //Take item off backlog
 			this.aTransfers.push(oItem.name, null) //put onto transfer list
@@ -80,7 +89,7 @@ class cActionQueue {
 				bean.on(oHttp, 'error', poHttp => oQueue.process_error(poHttp, oItem))
 
 				//separate thread to allow UI to catch up
-				// eslint-disable-next-line no-unused-vars
+				 
 				var iThread = setTimeout(
 					() => oHttp.fetch_json(oItem.url, oItem.name), //start transfer
 					this.ASYNC_DELAY
@@ -92,7 +101,7 @@ class cActionQueue {
 	}
 
 	//***************************************************************
-	// eslint-disable-next-line no-unused-vars
+	 
 	process_response(poHttp, poItem) {
 		this.aTransfers.remove(poHttp.data)
 		if (this.bStopping) {
@@ -109,7 +118,7 @@ class cActionQueue {
 		this.start() //process the next item
 	}
 	//***************************************************************
-	// eslint-disable-next-line no-unused-vars
+	 
 	process_error(poHttp, poItem) {
 		this.aTransfers.remove(poHttp.data)
 		if (this.bStopping) {

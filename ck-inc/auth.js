@@ -13,7 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //requires Jquery cookie library from https://github.com/carhartl/jquery-cookie
 
 //THIS IS A SINGLETON CLASS//
-// eslint-disable-next-line no-unused-vars
+ 
 class cAuth {
 	static user = null
 

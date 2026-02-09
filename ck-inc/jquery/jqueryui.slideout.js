@@ -36,10 +36,18 @@ $.widget('ck.slideout', {
 
 		//check for required options
 		var oOptions = this.options
-		if (!oOptions.width) $.error('width missing!')
-		if (!oOptions.height) $.error('height missing!')
-		if (!oOptions.uppercontent) $.error('uppercontent missing!')
-		if (!oOptions.lowercontent) $.error('lowercontent missing!')
+		if (!oOptions.width) {
+			$.error('width missing!')
+		}
+		if (!oOptions.height) {
+			$.error('height missing!')
+		}
+		if (!oOptions.uppercontent) {
+			$.error('uppercontent missing!')
+		}
+		if (!oOptions.lowercontent) {
+			$.error('lowercontent missing!')
+		}
 
 		oElement.empty()
 

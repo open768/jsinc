@@ -2,11 +2,13 @@
   "name": "jsinc",
   "version": "1.0.0",
   "description": "useful js functions",
-  "scripts": {
-  },
-  "author": "",
+  "scripts": {},
+  "author": "chicken katsu (www.chickenkatsu.co.uk)",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.37.0"
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.8.0",
+    "eslint": "^10.0.0",
+    "globals": "^17.3.0"
   }
 }

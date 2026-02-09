@@ -8,7 +8,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 /* global cCommonStatus */
-// eslint-disable-next-line no-unused-vars
+ 
 class cComments {
 	static phpBaseURL = null
 
@@ -18,9 +18,15 @@ class cComments {
 
 	//********************************************************************************
 	static async get(psSol, psInstr, psProduct, pfnCallback) {
-		if (!psSol) cDebug.error('sol is missing')
-		if (!psInstr) cDebug.error('instrument is missing')
-		if (!psProduct) cDebug.error('product is missing')
+		if (!psSol) {
+			cDebug.error('sol is missing')
+		}
+		if (!psInstr) {
+			cDebug.error('instrument is missing')
+		}
+		if (!psProduct) {
+			cDebug.error('product is missing')
+		}
 
 		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
 			[cAppUrlParams.OPERATION]: 'get',

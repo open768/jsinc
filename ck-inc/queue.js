@@ -26,7 +26,9 @@ class cQueueRunner {
 
 	//*****************************************************
 	start() {
-		if (this.stopping || this.running) return
+		if (this.stopping || this.running) {
+			return
+		}
 		this.running = true
 		bean.fire(this, cQueueRunner.EVENT_START)
 		this.step()
@@ -34,13 +36,17 @@ class cQueueRunner {
 
 	//*****************************************************
 	stop() {
-		if (this.stopping || !this.running) return
+		if (this.stopping || !this.running) {
+			return
+		}
 		this.stopping = true
 	}
 
 	//*****************************************************
 	step() {
-		if (!this.running) return
+		if (!this.running) {
+			return
+		}
 
 		if (this.stopping) {
 			this.pr_stop()
@@ -81,8 +87,11 @@ class cQueue {
 
 	//**********************************************************
 	length() {
-		if (this.prNext === null) return 0
-		else return 1 + this.prNext.length()
+		if (this.prNext === null) {
+			return 0
+		} else {
+			return 1 + this.prNext.length()
+		}
 	}
 
 	//**********************************************************
@@ -97,23 +106,34 @@ class cQueue {
 
 	//**********************************************************
 	exists(psKey) {
-		if (this.prKey === psKey) return true
-		else if (this.prNext) return this.prNext.exists(psKey)
-		else return false
+		if (this.prKey === psKey) {
+			return true
+		} else if (this.prNext) {
+			return this.prNext.exists(psKey)
+		} else {
+			return false
+		}
 	}
 
 	//**********************************************************
 	get(psKey) {
-		if (this.prKey === psKey) return this
-		else if (this.prNext) return this.prNext.get(psKey)
-		else return null
+		if (this.prKey === psKey) {
+			return this
+		} else if (this.prNext) {
+			return this.prNext.get(psKey)
+		} else {
+			return null
+		}
 	}
 
 	//**********************************************************
 	remove(psKey) {
 		if (this.prNext) {
-			if (this.prNext.prKey === psKey) this.prNext = this.prNext.prNext
-			else this.prNext.remove(psKey)
+			if (this.prNext.prKey === psKey) {
+				this.prNext = this.prNext.prNext
+			} else {
+				this.prNext.remove(psKey)
+			}
 		}
 	}
 

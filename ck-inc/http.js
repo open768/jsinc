@@ -25,7 +25,7 @@ class cHttpFailer {
 
 //###############################################################
 //###############################################################
-// eslint-disable-next-line no-unused-vars
+ 
 class cHttp {
 	//@todo make this OO not a singleton
 
@@ -33,8 +33,11 @@ class cHttp {
 		cDebug.write_err('cHttp is deprecated')
 		var oFailer
 		//if the url doesnt contain http
-		if (psUrl.search('http:') == -1) cDebug.write(cBrowser.baseUrl() + psUrl)
-		else cDebug.write(psUrl)
+		if (psUrl.search('http:') == -1) {
+			cDebug.write(cBrowser.baseUrl() + psUrl)
+		} else {
+			cDebug.write(psUrl)
+		}
 		oFailer = new cHttpFailer()
 		oFailer.url = psUrl
 		$.getJSON(psUrl, pfnCallBack).fail(oFailer.fail)
@@ -43,8 +46,11 @@ class cHttp {
 	//***************************************************************
 	static async post(psUrl, poData, pfnCallBack) {
 		cDebug.write_err('cHttp is deprecated')
-		if (psUrl.search('http:') == -1) cDebug.write(cBrowser.baseUrl() + psUrl)
-		else cDebug.write(psUrl)
+		if (psUrl.search('http:') == -1) {
+			cDebug.write(cBrowser.baseUrl() + psUrl)
+		} else {
+			cDebug.write(psUrl)
+		}
 		var oFailer = new cHttpFailer()
 		oFailer.url = psUrl
 
@@ -61,7 +67,7 @@ class cHttp {
 //#		ohttp.fetch_json("http:..","something");
 
 //###############################################################
-// eslint-disable-next-line no-unused-vars
+ 
 class cHttp2 {
 	url = null
 	data = null
@@ -91,18 +97,19 @@ class cHttp2 {
 		this.data = poData
 
 		cDebug.write('fetching url: ' + this.url)
-		if (poData)
+		if (poData) {
 			this.oXHR = this.postJSON(this.url, this.data, pResult => {
 				this.onResult(pResult)
 			}).fail((pEv, pSt, pEr) => {
 				this.onError(pEv, pSt, pEr)
 			})
-		else
+		} else {
 			this.oXHR = $.getJSON(this.url, pResult => {
 				this.onResult(pResult)
 			}).fail((pEv, pSt, pEr) => {
 				this.onError(pEv, pSt, pEr)
 			})
+		}
 	}
 
 	//**************************************************************
@@ -145,7 +152,9 @@ class cHttp2 {
 	//# Events
 	//################################################################
 	async onResult(poResponse) {
-		if (this.stopping) return
+		if (this.stopping) {
+			return
+		}
 
 		this.response = poResponse
 		bean.fire(this, 'result', this) //notify subscriber
@@ -153,7 +162,9 @@ class cHttp2 {
 
 	//**************************************************************
 	async onError(poEvent, psStatus, poError) {
-		if (this.stopping) return
+		if (this.stopping) {
+			return
+		}
 		this.event = poEvent
 		this.error = poError
 		this.errorStatus = psStatus

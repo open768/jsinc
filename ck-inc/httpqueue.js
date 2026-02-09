@@ -30,7 +30,9 @@ class cHttpQueueJquery {
 		var oQ
 		for (;;) {
 			oQ = this.queues.pop()
-			if (oQ) break
+			if (oQ) {
+				break
+			}
 			oQ.stop() //stop transfers on each queue
 		}
 	}
@@ -39,7 +41,7 @@ class cHttpQueueJquery {
 $(() => cHttpQueueJquery.onJqueryLoad())
 
 //##################################################################
-// eslint-disable-next-line no-unused-vars
+ 
 class cHttpQueue {
 	maxTransfers = 10
 	backlogQ = [] //an array of cHttpQueueItem
@@ -55,7 +57,9 @@ class cHttpQueue {
 
 	// ***************************************************************
 	add(poItem) {
-		if (this.stopping) return
+		if (this.stopping) {
+			return
+		}
 		if (!(poItem instanceof cHttpQueueItem)) {
 			throw new Error('item must be a cHttpQueueItem')
 		}
@@ -66,10 +70,15 @@ class cHttpQueue {
 
 	// ***************************************************************
 	start() {
-		if (this.stopping) return
+		if (this.stopping) {
+			return
+		}
 		if (this.running) {
-			if (this.inProgressQ.size > 0) return
-			else cDebug.write('Queue not running prematurely') //added extra check
+			if (this.inProgressQ.size > 0) {
+				return
+			} else {
+				cDebug.write('Queue not running prematurely')
+			} //added extra check
 		}
 		this.running = true
 		this.pr_process_next()
@@ -79,7 +88,9 @@ class cHttpQueue {
 	pr_process_next() {
 		var oItem
 
-		if (this.stopping) return
+		if (this.stopping) {
+			return
+		}
 
 		//if too many transfers in progress do nothing - ie wait for another item to finish
 		if (this.inProgressQ.size >= this.maxTransfers) {
@@ -97,24 +108,33 @@ class cHttpQueue {
 
 		//get the top item off the queue - ready to go
 		oItem = this.backlogQ.pop()
-		if (oItem.fnCheckContinue) if (!oItem.fnCheckContinue()) return
+		if (oItem.fnCheckContinue) {
+			if (!oItem.fnCheckContinue()) {
+				return
+			}
+		}
 
-		if (oItem.abort) return
+		if (oItem.abort) {
+			return
+		}
 		setTimeout(() => this.onTimer(oItem), this.NICENESS_DELAY)
 
 		//notify the remaining backlogQ items their position in the queue
 		//TBD
-		if (this.backlogQ.length > 0)
+		if (this.backlogQ.length > 0) {
 			for (var iPos = 0; iPos < this.backlogQ.length; iPos++) {
 				oItem = this.backlogQ[iPos]
 				oItem.QPosition = iPos
 				bean.fire(oItem, 'Qpos')
 			}
+		}
 	}
 
 	// ***************************************************************
 	onTimer(poItem) {
-		if (this.stopping) return
+		if (this.stopping) {
+			return
+		}
 
 		bean.fire(poItem, 'start') //notify item has started
 
@@ -139,7 +159,7 @@ class cHttpQueue {
 		this.backlogQ = []
 
 		//todo clear down the transfers in progress
-		// eslint-disable-next-line no-unused-vars
+		 
 		this.inProgressQ.forEach((oItem, psKey) => oItem.ohttp.stop())
 		this.inProgressQ = new Map()
 	}
@@ -154,7 +174,9 @@ class cHttpQueue {
 	//# Events
 	//#####################################################################
 	onResult(poHttp, poItem) {
-		if (this.stopping) return
+		if (this.stopping) {
+			return
+		}
 		cDebug.write('got a response for: ' + poItem.url)
 		bean.fire(poItem, 'result', poHttp)
 		this.inProgressQ.delete(poItem.url) //delete a specific item from the queue
@@ -162,7 +184,9 @@ class cHttpQueue {
 	}
 
 	onError(poHttp, poItem) {
-		if (this.stopping) return
+		if (this.stopping) {
+			return
+		}
 		bean.fire(poItem, 'error', poHttp)
 		this.inProgressQ.delete(poItem.url)
 		this.pr_process_next() //continue queue

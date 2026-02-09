@@ -54,7 +54,9 @@ class cFacebook {
 					this.onFBGotUser(sUser)
 					cDebug.leave()
 					return
-				} else cDebug.write('expired login cookie: ')
+				} else {
+					cDebug.write('expired login cookie: ')
+				}
 			}
 		}
 
@@ -101,7 +103,9 @@ class cFacebook {
 		cDebug.enter()
 		cDebug.write('Auth got response from FB')
 		var sUser = poHttp.response
-		if (typeof sUser !== 'string') $.error('user response is not a string')
+		if (typeof sUser !== 'string') {
+			$.error('user response is not a string')
+		}
 
 		if (sUser.trim() === '') {
 			sUser = 'uh-oh I couldnt get your name'
