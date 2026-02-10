@@ -80,8 +80,7 @@ class cHttp2 {
 
 	/**
 	 * wrapper for jquery post
-	 *
-	 * @param {*} psUrl url to fetch from
+	 \*	 * @param {*} psUrl url to fetch from
 	 * @param {*} poData data to send
 	 * @param {*} pfFunc callback
 	 * @returns

@@ -89,7 +89,6 @@ class cJquery {
 	}
 
 	/**
-	 * Description
 	 * @param {Element} poElement
 	 * @param {Boolean} pbEnabled=true
 	 */

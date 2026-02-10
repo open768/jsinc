@@ -11,8 +11,7 @@ class cBaseEvent {
 
 	/**
 	 * Creates a new CA event instance.
-	 *
-	 * @param {string} psBaseId - The base ID associated with the event.
+	 \*	 * @param {string} psBaseId - The base ID associated with the event.
 	 * @param {string} psAction - The action type for the event.
 	 * @param {*} [poData=null] - Optional payload for the event.
 	 * @throws {Error} If required arguments are missing or the class does not override event_type_id.
