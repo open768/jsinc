@@ -55,28 +55,28 @@ class cImgHilite {
 		var oClone
 		var oContainer = $(this.containerID)
 
-		if (bDraggable && this.currentBox) {
+		if (bDraggable && this.currentBox) 
 			//if there is a current box use it
 			oBox = this.currentBox
-		} else {
+		else {
 			//make a unique ID
 			var sID = 'box' + this.ID
 			this.ID++
 
 			//create a clone of the template and add to container
 			var oTemplate = $(this.templateID)
-			if (oTemplate.length == 0) {
+			if (oTemplate.length == 0) 
 				throw new Error('no template found')
-			}
+			
 			oClone = oTemplate.clone(true)
 			oClone[0].id = sID
 			oClone.appendTo(oContainer)
 
 			//find the offset of the image
 			var oImg = $(this.imgTarget)
-			if (oImg.length == 0) {
+			if (oImg.length == 0) 
 				throw new Error('Oops cant find image')
-			}
+			
 
 			//add it to the container and make it visible and draggable
 			var oBox
@@ -84,9 +84,9 @@ class cImgHilite {
 			oBox.show() //has to be shown otherwise the maths goes screwy as width/height isnt set
 
 			//save it
-			if (bDraggable) {
+			if (bDraggable) 
 				this.currentBox = oBox
-			}
+			
 		}
 
 		//position relative to the image

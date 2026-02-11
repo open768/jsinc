@@ -18,15 +18,15 @@ class cComments {
 
 	//********************************************************************************
 	static async get(psSol, psInstr, psProduct, pfnCallback) {
-		if (!psSol) {
+		if (!psSol) 
 			cDebug.error('sol is missing')
-		}
-		if (!psInstr) {
+		
+		if (!psInstr) 
 			cDebug.error('instrument is missing')
-		}
-		if (!psProduct) {
+		
+		if (!psProduct) 
 			cDebug.error('product is missing')
-		}
+		
 
 		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
 			[cAppUrlParams.OPERATION]: 'get',

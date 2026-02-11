@@ -54,9 +54,9 @@ class cFacebook {
 					this.onFBGotUser(sUser)
 					cDebug.leave()
 					return
-				} else {
+				} else 
 					cDebug.write('expired login cookie: ')
-				}
+				
 			}
 		}
 
@@ -103,9 +103,9 @@ class cFacebook {
 		cDebug.enter()
 		cDebug.write('Auth got response from FB')
 		var sUser = poHttp.response
-		if (typeof sUser !== 'string') {
+		if (typeof sUser !== 'string') 
 			$.error('user response is not a string')
-		}
+		
 
 		if (sUser.trim() === '') {
 			sUser = 'uh-oh I couldnt get your name'
@@ -177,9 +177,9 @@ window.fbAsyncInit = function () {
 ;(function (d, s, id) {
 	var js,
 		fjs = d.getElementsByTagName(s)[0]
-	if (d.getElementById(id)) {
+	if (d.getElementById(id)) 
 		return
-	}
+	
 	js = d.createElement(s)
 	js.id = id
 	js.src = 'https://connect.facebook.net/en_US/sdk.js'

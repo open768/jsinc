@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "jsinc",
   "version": "1.0.0",
   "description": "useful js functions",

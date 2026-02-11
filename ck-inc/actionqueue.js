@@ -44,36 +44,36 @@ class cActionQueue {
 
 	//***************************************************************
 	stop() {
-		if (this.bStopping) {
+		if (this.bStopping) 
 			return
-		}
-		if (this.aBacklog.length == 0) {
+		
+		if (this.aBacklog.length == 0) 
 			return
-		}
+		
 		this.bStopping = true
 		this.aBacklog = []
 	}
 
 	//***************************************************************
 	add(psName, psActionUrl, poData) {
-		if (this.bStopping) {
+		if (this.bStopping) 
 			return
-		}
+		
 		this.aBacklog.push(new cActionQueueItem(psName, psActionUrl, poData))
 	}
 
 	//***************************************************************
 	start() {
-		if (this.bStopping) {
+		if (this.bStopping) 
 			return
-		}
+		
 
 		var oQueue = this
 
 		//------------ queue logic
-		if (this.aTransfers.length() >= this.MAX_TRANSFERS) {
+		if (this.aTransfers.length() >= this.MAX_TRANSFERS) 
 			cDebug.write('Queue - full')
-		} else if (this.aBacklog.length > 0) {
+		else if (this.aBacklog.length > 0) {
 			this.running = true
 			var oItem = this.aBacklog.pop() //Take item off backlog
 			this.aTransfers.push(oItem.name, null) //put onto transfer list

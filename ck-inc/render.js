@@ -36,9 +36,9 @@ class cRender {
 
 	//**************************************************************************
 	static put_in_wbrs(psInput, piInterval = 20) {
-		if (psInput.indexOf(' ') > 0) {
+		if (psInput.indexOf(' ') > 0) 
 			return psInput
-		} else {
+		else {
 			var aSplit = psInput.split(piInterval)
 			var sJoined = aSplit.join('<wbr>')
 			return sJoined
@@ -106,9 +106,9 @@ class cRenderMDL {
 		var sClass = "class='mdl-card mdl-shadow--2dp rapport-card'"
 
 		var sHTML = '<div ' + sClass + " id='CARDID_" + this.cardID + "'>"
-		if (psTitle !== null) {
+		if (psTitle !== null) 
 			sHTML += this.title(psTitle)
-		}
+		
 		return sHTML
 	}
 
@@ -118,12 +118,12 @@ class cRenderMDL {
 			id: 'CARDID_' + this.cardID
 		}
 		var oCardDiv = $('DIV', oParams)
-		if (psTitle !== null) {
+		if (psTitle !== null) 
 			oCardDiv.append(this.title(psTitle))
-		}
-		if (poBody !== null) {
+		
+		if (poBody !== null) 
 			oCardDiv.append(this.body(poBody))
-		}
+		
 		return oCardDiv
 	}
 
@@ -142,9 +142,9 @@ class cRenderMDL {
 			class: 'mdl-card__supporting-text'
 		}
 		var oDiv = $('DIV', oParams)
-		if (poBody !== null) {
+		if (poBody !== null) 
 			oDiv.append(poBody)
-		}
+		
 		return oDiv
 	}
 
@@ -161,9 +161,9 @@ class cRenderMDL {
 class cRenderGoogleFont {
 	static create_icon(psIconName, psElementStyle = null) {
 		var oSpan = $('<SPAN>', { class: 'material-symbols-outlined' })
-		if (psElementStyle) {
+		if (psElementStyle) 
 			oSpan.attr('style', psElementStyle)
-		}
+		
 		oSpan.append(psIconName)
 		return oSpan
 	}

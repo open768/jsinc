@@ -22,9 +22,9 @@ class cString {
 
 		var iFound = sReverseTxt.search(sReverseSearch)
 
-		if (iFound != -1) {
+		if (iFound != -1) 
 			iFound = psText.length - iFound
-		}
+		
 		return iFound
 	}
 
@@ -39,11 +39,11 @@ class cString {
 		var iCheckLen = Math.min(ps1.length, ps2.length)
 		var i
 
-		for (i = 0; i < iCheckLen; i++) {
-			if (ps1[i] !== ps2[i]) {
+		for (i = 0; i < iCheckLen; i++) 
+			if (ps1[i] !== ps2[i]) 
 				break
-			}
-		}
+			
+		
 		return i
 	}
 
@@ -53,16 +53,16 @@ class cString {
 	}
 }
 
-if (!String.prototype.padLeft) {
+if (!String.prototype.padLeft) 
 	String.prototype.padLeft = function (psPad, piSize) {
 		var iDiff = piSize - this.length
-		if (iDiff > 0) {
+		if (iDiff > 0) 
 			return psPad.repeat(iDiff) + this
-		} else {
+		else 
 			return this
-		}
+		
 	}
-}
+
 
 //###############################################################
 //# common
@@ -77,21 +77,21 @@ class cCommon {
 
 	//***************************************************************
 	static obj_is(poObj, psClassName) {
-		if (poObj == null) {
+		if (poObj == null) 
 			throw 'obj_is: null param1!'
-		}
-		if (typeof poObj !== 'object') {
+		
+		if (typeof poObj !== 'object') 
 			throw 'obj_is: object expected for param1'
-		}
+		
 
 		var sObjType = typeof psClassName
-		if (sObjType === 'string') {
+		if (sObjType === 'string') 
 			return poObj.constructor.name === psClassName
-		} else if (sObjType === 'object') {
+		else if (sObjType === 'object') 
 			return poObj.constructor.name === psClassName.constructor.name
-		} else {
+		else 
 			throw 'param2: string expected, got: ' + sObjType
-		}
+		
 	}
 
 	//***************************************************************
@@ -145,11 +145,11 @@ class cBrowser {
 		sUrl = this.pageUrl()
 		cDebug.write('page url: ' + sUrl)
 		iLast = cString.last(sUrl, '/')
-		if (iLast == -1) {
+		if (iLast == -1) 
 			sBase = ''
-		} else {
+		else 
 			sBase = sUrl.substring(0, iLast)
-		}
+		
 
 		//cDebug.write("base url is "+ sBase);
 		return sBase
@@ -171,34 +171,34 @@ class cBrowser {
 
 	//***************************************************************
 	static openWindow(psUrl, psWindow) {
-		if (cCommon.SINGLE_WINDOW) {
+		if (cCommon.SINGLE_WINDOW) 
 			document.location.href = psUrl
-		} else {
+		else 
 			window.open(psUrl, psWindow)
-		}
+		
 	}
 
 	//***************************************************************
 	static buildUrl(psPage, poParams) {
-		if (psPage.search(/\?/) == -1) {
+		if (psPage.search(/\?/) == -1) 
 			return psPage + '?' + $.param(poParams, true)
-		} else {
+		else 
 			return psPage + '&' + $.param(poParams, true)
-		}
+		
 	}
 
 	//***************************************************************
 	//read_from_clipboard
 	static paste_from_clipboard(pfnCallBack) {
-		if (navigator && navigator.clipboard && navigator.clipboard.readText) {
+		if (navigator && navigator.clipboard && navigator.clipboard.readText) 
 			//async fetch from clipboard, will display a warning to user if permissions not set
 			navigator.clipboard.readText().then(text => {
 				this.writeConsoleWarning('pasted from clipboard: ' + text)
 				pfnCallBack(text)
 			})
-		} else {
+		else 
 			$.error('browser not compatible for clipboard operation')
-		}
+		
 	}
 
 	//***************************************************************
@@ -211,17 +211,17 @@ class cBrowser {
 			}
 			navigator.clipboard.writeText(psID)
 			this.writeConsoleWarning('sent to clipboard: ' + sText)
-		} else {
+		} else 
 			this.writeConsoleWarning('browser not compatible for copy operation')
-		}
+		
 	}
 
 	//***************************************************************
 	static get_clipboard_permissions(pbWrite = false) {
 		var sPermissionsName = 'clipboard-read'
-		if (pbWrite) {
+		if (pbWrite) 
 			sPermissionsName = 'clipboard-write'
-		}
+		
 		this.get_permissions(sPermissionsName)
 	}
 
@@ -231,23 +231,23 @@ class cBrowser {
 
 		navigator.permissions.query({ name: psName }).then(poStatus => {
 			this.writeConsoleWarning('permission for ' + psName + ' is ' + poStatus.state)
-			if (poStatus.state !== 'granted') {
+			if (poStatus.state !== 'granted') 
 				this.writeConsoleWarning('check site permissions')
-			}
+			
 		})
 	}
 
 	//***************************************************************
 	static writeConsole(psMessage) {
-		if (console) {
+		if (console) 
 			console.log(psMessage)
-		}
+		
 	}
 	//***************************************************************
 	static writeConsoleWarning(psMessage) {
-		if (console) {
+		if (console) 
 			console.warn(psMessage)
-		}
+		
 	}
 
 	//***************************************************************
@@ -261,16 +261,16 @@ class cBrowser {
 	static async getHeapMemoryUsed() {
 		//this will be deprecated in favour of
 		// @ts-expect-error
-		if (performance.measureUserAgentSpecificMemory) {
+		if (performance.measureUserAgentSpecificMemory) 
 			// @ts-expect-error
 			return await performance.measureUserAgentSpecificMemory()
 		// @ts-expect-error
-		} else if (performance.memory) {
+		else if (performance.memory) 
 			// @ts-expect-error
 			return performance.memory.usedJSHeapSize
-		} else {
+		else 
 			$.error('unable to get heap memory')
-		}
+		
 	}
 
 	//***************************************************************
