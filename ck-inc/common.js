@@ -209,8 +209,12 @@ class cBrowser {
 				var oEl = cJquery.element(psID)
 				sText = oEl.text()
 			}
-			navigator.clipboard.writeText(psID)
-			this.writeConsoleWarning('sent to clipboard: ' + sText)
+			try{
+				navigator.clipboard.writeText(psID)
+				this.writeConsoleWarning('sent to clipboard: ' + sText)
+			} catch (e) {
+				this.writeConsoleWarning('unable to write to clipboard, check site permissions') 
+			}
 		} else 
 			this.writeConsoleWarning('browser not compatible for copy operation')
 		

@@ -94,15 +94,26 @@ class cJquery {
 	 */
 	static enable_element(poElement, pbEnabled = true) {
 		var oElement
-		oElement = poElement
-		if (typeof poElement == 'string') 
-			oElement = cJquery.element(poElement)
-		
 
-		if (pbEnabled) 
-			oElement.removeAttr('disabled')
-		else 
-			oElement.attr('disabled', true)
+		var sType = typeof poElement
+		if (sType === 'string') 
+			oElement = cJquery.element(poElement)
+		else if (sType === 'object')
+			oElement = poElement
+		else
+			cDebug.error('invalid type for element: ' + sType)
+
+
+		if (pbEnabled) {
+			if (oElement.prop('disabled')) 
+				oElement.prop('disabled', false)
+		} else 
+			oElement.prop('disabled', true)
+
+		if (oElement.selectmenu)
+			try{
+				oElement.selectmenu('refresh')
+			}catch (e) {}
 		
 	}
 
