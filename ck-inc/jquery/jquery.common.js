@@ -34,6 +34,7 @@ class cJquery {
 
 				for (iClass = 0; iClass < aClasses.length; iClass++) {
 					oClass = aClasses[iClass]
+					// @ts-ignore
 					if (oClass.selectorText == sSearch) {
 						bFound = true
 						break
