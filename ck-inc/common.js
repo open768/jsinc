@@ -65,12 +65,13 @@ if (!String.prototype.padLeft)
 
 
 //###############################################################
-//# static class
+//# static classes
 //###############################################################
-class cStaticClass{
+class cStaticClass {
 	constructor() {
-		throw new Error('CELL_DATA_KEYS is static and cannot be instantiated')
-	}
+		if (this.constructor === cStaticClass) 
+			throw 'cStaticClass is abstract'	
+	}	
 }
 
 //###############################################################
