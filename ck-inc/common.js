@@ -211,15 +211,15 @@ class cBrowser {
 	}
 
 	//***************************************************************
-	static copy_to_clipboard(psID) {
+	static async copy_to_clipboard(psElementID) {
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
-			var sText = psID
-			if (psID.substring(0, 1) === '#') {
-				var oEl = cJquery.element(psID)
+			var sText = psElementID
+			if (psElementID.substring(0, 1) === '#') {
+				var oEl = cJquery.element(psElementID	)
 				sText = oEl.text()
 			}
 			try{
-				navigator.clipboard.writeText(psID)
+				await (navigator.clipboard.writeText(sText))
 				this.writeConsoleWarning('sent to clipboard: ' + sText)
 			} catch (e) {
 				this.writeConsoleWarning('unable to write to clipboard, check site permissions') 
