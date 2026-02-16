@@ -4,6 +4,19 @@
 //# JQUERY
 //###############################################################
 
+class cJQueryWidgetClass{
+	options = null
+	element = null
+
+	constructor(poOptions, poElement){
+		this.options = poOptions
+		this.element = poElement
+
+		poElement.uniqueId()
+		poElement.empty()
+	}
+}
+
 class cJquery {
 	//***************************************************************
 	//https://forum.jquery.com/topic/know-if-a-css-class-exists-in-document
