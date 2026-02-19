@@ -52,8 +52,9 @@ class cString {
 		return psText === null || psText === ''
 	}
 }
-
+// @ts-expect-error
 if (!String.prototype.padLeft) 
+	// @ts-expect-error
 	String.prototype.padLeft = function (psPad, piSize) {
 		var iDiff = piSize - this.length
 		if (iDiff > 0) 
@@ -296,12 +297,12 @@ class cBrowser {
 	//***************************************************************
 	static unbindInputKeyPress() {
 		var oWindow = $(window)
-		window.CBkeypressfn = oWindow.keypress
+		var CBkeypressfn = oWindow.keypress
 
 		$(':input').each(function (index, oInput) {
 			if ($(oInput).attr('type') === 'text') {
 				$(oInput).focus(() => $(window).unbind('keypress'))
-				$(oInput).blur(() => $(window).keypress(window.CBkeypressfn))
+				$(oInput).blur(() => $(window).keypress(CBkeypressfn))
 			}
 		})
 	}
