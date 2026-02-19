@@ -11,6 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 class cConverterEncodings {
 	static binary = '01'
 	static BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' //rfc4648
+	static BASE64_BITS = 6
 
 	static isBase64(psInput) {
 		for (var i = 0; i < psInput.length; i++) {
