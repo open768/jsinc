@@ -17,17 +17,17 @@ class cBaseEvent {
 	 * @throws {Error} If required arguments are missing or the class does not override event_type_id.
 	 */
 	constructor(psBaseId, psAction, poData = null) {
-		if (typeof bean === 'undefined') 
+		if (typeof bean === 'undefined')
 			$.error('bean library is missing')
-		if (this.constructor === cBaseEvent) 
+		if (this.constructor === cBaseEvent)
 			$.error('cBaseEvent is abstract')
 		// @ts-expect-error
-		if (!this.constructor.event_type_id) 
+		if (!this.constructor.event_type_id)
 			$.error('event_type_id not overridden in class:' + this.constructor.name)
-		
-		if (!psBaseId ) 
+
+		if (!psBaseId )
 			$.error('base ID missing')
-		if (!psAction) 
+		if (!psAction)
 			$.error('action missing')
 
 
@@ -52,28 +52,28 @@ class cBaseEvent {
 	}
 
 	static async fire_event(psBaseId, psAction, poData = null) {
-		if (this === cBaseEvent) 
+		if (this === cBaseEvent)
 			throw new CAException('cBaseEvent is abstract')
-		
-		if (!psBaseId) 
+
+		if (!psBaseId)
 			$.error('base ID is required')
-		
-		if (!psAction) 
+
+		if (!psAction)
 			$.error('action is required')
-		
+
 
 		var oEvent = new this(psBaseId, psAction, poData) //create specific instance
 		oEvent.trigger()
 	}
 
 	static async subscribe(psBaseId, pfnCallback) {
-		if (this === cBaseEvent) 
+		if (this === cBaseEvent)
 			$.error('cBaseEvent is abstract')
-		
-		if (typeof pfnCallback !== 'function') 
+
+		if (typeof pfnCallback !== 'function')
 			$.error('callback must be a function')
-		
-		if (!psBaseId) 
+
+		if (!psBaseId)
 			$.error('base ID is required')
 
 		var oEvent = new this(psBaseId, 'dummy') //create an event to get the channel ID

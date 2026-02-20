@@ -7,7 +7,7 @@ class cQueueifVisibleQueue {
 }
 
 //###########################################################################################
- 
+
 class cQueueifVisible {
 	static EVENT = {
 		START: 'start',
@@ -27,17 +27,17 @@ class cQueueifVisible {
 	}
 	//*******************************************************************
 	go(poElement, psUrl, poData = null) {
-		if (!bean) 
+		if (!bean)
 			$.error('bean class is missing! check includes')
-		
+
 
 		this.element = poElement
-		if (!$.event.special.inview) 
+		if (!$.event.special.inview)
 			$.error('inview class is missing! check includes')
-		
-		if (!poElement.inViewport) 
+
+		if (!poElement.inViewport)
 			$.error('inViewport class is missing! check includes')
-		
+
 		this.url = psUrl
 		this.data = poData
 		this.pr__send_status('waiting for page ready..')
@@ -56,9 +56,9 @@ class cQueueifVisible {
 			//set the event listeners
 			this.pr__send_status('waiting for item to be visible..')
 			oElement.on('inview', (poEvent, pbIsInView) => this.onInView(pbIsInView))
-		} else 
+		} else
 			this.onScrollingTimer()
-		
+
 	}
 
 	//*******************************************************************
@@ -125,6 +125,7 @@ class cQueueifVisible {
 			//doesnt add readability to make this an arrow function
 			return oThis.onCheckContinue()
 		}
+
 		bean.on(oQItem, 'start', () => this.onStart(oQItem))
 		bean.on(oQItem, 'result', poHttp => this.onResult(poHttp))
 		bean.on(oQItem, 'error', poHttp => this.onError(poHttp))
@@ -160,6 +161,7 @@ class cQueueifVisible {
 			console.error('item was empty!')
 			return
 		}
+
 		try {
 			this.pr__send_status('making server call')
 			bean.fire(this, cQueueifVisible.EVENT.START, poItem)

@@ -41,9 +41,10 @@ class cJquery {
 				} catch (e) {
 					//do nothing }
 				}
-				if (aClasses == null) 
+
+				if (aClasses == null)
 					continue
-				
+
 
 				for (iClass = 0; iClass < aClasses.length; iClass++) {
 					oClass = aClasses[iClass]
@@ -54,6 +55,7 @@ class cJquery {
 					}
 				}
 			}
+
 			return bFound
 		}
 	}
@@ -64,9 +66,9 @@ class cJquery {
 			$(this).removeClass('ui-front')
 		})
 
-		if (poElement) 
+		if (poElement)
 			poElement.addClass('ui-front')
-		
+
 	}
 
 	//***************************************************************
@@ -81,9 +83,9 @@ class cJquery {
 
 	//***************************************************************
 	static child_ID(poElement, psID) {
-		if (!poElement.attr('id')) 
+		if (!poElement.attr('id'))
 			poElement.uniqueId()
-		
+
 		return poElement.attr('id') + psID
 	}
 
@@ -110,7 +112,7 @@ class cJquery {
 		var oElement
 
 		var sType = typeof poElement
-		if (sType === 'string') 
+		if (sType === 'string')
 			oElement = cJquery.element(poElement)
 		else if (sType === 'object')
 			oElement = poElement
@@ -119,16 +121,16 @@ class cJquery {
 
 
 		if (pbEnabled) {
-			if (oElement.prop('disabled')) 
+			if (oElement.prop('disabled'))
 				oElement.prop('disabled', false)
-		} else 
+		} else
 			oElement.prop('disabled', true)
 
 		if (oElement.selectmenu)
 			try{
 				oElement.selectmenu('refresh')
 			}catch (e) {}
-		
+
 	}
 
 	//***************************************************************
@@ -138,20 +140,20 @@ class cJquery {
 
 	//***************************************************************
 	static element(psID) {
-		if (cString.is_string_empty(psID)) 
+		if (cString.is_string_empty(psID))
 			cDebug.error('empty string')
-		
+
 
 		const cFirst = psID.charAt(0)
 		var sID = psID
-		if (cFirst !== '#') 
+		if (cFirst !== '#')
 			sID = '#' + sID
-		
+
 
 		const oThing = $(sID)
-		if (oThing.length == 0) 
+		if (oThing.length == 0)
 			cDebug.error('no element found for ' + psID)
-		
+
 		return oThing
 	}
 

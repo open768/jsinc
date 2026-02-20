@@ -2,7 +2,7 @@
 
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013-2024
-This code is protected by copyright under the terms of the 
+This code is protected by copyright under the terms of the
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
 http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
@@ -55,7 +55,7 @@ class cImgHilite {
 		var oClone
 		var oContainer = $(this.containerID)
 
-		if (bDraggable && this.currentBox) 
+		if (bDraggable && this.currentBox)
 			//if there is a current box use it
 			oBox = this.currentBox
 		else {
@@ -65,18 +65,18 @@ class cImgHilite {
 
 			//create a clone of the template and add to container
 			var oTemplate = $(this.templateID)
-			if (oTemplate.length == 0) 
+			if (oTemplate.length == 0)
 				throw new Error('no template found')
-			
+
 			oClone = oTemplate.clone(true)
 			oClone[0].id = sID
 			oClone.appendTo(oContainer)
 
 			//find the offset of the image
 			var oImg = $(this.imgTarget)
-			if (oImg.length == 0) 
+			if (oImg.length == 0)
 				throw new Error('Oops cant find image')
-			
+
 
 			//add it to the container and make it visible and draggable
 			var oBox
@@ -84,9 +84,9 @@ class cImgHilite {
 			oBox.show() //has to be shown otherwise the maths goes screwy as width/height isnt set
 
 			//save it
-			if (bDraggable) 
+			if (bDraggable)
 				this.currentBox = oBox
-			
+
 		}
 
 		//position relative to the image

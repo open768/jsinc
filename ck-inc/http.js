@@ -1,7 +1,7 @@
 'use strict'
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013 - 2024
-This code is protected by copyright under the terms of the 
+This code is protected by copyright under the terms of the
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
 http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 
@@ -25,7 +25,7 @@ class cHttpFailer {
 
 //###############################################################
 //###############################################################
- 
+
 class cHttp {
 	//@todo make this OO not a singleton
 
@@ -33,11 +33,11 @@ class cHttp {
 		cDebug.write_err('cHttp is deprecated')
 		var oFailer
 		//if the url doesnt contain http
-		if (psUrl.search('http:') == -1) 
+		if (psUrl.search('http:') == -1)
 			cDebug.write(cBrowser.baseUrl() + psUrl)
-		else 
+		else
 			cDebug.write(psUrl)
-		
+
 		oFailer = new cHttpFailer()
 		oFailer.url = psUrl
 		$.getJSON(psUrl, pfnCallBack).fail(oFailer.fail)
@@ -46,11 +46,11 @@ class cHttp {
 	//***************************************************************
 	static async post(psUrl, poData, pfnCallBack) {
 		cDebug.write_err('cHttp is deprecated')
-		if (psUrl.search('http:') == -1) 
+		if (psUrl.search('http:') == -1)
 			cDebug.write(cBrowser.baseUrl() + psUrl)
-		else 
+		else
 			cDebug.write(psUrl)
-		
+
 		var oFailer = new cHttpFailer()
 		oFailer.url = psUrl
 
@@ -67,7 +67,7 @@ class cHttp {
 //#		ohttp.fetch_json("http:..","something");
 
 //###############################################################
- 
+
 class cHttp2 {
 	url = null
 	data = null
@@ -96,19 +96,19 @@ class cHttp2 {
 		this.data = poData
 
 		cDebug.write('fetching url: ' + this.url)
-		if (poData) 
+		if (poData)
 			this.oXHR = this.postJSON(this.url, this.data, pResult => {
 				this.onResult(pResult)
 			}).fail((pEv, pSt, pEr) => {
 				this.onError(pEv, pSt, pEr)
 			})
-		else 
+		else
 			this.oXHR = $.getJSON(this.url, pResult => {
 				this.onResult(pResult)
 			}).fail((pEv, pSt, pEr) => {
 				this.onError(pEv, pSt, pEr)
 			})
-		
+
 	}
 
 	//**************************************************************
@@ -122,16 +122,16 @@ class cHttp2 {
 			var sGetUrl = cBrowser.buildUrl(this.url, poData)
 			cDebug.write('posting url: ' + sGetUrl)
 			this.oXHR = $.get(sGetUrl, null, fnCallBack)
-		} else 
+		} else
 			this.oXHR = $.post(this.url, poData, fnCallBack)
-		
+
 		this.oXHR.fail((pEv, pSt, pEr) => this.onError(pEv, pSt, pEr))
 	}
 
 	correct_url() {
-		if (this.url.match(/^http/) == null) 
+		if (this.url.match(/^http/) == null)
 			this.url = cBrowser.baseUrl() + this.url
-		
+
 	}
 
 	//***************************************************************
@@ -143,6 +143,7 @@ class cHttp2 {
 			} catch (e) {
 				cDebug.write('cant stop while getting it on!')
 			}
+
 			this.oXHR = null
 		}
 	}
@@ -151,9 +152,9 @@ class cHttp2 {
 	//# Events
 	//################################################################
 	async onResult(poResponse) {
-		if (this.stopping) 
+		if (this.stopping)
 			return
-		
+
 
 		this.response = poResponse
 		bean.fire(this, 'result', this) //notify subscriber
@@ -161,9 +162,9 @@ class cHttp2 {
 
 	//**************************************************************
 	async onError(poEvent, psStatus, poError) {
-		if (this.stopping) 
+		if (this.stopping)
 			return
-		
+
 		this.event = poEvent
 		this.error = poError
 		this.errorStatus = psStatus

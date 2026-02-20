@@ -54,9 +54,9 @@ class cFacebook {
 					this.onFBGotUser(sUser)
 					cDebug.leave()
 					return
-				} else 
+				} else
 					cDebug.write('expired login cookie: ')
-				
+
 			}
 		}
 
@@ -74,6 +74,7 @@ class cFacebook {
 			bean.on(oHttp, 'result', poHttp => this.onGetUserResponse(poHttp))
 			oHttp.post(cFBConfig.SERVER_SIDE, oData)
 		}
+
 		cDebug.leave()
 	}
 
@@ -94,6 +95,7 @@ class cFacebook {
 			cDebug.write('user not logged into Facebook app')
 			bean.fire(this, this.STATUS_EVENT, ' click here &gt; &gt; &gt;')
 		}
+
 		cDebug.leave()
 	}
 
@@ -103,9 +105,9 @@ class cFacebook {
 		cDebug.enter()
 		cDebug.write('Auth got response from FB')
 		var sUser = poHttp.response
-		if (typeof sUser !== 'string') 
+		if (typeof sUser !== 'string')
 			$.error('user response is not a string')
-		
+
 
 		if (sUser.trim() === '') {
 			sUser = 'uh-oh I couldnt get your name'
@@ -125,6 +127,7 @@ class cFacebook {
 			$.cookie(this.AUTH_USER_COOKIE, sUser)
 			$.cookie(this.AUTH_DATE_COOKIE, dNow.getTime())
 		}
+
 		this.onFBGotUser(sUser)
 		cDebug.leave()
 	}
@@ -177,9 +180,9 @@ window.fbAsyncInit = function () {
 ;(function (d, s, id) {
 	var js,
 		fjs = d.getElementsByTagName(s)[0]
-	if (d.getElementById(id)) 
+	if (d.getElementById(id))
 		return
-	
+
 	js = d.createElement(s)
 	js.id = id
 	js.src = 'https://connect.facebook.net/en_US/sdk.js'

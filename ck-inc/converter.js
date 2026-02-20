@@ -1,7 +1,7 @@
 'use strict'
 /**************************************************************************
 	Copyright (C) Chicken Katsu 2013-2024
-This code is protected by copyright under the terms of the 
+This code is protected by copyright under the terms of the
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
 http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
@@ -21,6 +21,7 @@ class cConverterEncodings {
 				return false
 			}
 		}
+
 		return true
 	}
 }
@@ -32,14 +33,15 @@ class cConverter {
 		var bFirst = true
 		for (var i = 0; i < psBin.length; i++) {
 			var ch = psBin.charAt(i)
-			if (!bFirst) 
+			if (!bFirst)
 				iVal = iVal << 1
-			
-			if (ch == '1') 
+
+			if (ch == '1')
 				iVal = iVal | 1
-			
+
 			bFirst = false
 		}
+
 		return iVal
 	}
 
@@ -52,6 +54,7 @@ class cConverter {
 			sBin = ((iVal & 1) == 1 ? '1' : '0') + sBin
 			iVal = iVal >>> 1
 		}
+
 		return sBin
 	}
 
@@ -71,9 +74,9 @@ class cConverter {
 		cDebug.write('- binary out :' + sBin)
 		var i32 = this.binToInt(sBin)
 		cDebug.write('- number out :' + i32)
-		if (i32 !== iRand) 
+		if (i32 !== iRand)
 			throw new Error('cConverter test failed')
-		
+
 
 		cDebug.write('cConverter test passed :-)')
 		return true
@@ -81,15 +84,15 @@ class cConverter {
 }
 
 /***************************************************************************/
- 
+
 class cSimpleBase64 {
 	static BIN_LENGTH = 6
 
 	static toBase64(psBin) {
 		var s64 = ''
-		if (psBin.length % this.BIN_LENGTH !== 0) 
+		if (psBin.length % this.BIN_LENGTH !== 0)
 			cDebug.write('binary length not exactly divisible by ' + this.BIN_LENGTH)
-		
+
 
 		for (var istart = 0; istart < psBin.length; istart += this.BIN_LENGTH) {
 			var sFragment = psBin.substr(istart, this.BIN_LENGTH) //grab 6 characters
@@ -97,6 +100,7 @@ class cSimpleBase64 {
 			var sChar = cConverterEncodings.BASE64.charAt(iIndex)
 			s64 = s64 + sChar
 		}
+
 		return s64
 	}
 
@@ -109,9 +113,10 @@ class cSimpleBase64 {
 			cDebug.write('no expected binary length set - no custom end padding applied')
 			bCustomEndBinPadding = false
 		}
-		if (!cConverterEncodings.isBase64(ps64)) 
+
+		if (!cConverterEncodings.isBase64(ps64))
 			throw new Error('input contains non-base64 characters')
-		
+
 
 		var iRemaining = piOutLen
 		//work through each character
@@ -123,7 +128,7 @@ class cSimpleBase64 {
 
 			//pad the character to the correct length
 			var iPadLen = this.BIN_LENGTH
-			if (bCustomEndBinPadding && iRemaining <= this.BIN_LENGTH) 
+			if (bCustomEndBinPadding && iRemaining <= this.BIN_LENGTH)
 				iPadLen = iRemaining
 			//padding to remaining characters
 			sBin = sBin.padStart(iPadLen, '0')
@@ -132,10 +137,11 @@ class cSimpleBase64 {
 			sOutBin = sOutBin + sBin
 			iRemaining -= this.BIN_LENGTH
 		}
+
 		//use a regex to check if output string containsonly 1s and 0s
-		if (!/^[01]+$/.test(sOutBin)) 
+		if (!/^[01]+$/.test(sOutBin))
 			throw new Error('toBinary produced invalid binary string')
-		
+
 
 		return sOutBin
 	}
@@ -150,15 +156,16 @@ class cSimpleBase64 {
 			var iRand = Math.floor(Math.random() * 1.99)
 			sBinIn = sBinIn + iRand
 		}
+
 		cDebug.write('- in Bin: ' + sBinIn)
 		var s64 = this.toBase64(sBinIn)
 		cDebug.write('- base64: ' + s64)
 		var sBinOut = this.toBinary(s64, iLength)
 		cDebug.write('-out Bin: ' + sBinOut)
 
-		if (sBinIn !== sBinOut) 
+		if (sBinIn !== sBinOut)
 			throw new Error('test Failed')
-		
+
 		cDebug.write('test succeeded')
 	}
 }

@@ -1,14 +1,14 @@
 'use strict'
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013-2024
-This code is protected by copyright under the terms of the 
+This code is protected by copyright under the terms of the
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
 http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 /* global cCommonStatus */
- 
+
 class cComments {
 	static phpBaseURL = null
 
@@ -18,15 +18,15 @@ class cComments {
 
 	//********************************************************************************
 	static async get(psSol, psInstr, psProduct, pfnCallback) {
-		if (!psSol) 
+		if (!psSol)
 			cDebug.error('sol is missing')
-		
-		if (!psInstr) 
+
+		if (!psInstr)
 			cDebug.error('instrument is missing')
-		
-		if (!psProduct) 
+
+		if (!psProduct)
 			cDebug.error('product is missing')
-		
+
 
 		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
 			[cAppUrlParams.OPERATION]: 'get',

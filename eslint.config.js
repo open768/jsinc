@@ -1,5 +1,7 @@
 // eslint.config.js (ESM)
+// @ts-ignore
 import { defineConfig } from "eslint/config"
+// @ts-ignore
 import stylistic from "@stylistic/eslint-plugin"
 
 export default defineConfig([
@@ -8,7 +10,7 @@ export default defineConfig([
 		files: ["./**/*.js"],
 		languageOptions: {
 			ecmaVersion: "latest",
-			sourceType: "commonjs",
+			sourceType: "script",
 			globals: {
 				$: "readonly",
 				bean: "readonly",
@@ -21,6 +23,24 @@ export default defineConfig([
 		},
 		...stylistic.configs.recommended,
 		rules: {
+			// 0) Flag unused declarations (functions/vars) and private class members
+			"no-unused-vars": ["warn", {
+				"vars": "local",
+				"args": "after-used",
+			}],
+			"no-unused-private-class-members": "warn",
+
+			// Spacing: prevent extra/unnecessary spaces (auto-fixable where applicable)
+			"no-multi-spaces": "error",
+			"no-trailing-spaces": "error",
+			"@stylistic/key-spacing": ["error", { "beforeColon": false, "afterColon": true, "mode": "strict" }],
+
+			// Prevent redeclaring base-class fields like `element`
+			"no-restricted-syntax": ["warn", {
+				"selector": "ClassDeclaration[superClass.name='cJQueryWidgetClass'] PropertyDefinition[key.name='element']",
+				"message": "Do not redeclare `element` in subclasses of cJQueryWidgetClass; it is set by the base class.",
+			}],
+
 			// 1) No trailing semicolons (auto-fixable)
 			// Note: core `semi` is deprecated from ESLint 8.53 but still works in ESLint 9;
 			// it may be removed in ESLint 11. For now this will auto-remove semicolons.
@@ -31,6 +51,10 @@ export default defineConfig([
 			// e.g., `if (x) doThing()` -> 
 			//       `if (x)\n  doThing()`
 			"nonblock-statement-body-position": ["error", "below"],// [3](https://eslint.org/docs/latest/rules/nonblock-statement-body-position)
+			// Require a blank line after control blocks (auto-fixable)
+			"padding-line-between-statements": ["error",
+				{ "blankLine": "always", "prev": "block-like", "next": "*" },
+			],
 
 			// Strongly recommended along with the above so fixes are unambiguous
 			// Require braces for all control statements (auto-fixable)
