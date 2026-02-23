@@ -27,8 +27,13 @@ class cConverterEncodings {
 }
 
 class cConverter {
-	//*********************************************************************
-	static binToInt(psBin) {
+	/**
+	 * converts a string of binary digits to  an integer
+	 *
+	 * @param {string} psBin	binary string to convert
+	 * @returns {number}
+	 */
+	static binstrToInt(psBin) {
 		var iVal = 0
 		var bFirst = true
 		for (var i = 0; i < psBin.length; i++) {
@@ -46,7 +51,13 @@ class cConverter {
 	}
 
 	//*********************************************************************
-	static intToBin(piVal) {
+	/**
+	 * converts an integer to a binary string
+	 *
+	 * @param {number} piVal
+	 * @returns {string}
+	 */
+	static intToBinstr(piVal) {
 		var iVal = piVal
 		var sBin = ''
 
@@ -59,6 +70,11 @@ class cConverter {
 	}
 
 	//**********************************
+	/**
+	 * finds the index ( value) of a base64 character in the base64 encoding string
+	 * @param {string} pcChar64		the base64 character to convert to a decimal value
+	 * @returns {number}
+	 */
 	static base64ToDec(pcChar64) {
 		return cConverterEncodings.BASE64.indexOf(pcChar64)
 	}
@@ -70,9 +86,9 @@ class cConverter {
 		cDebug.write('- maxint is:' + iMax32Int)
 		var iRand = Math.floor(Math.random() * iMax32Int)
 		cDebug.write('- random number in:' + iRand)
-		var sBin = this.intToBin(iRand)
+		var sBin = this.intToBinstr(iRand)
 		cDebug.write('- binary out :' + sBin)
-		var i32 = this.binToInt(sBin)
+		var i32 = this.binstrToInt(sBin)
 		cDebug.write('- number out :' + i32)
 		if (i32 !== iRand)
 			throw new Error('cConverter test failed')
@@ -96,7 +112,7 @@ class cSimpleBase64 {
 
 		for (var istart = 0; istart < psBin.length; istart += this.BIN_LENGTH) {
 			var sFragment = psBin.substr(istart, this.BIN_LENGTH) //grab 6 characters
-			var iIndex = cConverter.binToInt(sFragment)
+			var iIndex = cConverter.binstrToInt(sFragment)
 			var sChar = cConverterEncodings.BASE64.charAt(iIndex)
 			s64 = s64 + sChar
 		}
@@ -124,7 +140,7 @@ class cSimpleBase64 {
 			//convert the base64 char to its binary value
 			var ch = ps64.charAt(i)
 			var iVal = cConverter.base64ToDec(ch)
-			var sBin = cConverter.intToBin(iVal)
+			var sBin = cConverter.intToBinstr(iVal)
 
 			//pad the character to the correct length
 			var iPadLen = this.BIN_LENGTH

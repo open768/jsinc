@@ -1,3 +1,5 @@
+class cBaseEventException extends Error {}
+
 //***************************************************************************
 class cBaseEvent {
 	base_id = null //allows consumers to listen for events associated with a common base_id
@@ -18,17 +20,17 @@ class cBaseEvent {
 	 */
 	constructor(psBaseId, psAction, poData = null) {
 		if (typeof bean === 'undefined')
-			$.error('bean library is missing')
+			throw new cBaseEventException('bean library is missing')
 		if (this.constructor === cBaseEvent)
-			$.error('cBaseEvent is abstract')
+			throw new cBaseEventException('cBaseEvent is abstract - instances are not allowed')
 		// @ts-expect-error
 		if (!this.constructor.event_type_id)
-			$.error('event_type_id not overridden in class:' + this.constructor.name)
+			throw new cBaseEventException('event_type_id not overridden in class:' + this.constructor.name)
 
 		if (!psBaseId )
-			$.error('base ID missing')
+			throw new cBaseEventException('base ID missing')
 		if (!psAction)
-			$.error('action missing')
+			throw new cBaseEventException('action missing')
 
 
 		this.base_id = psBaseId
@@ -56,10 +58,10 @@ class cBaseEvent {
 			throw new CAException('cBaseEvent is abstract')
 
 		if (!psBaseId)
-			$.error('base ID is required')
+			throw new cBaseEventException('base ID is required')
 
 		if (!psAction)
-			$.error('action is required')
+			throw new cBaseEventException('action is required')
 
 
 		var oEvent = new this(psBaseId, psAction, poData) //create specific instance
@@ -68,13 +70,13 @@ class cBaseEvent {
 
 	static async subscribe(psBaseId, pfnCallback) {
 		if (this === cBaseEvent)
-			$.error('cBaseEvent is abstract')
+			throw new cBaseEventException('cBaseEvent is abstract')
 
 		if (typeof pfnCallback !== 'function')
-			$.error('callback must be a function')
+			throw new cBaseEventException('callback must be a function')
 
 		if (!psBaseId)
-			$.error('base ID is required')
+			throw new cBaseEventException('base ID is required')
 
 		var oEvent = new this(psBaseId, 'dummy') //create an event to get the channel ID
 		bean.on(document, oEvent.channel_id(), pfnCallback)
