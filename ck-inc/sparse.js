@@ -9,13 +9,16 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 class cSparseArray {
+	rows = 0
+	cols = 0
+	_lastRowIndex = null
+	_lastRowAccessed = null
+	_data = new Map()
+
 	//***************************************************
 	constructor(piRows, piCols) {
-		this._data = new Map()
 		this.rows = piRows
 		this.cols = piCols
-		this._lastRowIndex = null
-		this._lastRowAccessed = null
 	}
 
 	//*****************************************************
