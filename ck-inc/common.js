@@ -116,8 +116,20 @@ class cCommon {
 		}).format(bytes / 1024 ** unit)
 	}
 
+	//***************************************************************
 	static is_numeric(psThing) {
 		return !isNaN(psThing)
+	}
+
+	//***************************************************************
+	static is_integer(psThing) {
+		if (typeof psThing === 'number')
+			return Number.isInteger(psThing)
+
+		if (typeof psThing === 'string')
+			return /^[0-9]+$/.test(psThing)
+
+		return false
 	}
 }
 
