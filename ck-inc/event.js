@@ -5,27 +5,19 @@ class cBaseEvent {
 	base_id = null //allows consumers to listen for events associated with a common base_id
 	action = null
 	data = null
-	/**
-	 * @abstract
-	 * @type {string}
-	 */
-	static event_type_id = null // this is an abstract property
 
 	/**
 	 * Creates a new CA event instance.
 	 * @param {string} psBaseId - The base ID associated with the event.
 	 * @param {string} psAction - The action type for the event.
 	 * @param {*} [poData=null] - Optional payload for the event.
-	 * @throws {Error} If required arguments are missing or the class does not override event_type_id.
+	 * @throws {Error} If required arguments are missing .
 	 */
 	constructor(psBaseId, psAction, poData = null) {
 		if (typeof bean === 'undefined')
 			throw new cBaseEventException('bean library is missing')
 		if (this.constructor === cBaseEvent)
 			throw new cBaseEventException('cBaseEvent is abstract - instances are not allowed')
-		// @ts-expect-error
-		if (!this.constructor.event_type_id)
-			throw new cBaseEventException('event_type_id not overridden in class:' + this.constructor.name)
 
 		if (!psBaseId )
 			throw new cBaseEventException('base ID missing')
@@ -43,8 +35,7 @@ class cBaseEvent {
 	 * @memberof cBaseEvent
 	 */
 	channel_id() {
-		// @ts-expect-error
-		return this.constructor.event_type_id + this.base_id //creates a unique ID for a specific event and base
+		return this.constructor.name + this.base_id //creates a unique ID for a specific event and base
 	}
 
 	async trigger() {
