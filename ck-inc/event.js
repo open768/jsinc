@@ -6,6 +6,10 @@ class cBaseEvent {
 	action = null
 	data = null
 
+	static base_actions= {
+		notify_subscription: "BENS"
+	}
+
 	/**
 	 * Creates a new CA event instance.
 	 * @param {string} psBaseId - The base ID associated with the event.
@@ -59,6 +63,7 @@ class cBaseEvent {
 		oEvent.trigger()
 	}
 
+	//********************************************************************
 	static async subscribe(psBaseId, pfnCallback) {
 		if (this === cBaseEvent)
 			throw new cBaseEventException('cBaseEvent is abstract')
@@ -71,5 +76,11 @@ class cBaseEvent {
 
 		var oEvent = new this(psBaseId, 'dummy') //create an event to get the channel ID
 		bean.on(document, oEvent.channel_id(), pfnCallback)
+
+		//fire off a subscriber event
+		this.fire_event(
+			psBaseId,
+			cBaseEvent.base_actions.notify_subscription, pfnCallback
+		)
 	}
 }
