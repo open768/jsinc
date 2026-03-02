@@ -25,8 +25,10 @@ class cBaseEvent {
 
 		if (!psBaseId )
 			throw new cBaseEventException('base ID missing')
-		if (!psAction)
-			throw new cBaseEventException('action missing')
+		if (typeof psAction === 'undefined')
+			throw new cBaseEventException('invalid action')
+		if ( !psAction )
+			throw new cBaseEventException('action required')
 
 
 		this.base_id = psBaseId
@@ -55,7 +57,7 @@ class cBaseEvent {
 		if (!psBaseId)
 			throw new cBaseEventException('base ID is required')
 
-		if (!psAction)
+		if (typeof psAction === 'undefined')
 			throw new cBaseEventException('action is required')
 
 
