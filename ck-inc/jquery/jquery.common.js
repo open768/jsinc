@@ -126,9 +126,13 @@ class cJquery {
 		} else
 			oElement.prop('disabled', true)
 
-		if (oElement.selectmenu)
+		if (oElement[0].nodeName === 'SELECT') 
 			try{
 				oElement.selectmenu('refresh')
+			}catch (e) {}
+		if (oElement[0].nodeName === 'BUTTON') 
+			try{
+				oElement.button('refresh')
 			}catch (e) {}
 
 	}
