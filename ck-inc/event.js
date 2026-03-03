@@ -115,9 +115,9 @@ class cBaseEvent {
 			aSubclassSubscribers[sChannelId]++
 	}
 
-	get_subscriber_count(psAction){
+	static get_subscriber_count(psBaseId, psAction){
 		//create a new instance of the subclass
-		var oEvent = new this.constructor(this.base_id, psAction)
+		var oEvent = new this(psBaseId, psAction)
 		var sChannelId = oEvent.channel_id()
 		return cBaseEvent._subscribers[sChannelId] || 0
 	}
