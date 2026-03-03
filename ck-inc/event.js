@@ -5,6 +5,8 @@ class cBaseEvent {
 	base_id = null //allows consumers to listen for events associated with a common base_id
 	action = null
 	data = null
+	static _trigger_counts = {}
+	static NOISY_TRIGGER_COUNT = 100
 
 	static base_actions= {
 		notify_subscription: "BENS"
@@ -45,7 +47,18 @@ class cBaseEvent {
 	//********************************************************************
 	async trigger() {
 		var sEventName = this.channel_id()
-		cDebug.write('event>> base:"' + this.base_id + '" type:' + this.constructor.name + ' action:' + this.action)
+		if (cDebug.is_debugging()){
+			var aCounts = cBaseEvent._trigger_counts
+			var iCount = aCounts[sEventName] || 0
+			iCount++
+			aCounts[sEventName] = iCount
+
+			if (iCount <= cBaseEvent.NOISY_TRIGGER_COUNT)
+				cDebug.write('event>> base:"' + this.base_id + '" type:' + this.constructor.name + ' action:' + this.action)
+			if (iCount === cBaseEvent.NOISY_TRIGGER_COUNT)
+				cDebug.write('event>> base:"' + this.base_id + '" type:' + this.constructor.name + ' action:' + this.action + ' (further events suppressed)')
+		}
+
 		bean.fire(document, sEventName, this)
 	}
 
