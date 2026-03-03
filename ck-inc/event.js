@@ -9,6 +9,7 @@ class cBaseEvent {
 	static base_actions= {
 		notify_subscription: "BENS"
 	}
+	static _subscribers = {}
 
 	/**
 	 * Creates a new CA event instance.
@@ -36,20 +37,19 @@ class cBaseEvent {
 		this.data = poData
 	}
 
-	/**
-	 * @return {*}
-	 * @memberof cBaseEvent
-	 */
+	//********************************************************************
 	channel_id() {
-		return this.constructor.name + this.base_id //creates a unique ID for a specific event and base
+		return this.constructor.name + this.base_id + this.action //creates a unique ID for a specific event and action
 	}
 
+	//********************************************************************
 	async trigger() {
 		var sEventName = this.channel_id()
 		cDebug.write('event>> base:"' + this.base_id + '" type:' + this.constructor.name + ' action:' + this.action)
 		bean.fire(document, sEventName, this)
 	}
 
+	//********************************************************************
 	static async fire_event(psBaseId, psAction, poData = null) {
 		if (this === cBaseEvent)
 			throw new CAException('cBaseEvent is abstract')
@@ -66,23 +66,59 @@ class cBaseEvent {
 	}
 
 	//********************************************************************
-	static async subscribe(psBaseId, pfnCallback) {
+	/**
+	 *
+	 * @param {string} psBaseId
+	 * @param {Array<string>} paSubscribedActions
+	 * @param {Function} pfnCallback
+	 */
+
+	static async subscribe(psBaseId, paSubscribedActions, pfnCallback) {
 		if (this === cBaseEvent)
 			throw new cBaseEventException('cBaseEvent is abstract')
 
 		if (typeof pfnCallback !== 'function')
 			throw new cBaseEventException('callback must be a function')
 
+		if (!Array.isArray(paSubscribedActions))
+			throw new cBaseEventException('subscribed actions must be an array')
+
 		if (!psBaseId)
 			throw new cBaseEventException('base ID is required')
 
-		var oEvent = new this(psBaseId, 'dummy') //create an event to get the channel ID
-		bean.on(document, oEvent.channel_id(), pfnCallback)
+		//--------------------------------------------------------------------
+		for (var sAction of paSubscribedActions) {
+			if (!sAction)
+				throw new cBaseEventException('action is empty')
 
-		//fire off a subscriber event
-		this.fire_event(
-			psBaseId,
-			cBaseEvent.base_actions.notify_subscription, pfnCallback
-		)
+			var oEvent = new this(psBaseId, sAction) //create an event to get the channel ID
+			var sChannelId = oEvent.channel_id()
+			bean.on(document, sChannelId, pfnCallback)
+
+			cBaseEvent._add_subscriber(oEvent) //keep track of subscribers for this event type
+		}
+	}
+
+	/**
+	 *
+	 * @param {cBaseEvent} poEvent
+	 */
+	static _add_subscriber(poEvent) {
+		//access the static _subscribers property of the subclass
+		//is there already a subscriber list for this base ID and action?
+		var aSubclassSubscribers = cBaseEvent._subscribers
+		var sChannelId = poEvent.channel_id()
+
+		if (!aSubclassSubscribers[sChannelId])
+			aSubclassSubscribers[sChannelId] = 1
+		else
+			aSubclassSubscribers[sChannelId]++
+	}
+
+	get_subscriber_count(psAction){
+		//create a new instance of the subclass
+		var oEvent = new this.constructor(this.base_id, psAction)
+		var sChannelId = oEvent.channel_id()
+		return cBaseEvent._subscribers[sChannelId] || 0
 	}
 }
