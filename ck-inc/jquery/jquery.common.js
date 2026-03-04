@@ -94,6 +94,7 @@ class cJquery {
 		return this.element(sID)
 	}
 
+
 	//***************************************************************
 	static get_padding_width(poElement) {
 		return (poElement.outerWidth() - poElement.width()) / 2
@@ -126,11 +127,12 @@ class cJquery {
 		} else
 			oElement.prop('disabled', true)
 
-		if (oElement[0].nodeName === 'SELECT') 
+		if (oElement[0].nodeName === 'SELECT')
 			try{
 				oElement.selectmenu('refresh')
 			}catch (e) {}
-		if (oElement[0].nodeName === 'BUTTON') 
+
+		if (oElement[0].nodeName === 'BUTTON')
 			try{
 				oElement.button('refresh')
 			}catch (e) {}
