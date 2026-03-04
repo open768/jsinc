@@ -1,4 +1,4 @@
-class cSupressMessage{
+class cSuppressMessage{
 	static _counts = {}
 	static _timestamps = {}
 

@@ -46,8 +46,13 @@ class cBaseEvent {
 	//********************************************************************
 	async trigger() {
 		var sEventName = this.channel_id()
+		var bSuppress
 		if (cDebug.is_debugging()){
-			var bSuppress = cSupressMessage.should_suppress(sEventName)
+			if (typeof cSuppressMessage === 'undefined')
+				bSuppress = false
+			else
+				bSuppress = cSuppressMessage.should_suppress(sEventName)
+
 			if (!bSuppress)
 				cDebug.write('event>> base:"' + this.base_id + '" type:' + this.constructor.name + ' action:' + this.action)
 		}

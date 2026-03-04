@@ -28,6 +28,7 @@ class cDebug {
 	static ONE_TIME_DEBUGGING = false
 	static stack = []
 	static level = cDebugTypes.levels.off
+	static SUPPRESSION = true
 
 	//*****************************************************
 	//static init
@@ -78,6 +79,11 @@ class cDebug {
 	//*****************************************************
 	//*****************************************************
 	static write(psMessage, piLevel = cDebugTypes.levels.off) {
+		if (this.SUPPRESSION )
+			if (typeof cSuppressMessage !== 'undefined')
+				if (cSuppressMessage.should_suppress(psMessage))
+					return
+
 		if (this.DEBUGGING || this.ONE_TIME_DEBUGGING)
 			if (this.level >= piLevel) {
 				if (this.ONE_TIME_DEBUGGING)
