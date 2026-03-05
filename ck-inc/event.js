@@ -100,7 +100,7 @@ class cBaseEvent {
 		//--------------------------------------------------------------------
 		for (var sAction of paSubscribedActions) {
 			if (!sAction)
-				throw new cBaseEventException('action is empty')
+				throw new cBaseEventException('subscribed action is empty')
 
 			var oEvent = new this(psBaseId, sAction) //create an event to get the channel ID
 			var sChannelId = oEvent.channel_id()
