@@ -105,11 +105,18 @@ class cDebug {
 	}
 
 	//*****************************************************
+	//*****************************************************
 	static write_err(psMessage, pbWriteToDoc = false) {
-		cBrowser.writeConsoleWarning('ERROR> ' + psMessage)
+		cBrowser.writeConsoleError('ERROR> ' + psMessage)
 		if (pbWriteToDoc)
 			document.write("<font color='red' size=20>" + psMessage + '</font>')
 
+	}
+
+	//***************************************************************
+	static error(psErr) {
+		this.write_err(psErr)
+		throw new Error(psErr)
 	}
 
 	//*****************************************************
@@ -207,11 +214,6 @@ class cDebug {
 		return this.pr__dump(arr, level)
 	}
 
-	//***************************************************************
-	static error(psErr) {
-		this.write_err(psErr)
-		throw new Error(psErr)
-	}
 
 	//***************************************************************
 	//* Privates

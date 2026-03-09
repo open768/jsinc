@@ -275,7 +275,11 @@ class cBrowser {
 	static writeConsoleWarning(psMessage) {
 		if (console)
 			console.warn(psMessage)
-
+	}
+	//***************************************************************
+	static writeConsoleError(psMessage) {
+		if (console)
+			console.error(psMessage)
 	}
 
 	//***************************************************************
