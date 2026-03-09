@@ -107,7 +107,7 @@ class cSimpleBase64 {
 	static toBase64(psBin) {
 		var s64 = ''
 		if (psBin.length % this.BIN_LENGTH !== 0)
-			cDebug.write('binary length not exactly divisible by ' + this.BIN_LENGTH)
+			cDebug.write('cSimpleBase64: binary length not exactly divisible by ' + this.BIN_LENGTH)
 
 
 		for (var istart = 0; istart < psBin.length; istart += this.BIN_LENGTH) {
