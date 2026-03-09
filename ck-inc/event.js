@@ -1,6 +1,14 @@
 class cBaseEventException extends Error {}
 
 //***************************************************************************
+class cEventSubscriber {
+	/** @type {boolean} */ active = true
+	unsubscribe() {
+		this.active = false
+	}
+}
+
+//***************************************************************************
 class cBaseEvent {
 	base_id = null //allows consumers to listen for events associated with a common base_id
 	action = null
@@ -68,9 +76,8 @@ class cBaseEvent {
 		if (!psBaseId)
 			throw new cBaseEventException('base ID is required')
 
-		if (typeof psAction === 'undefined')
+		if ( typeof psAction === 'undefined' || !psAction )
 			throw new cBaseEventException('action is required')
-
 
 		var oEvent = new this(psBaseId, psAction, poData) //create specific instance
 		oEvent.trigger()
