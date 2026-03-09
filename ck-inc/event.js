@@ -54,7 +54,7 @@ class cBaseEvent {
 				bSuppress = cSuppressMessage.should_suppress(sEventName)
 
 			if (!bSuppress)
-				cDebug.write('event>> base:"' + this.base_id + '" type:' + this.constructor.name + ' action:' + this.action)
+				cDebug.extra_debug('event>> base:"' + this.base_id + '" type:' + this.constructor.name + ' action:' + this.action)
 		}
 
 		bean.fire(document, sEventName, this)
