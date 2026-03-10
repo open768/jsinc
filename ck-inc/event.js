@@ -121,7 +121,7 @@ class cBaseEvent {
 	 *
 	 * @param {cBaseEvent} poEvent
 	 */
-	static _add_subscriber(poEvent) {
+	static async _add_subscriber(poEvent) {
 		//access the static _subscribers property of the subclass
 		//is there already a subscriber list for this base ID and action?
 		var aSubclassSubscribers = cBaseEvent._subscribers
