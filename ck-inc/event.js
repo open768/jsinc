@@ -1,4 +1,4 @@
-class cBaseEventException extends Error {}
+class eBaseEventException extends Error {}
 
 //***************************************************************************
 class cEventSubscriber {
@@ -29,16 +29,16 @@ class cBaseEvent {
 	 */
 	constructor(psBaseId, psAction, poData = null) {
 		if (typeof bean === 'undefined')
-			throw new cBaseEventException('bean library is missing')
+			throw new eBaseEventException('bean library is missing')
 		if (this.constructor === cBaseEvent)
-			throw new cBaseEventException('cBaseEvent is abstract - instances are not allowed')
+			throw new eBaseEventException('cBaseEvent is abstract - instances are not allowed')
 
 		if (!psBaseId )
-			throw new cBaseEventException('base ID missing')
+			throw new eBaseEventException('base ID missing')
 		if (typeof psAction === 'undefined')
-			throw new cBaseEventException('invalid action')
+			throw new eBaseEventException('invalid action')
 		if ( !psAction )
-			throw new cBaseEventException('action required')
+			throw new eBaseEventException('action required')
 
 
 		this.base_id = psBaseId
@@ -71,13 +71,13 @@ class cBaseEvent {
 	//********************************************************************
 	static async fire_event(psBaseId, psAction, poData = null) {
 		if (this === cBaseEvent)
-			throw new CAException('cBaseEvent is abstract')
+			throw new eCAException('cBaseEvent is abstract')
 
 		if (!psBaseId)
-			throw new cBaseEventException('base ID is required')
+			throw new eBaseEventException('base ID is required')
 
 		if ( typeof psAction === 'undefined' || !psAction )
-			throw new cBaseEventException('action is required')
+			throw new eBaseEventException('action is required')
 
 		var oEvent = new this(psBaseId, psAction, poData) //create specific instance
 		oEvent.trigger()
@@ -93,21 +93,21 @@ class cBaseEvent {
 
 	static async subscribe(psBaseId, paSubscribedActions, pfnCallback) {
 		if (this === cBaseEvent)
-			throw new cBaseEventException('cBaseEvent is abstract')
+			throw new eBaseEventException('cBaseEvent is abstract')
 
 		if (typeof pfnCallback !== 'function')
-			throw new cBaseEventException('callback must be a function')
+			throw new eBaseEventException('callback must be a function')
 
 		if (!Array.isArray(paSubscribedActions))
-			throw new cBaseEventException('subscribed actions must be an array')
+			throw new eBaseEventException('subscribed actions must be an array')
 
 		if (!psBaseId)
-			throw new cBaseEventException('base ID is required')
+			throw new eBaseEventException('base ID is required')
 
 		//--------------------------------------------------------------------
 		for (var sAction of paSubscribedActions) {
 			if (!sAction)
-				throw new cBaseEventException('subscribed action is empty')
+				throw new eBaseEventException('subscribed action is empty')
 
 			var oEvent = new this(psBaseId, sAction) //create an event to get the channel ID
 			var sChannelId = oEvent.channel_id()
