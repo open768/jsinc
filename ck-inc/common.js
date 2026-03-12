@@ -116,6 +116,17 @@ class cCommon {
 		}).format(bytes / 1024 ** unit)
 	}
 
+
+	/**
+	 * how many bits are required to store a number of a certain size
+	 * @param {number} piNum
+	 * @returns
+	 */
+	static intBitSize(piNum) {
+		// copilot generated code
+		return Math.ceil(Math.log2(piNum))
+	}
+
 	//***************************************************************
 	static is_numeric(psThing) {
 		return !isNaN(psThing)
