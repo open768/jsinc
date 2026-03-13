@@ -31,9 +31,9 @@ class cSuppressMessage{
 
 
 	/**
-     * @param {string} psThing
-     * @returns {boolean}
-     */
+	 * @param {string} psThing
+	 * @returns {boolean}
+	 */
 	static should_suppress(psThing){
 
 		//-----------------update the count

@@ -8,6 +8,7 @@ import jsdoc from "eslint-plugin-jsdoc"
 
 export default defineConfig([
 	{
+		...stylistic.configs.recommended,
 		ignores: ["eslint.config.js"],
 		files: ["./**/*.js"],
 		languageOptions: {
@@ -24,7 +25,6 @@ export default defineConfig([
 			"@stylistic": stylistic,
 			jsdoc,
 		},
-		...stylistic.configs.recommended,
 		rules: {
 			// 0) Flag unused declarations (functions/vars) and private class members
 			"no-unused-vars": ["warn", {
