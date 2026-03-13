@@ -3,3 +3,6 @@
 /extra
 /node_modules
 package-lock.json
+
+#jsbitstream
+jsbitstream-class/
