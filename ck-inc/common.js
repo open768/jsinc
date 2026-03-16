@@ -128,6 +128,30 @@ class cCommon {
 		// copilot generated code
 		return Math.ceil(Math.log2(piNum))
 	}
+	/**
+	 * returns the bitlength required to store a value up to piMaxValue,
+	 *  adjusted upwards to the nearest of 4, 8 16,32
+	 * @param {number} piMaxValue
+	 * @returns {number}
+	 */
+
+	static get_common_bit_length(piMaxValue){
+		var iLength = cCommon.intBitSize(piMaxValue)
+
+		// adjust ilength upwards to the nearest of 4, 8 16,32 etc for more efficient storage
+		if (iLength <= 4)
+			iLength = 4
+		else if (iLength <= 8)
+			iLength = 8
+		else if (iLength <= 16)
+			iLength = 16
+		else if (iLength <= 32)
+			iLength = 32
+		else
+			throw new eScramblerOpReaderException("unsupported bit length: " + iLength)
+
+		return iLength
+	}
 
 	//***************************************************************
 	static is_numeric(psThing) {
