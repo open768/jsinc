@@ -12,7 +12,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var STATUS_ID = 'status'
 
-// @ts-expect-error
 function module(){}
 
 //###############################################################
