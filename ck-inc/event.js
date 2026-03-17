@@ -18,8 +18,8 @@ class cBaseEvent {
 	static base_actions= {
 		notify_subscription: "BENS"
 	}
-	static _subscribers = {}
-
+	static _subscriber_counts = {}
+	static _subscribers = new Map() // TODO: store anonymous functions here so we can unsubscribe if needed
 	/**
 	 * Creates a new CA event instance.
 	 * @param {string} psBaseId - The base ID associated with the event.
@@ -122,9 +122,9 @@ class cBaseEvent {
 	 * @param {cBaseEvent} poEvent
 	 */
 	static async _add_subscriber(poEvent) {
-		//access the static _subscribers property of the subclass
+		//access the static _subscriber_counts property of the subclass
 		//is there already a subscriber list for this base ID and action?
-		var aSubclassSubscribers = cBaseEvent._subscribers
+		var aSubclassSubscribers = cBaseEvent._subscriber_counts
 		var sChannelId = poEvent.channel_id()
 
 		if (!aSubclassSubscribers[sChannelId])
@@ -137,6 +137,6 @@ class cBaseEvent {
 		//create a new instance of the subclass
 		var oEvent = new this(psBaseId, psAction)
 		var sChannelId = oEvent.channel_id()
-		return cBaseEvent._subscribers[sChannelId] || 0
+		return cBaseEvent._subscriber_counts[sChannelId] || 0
 	}
 }
