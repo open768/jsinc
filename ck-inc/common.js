@@ -178,10 +178,11 @@ class cCommon {
 	 */
 	static get_wraparound_value( piValue, piMax, piMin){
 		var iValue = piValue
+		var iInc = piMax - piMin
 		if (iValue < piMin)
-			iValue += piMax
+			iValue += iInc
 		else if (iValue >= piMax)
-			iValue -= piMax
+			iValue -= iInc
 		return iValue
 	}
 }
