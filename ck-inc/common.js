@@ -168,6 +168,22 @@ class cCommon {
 
 		return false
 	}
+
+	/**
+	 * gets the wraparound number
+	 *
+	 * @param {number} piValue
+	 * @param {number} piMax
+	 * @returns number
+	 */
+	static get_wraparound_value( piValue, piMax, piMin){
+		var iValue = piValue
+		if (iValue < piMin)
+			iValue += piMax
+		else if (iValue >= piMax)
+			iValue -= piMax
+		return iValue
+	}
 }
 
 //###############################################################
