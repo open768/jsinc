@@ -11,6 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 class cSparseArray {
 	rows = 0
 	cols = 0
+	starts_at_zero = false
 	_lastRowIndex = null
 	_lastRowAccessed = null
 	_data = new Map()
@@ -78,10 +79,14 @@ class cSparseArray {
 
 	//*****************************************************
 	pr__check_bounds(piRow, piCol) {
-		if (piRow < 1 || piRow > this.rows)
+		var iMin = this.starts_at_zero?0:1
+		var imax_rows = this.rows - (this.starts_at_zero?1:0)
+		var imax_cols = this.cols - (this.starts_at_zero?1:0)
+
+		if (piRow < iMin || piRow > imax_rows)
 			return false
 
-		if (piCol < 1 || piCol > this.cols)
+		if (piCol < iMin || piCol > imax_cols)
 			return false
 
 		return true
