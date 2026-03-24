@@ -174,15 +174,19 @@ class cCommon {
 	 * gets the wraparound number
 	 *
 	 * @param {number} piValue
+	 * @param {number} piMin
 	 * @param {number} piMax
 	 * @returns number
 	 */
-	static get_wraparound_value( piValue, piMax, piMin){
+	static get_wraparound_value( piValue, piMin, piMax){
+		if (piMin >= piMax)
+			throw 'get_wraparound_value: piMin must be less than piMax'
+
 		var iValue = piValue
-		var iInc = piMax - piMin
-		if (iValue < piMin)
+		var iInc = piMax - piMin + 1
+		while (iValue < piMin)
 			iValue += iInc
-		else if (iValue >= piMax)
+		while (iValue > piMax)
 			iValue -= iInc
 		return iValue
 	}
