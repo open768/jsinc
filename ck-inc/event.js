@@ -1,7 +1,6 @@
-class eBaseEventException extends Error {}
-
 //***************************************************************************
 class cEventSubscriber {
+
 	/** @type {boolean} */ active = true
 	unsubscribe() {
 		this.active = false
@@ -13,13 +12,13 @@ class cBaseEvent {
 	base_id = null //allows consumers to listen for events associated with a common base_id
 	action = null
 	data = null
+	static _subscriber_counts = {}
+	static _subscribers = new Map() // TODO: store anonymous functions here so we can unsubscribe if needed
 
 
 	static base_actions= {
 		notify_subscription: "BENS"
 	}
-	static _subscriber_counts = {}
-	static _subscribers = new Map() // TODO: store anonymous functions here so we can unsubscribe if needed
 	/**
 	 * Creates a new CA event instance.
 	 * @param {string} psBaseId - The base ID associated with the event.
@@ -29,16 +28,16 @@ class cBaseEvent {
 	 */
 	constructor(psBaseId, psAction, poData = null) {
 		if (typeof bean === 'undefined')
-			throw new eBaseEventException('bean library is missing')
+			cDebug.error('bean library is missing')
 		if (this.constructor === cBaseEvent)
-			throw new eBaseEventException('cBaseEvent is abstract - instances are not allowed')
+			cDebug.error('cBaseEvent is abstract - instances are not allowed')
 
 		if (!psBaseId )
-			throw new eBaseEventException('base ID missing')
+			cDebug.error('base ID missing')
 		if (typeof psAction === 'undefined')
-			throw new eBaseEventException('invalid action')
+			cDebug.error('invalid action')
 		if ( !psAction )
-			throw new eBaseEventException('action required')
+			cDebug.error('action required')
 
 
 		this.base_id = psBaseId
@@ -71,18 +70,20 @@ class cBaseEvent {
 	//********************************************************************
 	static async fire_event(psBaseId, psAction, poData = null) {
 		if (this === cBaseEvent)
-			throw new eCAException('cBaseEvent is abstract')
+			cDebug.error('cBaseEvent is abstract')
 
 		if (!psBaseId)
-			throw new eBaseEventException('base ID is required')
+			cDebug.error('base ID is required')
 
 		if ( typeof psAction === 'undefined' || !psAction )
-			throw new eBaseEventException('action is required')
+			cDebug.error('action is required')
 
 		var oEvent = new this(psBaseId, psAction, poData) //create specific instance
 		oEvent.trigger()
 	}
 
+	//********************************************************************
+	//* subscribe
 	//********************************************************************
 	/**
 	 *
@@ -93,27 +94,27 @@ class cBaseEvent {
 
 	static async subscribe(psBaseId, paSubscribedActions, pfnCallback) {
 		if (this === cBaseEvent)
-			throw new eBaseEventException('cBaseEvent is abstract')
+			cDebug.error('cBaseEvent is abstract')
 
 		if (typeof pfnCallback !== 'function')
-			throw new eBaseEventException('callback must be a function')
+			cDebug.error('callback must be a function')
 
 		if (!Array.isArray(paSubscribedActions))
-			throw new eBaseEventException('subscribed actions must be an array')
+			cDebug.error('subscribed actions must be an array')
 
 		if (!psBaseId)
-			throw new eBaseEventException('base ID is required')
+			cDebug.error('base ID is required')
 
 		//--------------------------------------------------------------------
 		for (var sAction of paSubscribedActions) {
 			if (!sAction)
-				throw new eBaseEventException('subscribed action is empty')
+				cDebug.error('subscribed action is empty')
 
 			var oEvent = new this(psBaseId, sAction) //create an event to get the channel ID
 			var sChannelId = oEvent.channel_id()
 			bean.on(document, sChannelId, pfnCallback)
 
-			cBaseEvent._add_subscriber(oEvent) //keep track of subscribers for this event type
+			this._add_subscriber(oEvent) //keep track of subscribers for this event type
 		}
 	}
 
@@ -124,7 +125,7 @@ class cBaseEvent {
 	static async _add_subscriber(poEvent) {
 		//access the static _subscriber_counts property of the subclass
 		//is there already a subscriber list for this base ID and action?
-		var aSubclassSubscribers = cBaseEvent._subscriber_counts
+		var aSubclassSubscribers = this._subscriber_counts
 		var sChannelId = poEvent.channel_id()
 
 		if (!aSubclassSubscribers[sChannelId])
@@ -137,6 +138,6 @@ class cBaseEvent {
 		//create a new instance of the subclass
 		var oEvent = new this(psBaseId, psAction)
 		var sChannelId = oEvent.channel_id()
-		return cBaseEvent._subscriber_counts[sChannelId] || 0
+		return this._subscriber_counts[sChannelId] || 0
 	}
 }
