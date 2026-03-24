@@ -397,6 +397,17 @@ cBrowser.init()
 //###############################################################
 //# MISC
 //###############################################################
+class cCoordinate{
+	x=0
+	y=0
+	z=0
+
+	constructor(piX, piY, piZ = null){
+		this.x = piX
+		this.y = piY
+		this.z = piZ
+	}
+}
 
 class cCommonStatus {
 	static set_error_status(psStatus) {
@@ -428,3 +439,4 @@ function getRadioButtonValue(psID) {
 
 	return sValue
 }
+
