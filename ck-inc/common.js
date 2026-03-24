@@ -212,100 +212,12 @@ class cBrowser {
 	}
 
 	//***************************************************************
-	static pageUrl() {
-		return document.URL.split('?')[0]
-	}
-
-	//***************************************************************
-	static baseUrl() {
-		var sUrl, iLast, sBase
-
-		sUrl = this.pageUrl()
-		cDebug.write('page url: ' + sUrl)
-		iLast = cString.last(sUrl, '/')
-		if (iLast == -1)
-			sBase = ''
-		else
-			sBase = sUrl.substring(0, iLast)
-
-
-		//cDebug.write("base url is "+ sBase);
-		return sBase
-	}
-
-	static pageName() {
-		var sPageUrl = this.pageUrl()
-		var aParts = sPageUrl.split('/')
-		return aParts[aParts.length - 1]
-	}
-
-	//***************************************************************
-	static update_state(psTitle, psUrl) {
-		if (history.pushState) {
-			history.pushState({ title: psTitle }, null, psUrl)
-			this.init()
-		}
-	}
-
-	//***************************************************************
 	static openWindow(psUrl, psWindow) {
 		if (cCommon.SINGLE_WINDOW)
 			document.location.href = psUrl
 		else
 			window.open(psUrl, psWindow)
 
-	}
-
-	//***************************************************************
-	static buildUrl(psPage, poParams) {
-		if (psPage.search(/\?/) == -1)
-			return psPage + '?' + $.param(poParams, true)
-		else
-			return psPage + '&' + $.param(poParams, true)
-
-	}
-
-	//***************************************************************
-	//read_from_clipboard
-	static paste_from_clipboard(pfnCallBack) {
-		if (navigator && navigator.clipboard && navigator.clipboard.readText)
-			//async fetch from clipboard, will display a warning to user if permissions not set
-			navigator.clipboard.readText().then(text => {
-				this.writeConsoleWarning('pasted from clipboard: ' + text)
-				pfnCallBack(text)
-			})
-		else
-			$.error('browser not compatible for clipboard operation')
-
-	}
-
-	//***************************************************************
-	static async copy_to_clipboard(psElementID) {
-		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
-			var sText = psElementID
-			if (psElementID.substring(0, 1) === '#') {
-				var oEl = cJquery.element(psElementID	)
-				sText = oEl.text()
-			}
-
-			try{
-				await (navigator.clipboard.writeText(sText))
-				this.writeConsoleWarning('sent to clipboard: ' + sText)
-			} catch (e) {
-				this.writeConsoleWarning('unable to write to clipboard, check site permissions')
-			}
-		} else
-			this.writeConsoleWarning('browser not compatible for copy operation')
-
-	}
-
-	//***************************************************************
-	static get_clipboard_permissions(pbWrite = false) {
-		var sPermissionsName = 'clipboard-read'
-		if (pbWrite)
-			sPermissionsName = 'clipboard-write'
-
-		this.get_permissions(sPermissionsName)
 	}
 
 	//***************************************************************
@@ -337,12 +249,6 @@ class cBrowser {
 			console.error(psMessage)
 	}
 
-	//***************************************************************
-	static get_url_param(psName) {
-		var sQueryString = window.location.search
-		var oParams = new URLSearchParams(sQueryString)
-		return oParams.get(psName)
-	}
 
 	//***************************************************************
 	static async getHeapMemoryUsed() {
@@ -377,6 +283,105 @@ class cBrowser {
 				$(oInput).blur(() => $(window).keypress(CBkeypressfn))
 			}
 		})
+	}
+
+	//***************************************************************
+	// clipboard
+	//***************************************************************
+	//read_from_clipboard
+	static paste_from_clipboard(pfnCallBack) {
+		if (navigator && navigator.clipboard && navigator.clipboard.readText)
+			//async fetch from clipboard, will display a warning to user if permissions not set
+			navigator.clipboard.readText().then(text => {
+				this.writeConsoleWarning('pasted from clipboard: ' + text)
+				pfnCallBack(text)
+			})
+		else
+			$.error('browser not compatible for clipboard operation')
+
+	}
+
+	//***************************************************************
+	static async copy_to_clipboard(psElementID) {
+		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+			var sText = psElementID
+			if (psElementID.substring(0, 1) === '#') {
+				var oEl = cJquery.element(psElementID	)
+				sText = oEl.text()
+			}
+
+			try{
+				await (navigator.clipboard.writeText(sText))
+				this.writeConsoleWarning('sent to clipboard: ' + sText)
+			} catch {
+				this.writeConsoleWarning('unable to write to clipboard, check site permissions')
+			}
+		} else
+			this.writeConsoleWarning('browser not compatible for copy operation')
+
+	}
+
+	//***************************************************************
+	static get_clipboard_permissions(pbWrite = false) {
+		var sPermissionsName = 'clipboard-read'
+		if (pbWrite)
+			sPermissionsName = 'clipboard-write'
+
+		this.get_permissions(sPermissionsName)
+	}
+
+	//***************************************************************
+	// querystring and URLs
+	//***************************************************************
+	static pageUrl() {
+		return document.URL.split('?')[0]
+	}
+
+	//***************************************************************
+	static baseUrl() {
+		var sUrl, iLast, sBase
+
+		sUrl = this.pageUrl()
+		cDebug.write('page url: ' + sUrl)
+		iLast = cString.last(sUrl, '/')
+		if (iLast == -1)
+			sBase = ''
+		else
+			sBase = sUrl.substring(0, iLast)
+
+
+		//cDebug.write("base url is "+ sBase);
+		return sBase
+	}
+
+	//***************************************************************
+	static pageName() {
+		var sPageUrl = this.pageUrl()
+		var aParts = sPageUrl.split('/')
+		return aParts[aParts.length - 1]
+	}
+
+	static update_state(psTitle, psUrl) {
+		if (history.pushState) {
+			history.pushState({ title: psTitle }, null, psUrl)
+			this.init()
+		}
+	}
+
+	//***************************************************************
+	static buildUrl(psPage, poParams) {
+		if (psPage.search(/\?/) == -1)
+			return psPage + '?' + $.param(poParams, true)
+		else
+			return psPage + '&' + $.param(poParams, true)
+
+	}
+
+	//***************************************************************
+	static get_url_param(psName) {
+		var sQueryString = window.location.search
+		var oParams = new URLSearchParams(sQueryString)
+		return oParams.get(psName)
 	}
 
 	static queryString(psKey) {
