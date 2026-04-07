@@ -73,10 +73,10 @@ class cBaseEvent {
 			cDebug.error('cBaseEvent is abstract')
 
 		if (!psBaseId)
-			cDebug.error('base ID is required')
+			cDebug.error('base ID is required for ' + this.name)
 
 		if ( typeof psAction === 'undefined' || !psAction )
-			cDebug.error('action is required')
+			cDebug.error('action is required for ' + this.name)
 
 		var oEvent = new this(psBaseId, psAction, poData) //create specific instance
 		oEvent.trigger()
