@@ -346,7 +346,7 @@ class cBrowser {
 		var sUrl, iLast, sBase
 
 		sUrl = this.pageUrl()
-		cDebug.write('page url: ' + sUrl)
+		cDebug.write(`page url: ${sUrl}`)
 		iLast = cString.last(sUrl, '/')
 		if (iLast == -1)
 			sBase = ''
@@ -354,7 +354,7 @@ class cBrowser {
 			sBase = sUrl.substring(0, iLast)
 
 
-		//cDebug.write("base url is "+ sBase);
+		//cDebug.write(`base url is ${sBase}`);
 		return sBase
 	}
 
@@ -374,11 +374,8 @@ class cBrowser {
 
 	//***************************************************************
 	static buildUrl(psPage, poParams) {
-		if (psPage.search(/\?/) == -1)
-			return psPage + '?' + $.param(poParams, true)
-		else
-			return psPage + '&' + $.param(poParams, true)
-
+		var has_q = (psPage.indexOf('?') !== -1)
+		return psPage + ( has_q ? '&':'?') + $.param(poParams, true)
 	}
 
 	//***************************************************************
