@@ -72,6 +72,9 @@ class cBaseEvent {
 		if (this === cBaseEvent)
 			cDebug.error('cBaseEvent is abstract')
 
+		if (arguments.length < 2)
+			cDebug.error(`${this.name}: fire_event: check number of arguments`)
+
 		if (!psBaseId)
 			cDebug.error(`${this.name}: base ID is required`)
 
@@ -95,6 +98,9 @@ class cBaseEvent {
 	static async subscribe(psBaseId, paSubscribedActions, pfnCallback) {
 		if (this === cBaseEvent)
 			cDebug.error('cBaseEvent is abstract')
+
+		if (arguments.length < 3)
+			cDebug.error(`${this.name}: subscribe: check number of arguments`)
 
 		if (typeof pfnCallback !== 'function')
 			cDebug.error(`${this.name}: callback must be a function `)
