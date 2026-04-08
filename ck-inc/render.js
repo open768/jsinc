@@ -22,15 +22,7 @@ class cRender {
 	static button(psCaption, psUrl) {
 		var sClass = 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
 		var sHTML =
-			'<button ' +
-			"class='" +
-			sClass +
-			"' " +
-			'onclick=\'window.stop();document.location="' +
-			psUrl +
-			'";return false;\'>' +
-			psCaption +
-			'</button>'
+			`<button class='${sClass}' onclick='window.stop();document.location="${psUrl}";return false;'>${psCaption}</button>`
 		return sHTML
 	}
 
@@ -45,6 +37,7 @@ class cRender {
 		}
 	}
 
+	//**************************************************************************
 	static format_number(piNum) {
 		var sLocale = navigator.language
 		var oFormatter = new Intl.NumberFormat(sLocale)
@@ -86,7 +79,7 @@ class cRender {
 
 class cRenderW3 {
 	static tag(psTag, psColour = 'w3-light-grey') {
-		return "<span class='w3-tag " + psColour + " w3-round w3-border ' style='text-align:left'>" + psTag + '</span> '
+		return `<span class='w3-tag ${psColour} w3-round w3-border ' style='text-align:left'>${psTag}</span> `
 	}
 }
 
@@ -97,7 +90,7 @@ class cRenderMDL {
 
 	//**********************************************************
 	static title(psTitle) {
-		return "<div class='mdl-card__title'><font class='card_::TITLE_QS'>" + psTitle + '</font></div>'
+		return `<div class='mdl-card__title'><font class='card_::TITLE_QS'>${psTitle}</font></div>`
 	}
 
 	//**********************************************************
@@ -105,7 +98,7 @@ class cRenderMDL {
 		this.cardID++
 		var sClass = "class='mdl-card mdl-shadow--2dp rapport-card'"
 
-		var sHTML = '<div ' + sClass + " id='CARDID_" + this.cardID + "'>"
+		var sHTML = `<div ${sClass} id='CARDID_${this.cardID}'>`
 		if (psTitle !== null)
 			sHTML += this.title(psTitle)
 
@@ -115,7 +108,7 @@ class cRenderMDL {
 	static card(psTitle = null, poBody = null) {
 		var oParams = {
 			class: 'mdl-card mdl-shadow--2dp rapport-card',
-			id: 'CARDID_' + this.cardID
+			id: `CARDID_${this.cardID}`
 		}
 		var oCardDiv = $('DIV', oParams)
 		if (psTitle !== null)

@@ -17,7 +17,7 @@ class cConverterEncodings {
 		for (var i = 0; i < psInput.length; i++) {
 			var ch = psInput.charAt(i)
 			if (this.BASE64.indexOf(ch) == -1) {
-				cDebug.write('invalid char:' + ch)
+				cDebug.write(`invalid char: ${ch}`)
 				return false
 			}
 		}
@@ -83,13 +83,13 @@ class cConverter {
 	static test() {
 		cDebug.write('testing cConverter')
 		var iMax32Int = Math.pow(2, 32) - 1
-		cDebug.write('- maxint is:' + iMax32Int)
+		cDebug.write(`- maxint is: ${iMax32Int}`)
 		var iRand = Math.floor(Math.random() * iMax32Int)
-		cDebug.write('- random number in:' + iRand)
+		cDebug.write(`- random number in: ${iRand}`)
 		var sBin = this.intToBinstr(iRand)
-		cDebug.write('- binary out :' + sBin)
+		cDebug.write(`- binary out : ${sBin}`)
 		var i32 = this.binstrToInt(sBin)
-		cDebug.write('- number out :' + i32)
+		cDebug.write(`- number out : ${i32}`)
 		if (i32 !== iRand)
 			throw new Error('cConverter test failed')
 
@@ -107,7 +107,7 @@ class cSimpleBase64 {
 	static toBase64(psBin) {
 		var s64 = ''
 		if (psBin.length % this.BIN_LENGTH !== 0)
-			cDebug.write('cSimpleBase64: binary length not exactly divisible by ' + this.BIN_LENGTH)
+			cDebug.write(`cSimpleBase64: binary length not exactly divisible by ${this.BIN_LENGTH}`	)
 
 
 		for (var istart = 0; istart < psBin.length; istart += this.BIN_LENGTH) {
@@ -173,11 +173,11 @@ class cSimpleBase64 {
 			sBinIn = sBinIn + iRand
 		}
 
-		cDebug.write('- in Bin: ' + sBinIn)
+		cDebug.write(`- in Bin: ${sBinIn}`)
 		var s64 = this.toBase64(sBinIn)
-		cDebug.write('- base64: ' + s64)
+		cDebug.write(`- base64: ${s64}`)
 		var sBinOut = this.toBinary(s64, iLength)
-		cDebug.write('-out Bin: ' + sBinOut)
+		cDebug.write(`-out Bin: ${sBinOut}`)
 
 		if (sBinIn !== sBinOut)
 			throw new Error('test Failed')

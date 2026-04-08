@@ -138,7 +138,7 @@ class cHttpQueue {
 
 		bean.fire(poItem, 'start') //notify item has started
 
-		cDebug.write('getting URL: ' + poItem.url)
+		cDebug.write(`getting URL: ${poItem.url}`)
 		this.inProgressQ.set(poItem.url, poItem)
 		var oHttp = new cHttp2()
 		{
@@ -178,7 +178,7 @@ class cHttpQueue {
 		if (this.stopping)
 			return
 
-		cDebug.write('got a response for: ' + poItem.url)
+		cDebug.write(`got a response for: ${poItem.url}`)
 		bean.fire(poItem, 'result', poHttp)
 		this.inProgressQ.delete(poItem.url) //delete a specific item from the queue
 		this.pr_process_next() //continue queue

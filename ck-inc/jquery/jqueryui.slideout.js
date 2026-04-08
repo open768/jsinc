@@ -54,7 +54,7 @@ $.widget('ck.slideout', {
 		//set the DIV size
 		oElement.outerWidth(oOptions.width)
 		oElement.outerHeight(oOptions.height)
-		oElement.css('max-width', '' + oOptions.width + 'px')
+		oElement.css('max-width', `${oOptions.width}px`)
 
 		//create the overlapping divs
 		var sUpper = oElement.attr('id') + this.consts.UPPERID_SUFFIX
@@ -86,7 +86,7 @@ $.widget('ck.slideout', {
 			height: oOptions.height,
 			padding: oOptions.padding,
 			'border-radius': '0px 25px 25px 0px',
-			'border-width': '' + iBorderW + 'px ' + iBorderW + 'px ' + iBorderW + 'px 0px',
+			'border-width': `${iBorderW}px ${iBorderW}px ${iBorderW}px 0px`,
 			'border-style': 'double double double none',
 			'border-color': oOptions.border_colour.normal,
 			background: oOptions.background,

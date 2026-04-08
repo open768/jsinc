@@ -19,7 +19,7 @@ class cHttpFailer {
 	url = null
 	fail(jqxhr, textStatus, error) {
 		cCommonStatus.set_error_status('call failed: check console')
-		cDebug.write('ERROR: ' + textStatus + ',' + error + ' : ' + this.url)
+		cDebug.write(`ERROR: ${textStatus}, ${error} : ${this.url}`)
 	}
 }
 
@@ -95,7 +95,7 @@ class cHttp2 {
 		this.correct_url()
 		this.data = poData
 
-		cDebug.write('fetching url: ' + this.url)
+		cDebug.write(`fetching url: ${this.url}`)
 		if (poData)
 			this.oXHR = this.postJSON(this.url, this.data, pResult => {
 				this.onResult(pResult)
@@ -120,7 +120,7 @@ class cHttp2 {
 		var fnCallBack = pResult => this.onResult(pResult)
 		if (cDebug.is_debugging()) {
 			var sGetUrl = cBrowser.buildUrl(this.url, poData)
-			cDebug.write('posting url: ' + sGetUrl)
+			cDebug.write(`posting url: ${sGetUrl}`)
 			this.oXHR = $.get(sGetUrl, null, fnCallBack)
 		} else
 			this.oXHR = $.post(this.url, poData, fnCallBack)
@@ -168,7 +168,7 @@ class cHttp2 {
 		this.event = poEvent
 		this.error = poError
 		this.errorStatus = psStatus
-		cDebug.write_err('URL error: ' + this.url)
+		cDebug.write_err(`URL error: ${this.url}`)
 		cDebug.write_err(poError)
 		bean.fire(this, 'error', this) //notify subscriber
 	}

@@ -104,7 +104,7 @@ class cCommon {
 		else if (sObjType === 'object')
 			return poObj.constructor.name === psClassName.constructor.name
 		else
-			throw 'param2: string expected, got: ' + sObjType
+			throw `param2: string expected, got: ${sObjType}`
 
 	}
 
@@ -149,7 +149,7 @@ class cCommon {
 		else if (iLength <= 32)
 			iLength = 32
 		else
-			throw new eScramblerOpReaderException("unsupported bit length: " + iLength)
+			throw new eScramblerOpReaderException(`unsupported bit length: ${iLength}`)
 
 		return iLength
 	}
@@ -229,7 +229,7 @@ class cBrowser {
 		/** @type cBrowser */
 
 		navigator.permissions.query({ name: psName }).then(poStatus => {
-			this.writeConsoleWarning('permission for ' + psName + ' is ' + poStatus.state)
+			this.writeConsoleWarning(`permission for ${psName} is ${poStatus.state}`)
 			if (poStatus.state !== 'granted')
 				this.writeConsoleWarning('check site permissions')
 
@@ -272,7 +272,7 @@ class cBrowser {
 
 	//***************************************************************
 	static whitespace(piWidth) {
-		var sHTML = "<span style='display:inline-block;width:" + piWidth + "px'></span>"
+		var sHTML = `<span style='display:inline-block;width:${piWidth}px'></span>`
 		return sHTML
 	}
 
@@ -297,7 +297,7 @@ class cBrowser {
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
 			//async fetch from clipboard, will display a warning to user if permissions not set
 			navigator.clipboard.readText().then(text => {
-				this.writeConsoleWarning('pasted from clipboard: ' + text)
+				this.writeConsoleWarning(`pasted from clipboard: ${text}`)
 				pfnCallBack(text)
 			})
 		else
@@ -316,7 +316,7 @@ class cBrowser {
 
 			try{
 				await (navigator.clipboard.writeText(sText))
-				this.writeConsoleWarning('sent to clipboard: ' + sText)
+				this.writeConsoleWarning(`sent to clipboard: ${sText}`)
 			} catch {
 				this.writeConsoleWarning('unable to write to clipboard, check site permissions')
 			}
@@ -411,13 +411,13 @@ class cCoordinate{
 
 class cCommonStatus {
 	static set_error_status(psStatus) {
-		cJquery.element(STATUS_ID).html("<font color='red'>" + psStatus + '</font>')
-		cDebug.write('Error: ' + psStatus)
+		cJquery.element(STATUS_ID).html(`<font color='red'>${psStatus}</font>`)
+		cDebug.write(`Error: ${psStatus}`)
 	}
 	//***************************************************************
 	static set_status(psStatus) {
 		cJquery.element(STATUS_ID).html(psStatus)
-		cDebug.write('status: ' + psStatus)
+		cDebug.write(`status: ${psStatus}`)
 	}
 }
 

@@ -57,7 +57,7 @@ class cTagging {
 		}
 		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
 
-		cDebug.write('setting tag ' + sUrl)
+		cDebug.write(`setting tag ${sUrl}`)
 		const oHttp = new cHttp2()
 		{
 			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))

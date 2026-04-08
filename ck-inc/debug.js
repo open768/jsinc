@@ -50,7 +50,7 @@ class cSuppressMessage{
 		if (iCount === this.NOISY_COUNT){
 			var iNow = new Date().getTime()
 			this._timestamps[psThing] = iNow
-			cDebug.write('suppressing message "' + psThing + '"')
+			cDebug.write(`suppressing message "${psThing}"`)
 			return true
 		}
 
@@ -107,9 +107,9 @@ class cDebug {
 	//*****************************************************
 	//*****************************************************
 	static write_err(psMessage, pbWriteToDoc = false) {
-		cBrowser.writeConsoleError('ERROR> ' + psMessage)
+		cBrowser.writeConsoleError(`ERROR> ${psMessage}`)
 		if (pbWriteToDoc)
-			document.write("<font color='red' size=20>" + psMessage + '</font>')
+			document.write(`<font color='red' size=20>${psMessage}</font>`)
 
 	}
 
@@ -121,13 +121,13 @@ class cDebug {
 
 	//*****************************************************
 	static warn(psMessage) {
-		cBrowser.writeConsoleWarning('WARN> ' + psMessage)
+		cBrowser.writeConsoleWarning(`WARN> ${psMessage}`)
 	}
 
 	//*****************************************************
 	static write_exception(pEx) {
-		this.write_err('Exception: ' + pEx.message)
-		this.write_err('stacktrace: ' + pEx.stack)
+		this.write_err(`Exception: ${pEx.message}`)
+		this.write_err(`stacktrace: ${pEx.stack}`)
 	}
 
 	//*****************************************************
@@ -142,7 +142,7 @@ class cDebug {
 				if (this.ONE_TIME_DEBUGGING)
 					this.ONE_TIME_DEBUGGING = false
 
-				cBrowser.writeConsole('DEBUG> ' + '  '.repeat(this.stack.length) + psMessage)
+				cBrowser.writeConsole(`DEBUG> ${'  '.repeat(this.stack.length)}${psMessage}`)
 			}
 
 	}
@@ -161,10 +161,10 @@ class cDebug {
 	//*****************************************************
 	static on(piLevel = 1) {
 		if (piLevel > cDebugTypes.levels.extended)
-			throw new Error('unknown debug level - max is ' + cDebugTypes.levels.extended)
+			throw new Error(`unknown debug level - max is ${cDebugTypes.levels.extended}`)
 
 		this.DEBUGGING = true
-		this.write('Debugging on with level ' + piLevel)
+		this.write(`Debugging on with level ${piLevel}`)
 		this.level = piLevel
 	}
 
@@ -177,7 +177,7 @@ class cDebug {
 
 
 		sFn = this.pr__getCaller('enter')
-		this.extra_debug('>> Entering ' + sFn)
+		this.extra_debug(`>> Entering ${sFn}`)
 		this.stack.push(sFn)
 	}
 
@@ -194,7 +194,7 @@ class cDebug {
 		sFn = this.pr__getCaller('leave')
 		if (sFn == this.stack[this.stack.length - 1]) {
 			this.stack.pop()
-			this.extra_debug('>> Leaving ' + sFn)
+			this.extra_debug(`>> Leaving ${sFn}`)
 		}
 	}
 
@@ -222,7 +222,7 @@ class cDebug {
 		var aStack, iIndex, sTarget, aMatches
 		aStack = this.pr__getStack()
 		iIndex = aStack.findIndex(function (pS) {
-			return pS.indexOf('cDebug.' + psPrevious) >= 0
+			return pS.indexOf(`cDebug.${psPrevious}`) >= 0
 		})
 		sTarget = aStack[iIndex + 1]
 		aMatches = sTarget.match(/at\s+(\S+)\s/)
@@ -234,7 +234,7 @@ class cDebug {
 		var oErr, sStack, aStack
 		oErr = new Error()
 		sStack = oErr.stack
-		//this.write("Stack is:" + sStack);
+		//this.write(`Stack is: ${sStack}`);
 		aStack = sStack.split(/\n/)
 		return aStack
 	}
@@ -259,14 +259,14 @@ class cDebug {
 
 				if (typeof value == 'object') {
 					//If it is an array,
-					dumped_text += level_padding + "'" + item + "' ...\n"
+					dumped_text += level_padding + `${item} ...\n`
 					dumped_text += this.pr__dump(value, level + 1)
 				} else
-					dumped_text += level_padding + "'" + item + '\' => "' + value + '"\n'
+					dumped_text += level_padding + `${item} => ${value}\n`
 
 			}
 		else
-			dumped_text = '===>' + arr + '<===(' + typeof arr + ')'
+			dumped_text = `===>${arr}<===(${typeof arr})`
 
 		return dumped_text
 	}

@@ -60,7 +60,7 @@ class cImgHilite {
 			oBox = this.currentBox
 		else {
 			//make a unique ID
-			var sID = 'box' + this.ID
+			var sID = `box${this.ID}`
 			this.ID++
 
 			//create a clone of the template and add to container
@@ -98,8 +98,8 @@ class cImgHilite {
 		var iY = piY - iParentTop - oBox.height() / 2
 		oBox.css({
 			position: 'absolute',
-			top: '' + iY + 'px',
-			left: '' + iX + 'px'
+			top: `${iY}px`,
+			left: `${iX}px`
 		})
 
 		//make it draggable to the image

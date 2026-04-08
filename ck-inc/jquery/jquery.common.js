@@ -28,8 +28,9 @@ class cJquery {
 			oClass,
 			aClasses,
 			sSearch
+
 		var aSheets = document.styleSheets
-		sSearch = '.' + psClass
+		sSearch = `.${psClass}`
 		for (iSheet = 0; iSheet < aSheets.length; iSheet++) {
 			oSheet = aSheets[iSheet]
 			aClasses = null
@@ -118,7 +119,7 @@ class cJquery {
 		else if (sType === 'object')
 			oElement = poElement
 		else
-			cDebug.error('invalid type for element: ' + sType)
+			cDebug.error(`invalid type for element: ${sType}`)
 
 
 		if (pbEnabled) {
@@ -153,12 +154,12 @@ class cJquery {
 		const cFirst = psID.charAt(0)
 		var sID = psID
 		if (cFirst !== '#')
-			sID = '#' + sID
+			sID = `#${sID}`
 
 
 		const oThing = $(sID)
 		if (oThing.length == 0)
-			cDebug.error('no element found for ' + psID)
+			cDebug.error(`no element found for ${psID}`)
 
 		return oThing
 	}

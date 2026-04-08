@@ -17,5 +17,5 @@ try {
 	ga('create', cSecret.GA_TrackingID, cSecret.GA_App)
 	ga('send', 'pageview')
 } catch (err) {
-	cDebug.write('err with google analytics code' + err)
+	cDebug.write(`err with google analytics code: ${err}`)
 }

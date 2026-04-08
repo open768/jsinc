@@ -49,20 +49,20 @@ class cFacebook {
 				var dNow = new Date()
 				var iNow = dNow.getTime()
 				if (iNow - iDate > this.AUTH_COOKIE_TIMEOUT) {
-					cDebug.write('user is cached: ' + sUser)
+					cDebug.write(`user is cached: ${sUser}`)
 					cAuth.setUser(sUser)
 					this.onFBGotUser(sUser)
 					cDebug.leave()
 					return
 				} else
-					cDebug.write('expired login cookie: ')
+					cDebug.write(`expired login cookie: ${sUser}`)
 
 			}
 		}
 
 		// no cookie or no server user
 		// get the information from the server
-		cDebug.write('getting Facebook user details for user ' + this.fbUserID)
+		cDebug.write(`getting Facebook user details for user ${this.fbUserID}`)
 		var oData = {
 			[cAppUrlParams.OPERATION]: 'getuser',
 			u: this.fbUserID,
@@ -119,7 +119,7 @@ class cFacebook {
 				user: this.fbUserID,
 				token: this.fbAccessToken
 			})
-			cDebug.write('try entering this in the browser: ' + sUrl)
+			cDebug.write(`try entering this in the browser: ${sUrl}`)
 		} else {
 			cDebug.write(sUser)
 			cAuth.setUser(sUser)
@@ -135,7 +135,7 @@ class cFacebook {
 	//**************************************************************
 	static onFBGotUser(psUser) {
 		cDebug.enter()
-		bean.fire(this, this.STATUS_EVENT, 'Welcome ' + psUser)
+		bean.fire(this, this.STATUS_EVENT, `Welcome ${psUser}`)
 
 		// @ts-expect-error
 		FB.Event.subscribe('auth.logout', poEvent => this.OnFBLogout(poEvent))

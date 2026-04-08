@@ -92,7 +92,7 @@ class cQueueifVisible {
 			return
 		}
 
-		this.pr__send_status('item is visible - checking again in ' + this.WAIT_SCROLLING)
+		this.pr__send_status(`item is visible - checking again in ${this.WAIT_SCROLLING}`)
 		oElement.off('inview') //turn off the inview listener
 
 		//TODO use position of element in viewport to determine whether scrolling is happening
@@ -139,7 +139,7 @@ class cQueueifVisible {
 	onQPosition(poItem) {
 		//get the Q position from the item and fire a status event
 		try {
-			this.pr__send_status('Queue position is: ' + poItem.QPosition)
+			this.pr__send_status(`Queue position is: ${poItem.QPosition}`)
 		} catch (e) {
 			console.error(e)
 		}
@@ -148,7 +148,7 @@ class cQueueifVisible {
 	//*******************************************************************
 	onResult(poHttp) {
 		try {
-			this.pr__send_status('got a response from server: ')
+			this.pr__send_status(`got a response from server: ${poHttp}`)
 			bean.fire(this, cQueueifVisible.EVENT.RESULT, poHttp)
 		} catch (e) {
 			console.error(e)

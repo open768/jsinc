@@ -33,11 +33,11 @@ class cBaseEvent {
 			cDebug.error('cBaseEvent is abstract - instances are not allowed')
 
 		if (!psBaseId )
-			cDebug.error('base ID missing')
+			cDebug.error(`${this.name}: base ID missing`)
 		if (typeof psAction === 'undefined')
-			cDebug.error('invalid action')
+			cDebug.error(`${this.name}: invalid action`)
 		if ( !psAction )
-			cDebug.error('action required')
+			cDebug.error(`${this.name}: action required`)
 
 
 		this.base_id = psBaseId
@@ -61,7 +61,7 @@ class cBaseEvent {
 				bSuppress = cSuppressMessage.should_suppress(sEventName)
 
 			if (!bSuppress)
-				cDebug.extra_debug('event>> base:"' + this.base_id + '" type:' + this.constructor.name + ' action:' + this.action)
+				cDebug.extra_debug(`${this.constructor.name}: base:"${this.base_id}" action:"${this.action}"`)
 		}
 
 		bean.fire(document, sEventName, this)
@@ -73,10 +73,10 @@ class cBaseEvent {
 			cDebug.error('cBaseEvent is abstract')
 
 		if (!psBaseId)
-			cDebug.error('base ID is required for ' + this.name)
+			cDebug.error(`${this.name}: base ID is required`)
 
 		if ( typeof psAction === 'undefined' || !psAction )
-			cDebug.error('action is required for ' + this.name)
+			cDebug.error(`${this.name}: action is required`)
 
 		var oEvent = new this(psBaseId, psAction, poData) //create specific instance
 		oEvent.trigger()
@@ -97,18 +97,18 @@ class cBaseEvent {
 			cDebug.error('cBaseEvent is abstract')
 
 		if (typeof pfnCallback !== 'function')
-			cDebug.error('callback must be a function')
+			cDebug.error(`${this.name}: callback must be a function `)
 
 		if (!Array.isArray(paSubscribedActions))
-			cDebug.error('subscribed actions must be an array')
+			cDebug.error(`${this.name}: subscribed actions must be an array`)
 
 		if (!psBaseId)
-			cDebug.error('base ID is required')
+			cDebug.error(`${this.name}: base ID is required`)
 
 		//--------------------------------------------------------------------
 		for (var sAction of paSubscribedActions) {
 			if (!sAction)
-				cDebug.error('subscribed action is empty')
+				cDebug.error(`${this.name}: subscribed action is empty`)
 
 			var oEvent = new this(psBaseId, sAction) //create an event to get the channel ID
 			var sChannelId = oEvent.channel_id()
