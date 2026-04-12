@@ -89,6 +89,22 @@ class cCommon {
 		return JSON.parse(JSON.stringify(poThing))
 	}
 
+	static random_base2(piDigits){
+		if ( !Number.isInteger(piDigits) )
+			throw `random_base2: ${piDigits} is not an integer`
+
+		if (piDigits <= 0)
+			throw 'random_base2: piDigits must be a positive integer'
+		return this.random_int(0, Math.pow(2, piDigits+1))
+	}
+
+	static random_int(piMin = 0, piMax) {
+		if (piMax <= piMin)
+			throw 'random_int: Max must be greater than piMin'
+		
+		return Math.floor(Math.random() * (piMax - piMin)) + piMin
+	}
+
 	//***************************************************************
 	static obj_is(poObj, psClassName) {
 		if (poObj == null)
@@ -253,6 +269,12 @@ class cBrowser {
 			console.error(psMessage)
 	}
 
+	//***************************************************************
+	static write_p(psMessage, psStyle=null) {
+		var sp_tag = "<p>"
+		if (psStyle) sp_tag = `<p style='${psStyle}'>`
+		document.writeln(`${sp_tag}${psMessage}</p>`)
+	}
 
 	//***************************************************************
 	static async getHeapMemoryUsed() {
