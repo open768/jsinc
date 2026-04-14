@@ -9,9 +9,9 @@ class cEventSubscriber {
 
 //***************************************************************************
 class cBaseEvent {
-	base_id = null //allows consumers to listen for events associated with a common base_id
-	action = null
-	data = null
+	/** @type {string} */ base_id = null //allows consumers to listen for events associated with a common base_id
+	/** @type {string} */ action = null
+	/** @type {any} */ data = null
 	static _subscriber_counts = {
 	}
 	static _subscribers = new Map() // TODO: store anonymous functions here so we can unsubscribe if needed
@@ -33,10 +33,14 @@ class cBaseEvent {
 			cDebug.error('cBaseEvent is abstract - instances are not allowed')
 
 		if (!psBaseId )
+		//@ts-expect-error
+
 			cDebug.error(`${this.name}: base ID missing`)
 		if (typeof psAction === 'undefined')
+			//@ts-expect-error
 			cDebug.error(`${this.name}: invalid action`)
 		if ( !psAction )
+			//@ts-expect-error
 			cDebug.error(`${this.name}: action required`)
 
 		this.base_id = psBaseId
@@ -71,6 +75,12 @@ class cBaseEvent {
 	}
 
 	//********************************************************************
+	/**
+	 *
+	 * @param {string} psBaseId
+	 * @param {string} psAction
+	 * @param {any} poData
+	 */
 	static async fire_event(psBaseId, psAction, poData = null) {
 		if (this === cBaseEvent)
 			cDebug.error('cBaseEvent is abstract')
@@ -146,7 +156,7 @@ class cBaseEvent {
 		//access the static _subscriber_counts property of the subclass
 		//is there already a subscriber list for this base ID and action?
 		var aSubclassSubscribers = this._subscriber_counts
-		var sChannelId = poEvent.channel_id()
+		/** @type {string} */ var sChannelId = poEvent.channel_id()
 
 		if (!aSubclassSubscribers[sChannelId])
 			aSubclassSubscribers[sChannelId] = 1
@@ -154,6 +164,12 @@ class cBaseEvent {
 			aSubclassSubscribers[sChannelId]++
 	}
 
+	/**
+	 *
+	 * @param {string} psBaseId
+	 * @param {string} psAction
+	 * @returns {number}
+	 */
 	static get_subscriber_count(psBaseId, psAction){
 		//create a new instance of the subclass
 		var oEvent = new this(

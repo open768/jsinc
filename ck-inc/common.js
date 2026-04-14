@@ -225,7 +225,7 @@ class cCommon {
 		else if (iLength <= 32)
 			iLength = 32
 		else
-			throw new eScramblerOpReaderException(`unsupported bit length: ${iLength}`)
+			throw `unsupported bit length: ${iLength}`
 
 		return iLength
 	}
@@ -295,7 +295,7 @@ class cBrowser {
 
 		aPairs = location.search.slice(1).split('&')
 		aPairs.forEach(function (sPair) {
-			var aPair = sPair.split('=')eslint 
+			var aPair = sPair.split('=')
 			sKey = aPair[0]
 			sValue = decodeURI(aPair[1]).replace(
 				/\+/g,

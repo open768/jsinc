@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"target": "ES6",
+		"checkJs": true,
+		"allowJs": true
+	},
+	"include": [
+		"**/*.js",
+		"globals.d.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"**/bower_components",
+		"**/dist",
+		"**/build",
+		"**/test"
+	]
+}
