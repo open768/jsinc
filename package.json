@@ -7,7 +7,6 @@
   "author": "chicken katsu (www.chickenkatsu.co.uk)",
   "license": "ISC",
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.8.0",
     "eslint": "^10.0.2",
     "eslint-plugin-jsdoc": "^62.8.0",

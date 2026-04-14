@@ -19,6 +19,12 @@ function module(){}
 //# STRINGS
 //###############################################################
 class cString {
+	/**
+	 *
+	 * @param {string} psText
+	 * @param {string} psSearch
+	 * @returns {number}
+	 */
 	static last(psText, psSearch) {
 		var sReverseTxt = this.reverse(psText)
 		var sReverseSearch = this.reverse(psSearch)
@@ -32,25 +38,45 @@ class cString {
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psText
+	 * @returns {string}
+	 */
 	static reverse(psText) {
 		return psText.split('').reverse().join('')
 	}
 
 	//***************************************************************
 	//count common characters from left
+
+	/**
+	 *
+	 * @param {string} ps1
+	 * @param {string} ps2
+	 * @returns {number}
+	 */
 	static count_common_chars(ps1, ps2) {
-		var iCheckLen = Math.min(ps1.length, ps2.length)
+		var iCheckLen = Math.min(
+			ps1.length,
+			ps2.length
+		)
 		var i
 
 		for (i = 0; i < iCheckLen; i++)
 			if (ps1[i] !== ps2[i])
 				break
 
-
 		return i
 	}
 
 	//***************************************************************
+
+	/**
+	 *
+	 * @param {string} psText
+	 * @returns {boolean}
+	 */
 	static is_string_empty(psText) {
 		return psText === null || psText === ''
 	}
@@ -66,7 +92,6 @@ if (!String.prototype.padLeft)
 			return this
 
 	}
-
 
 //###############################################################
 //# static classes
@@ -85,34 +110,62 @@ class cStaticClass {
 class cCommon {
 	static SINGLE_WINDOW = true
 
+	/**
+	 * Creates a deep copy of an object
+	 * @param {any} poThing
+	 * @returns
+	 */
+
 	static deep_copy(poThing) {
 		return JSON.parse(JSON.stringify(poThing))
 	}
 
+	/**
+	 *
+	 * @param {number} piDigits
+	 * @returns
+	 */
 	static random_base2(piDigits){
 		if ( !Number.isInteger(piDigits) )
 			throw `random_base2: ${piDigits} is not an integer`
 
 		if (piDigits <= 0)
 			throw 'random_base2: piDigits must be a positive integer'
-		return this.random_int(0, Math.pow(2, piDigits+1))
+		return this.random_int(
+			0,
+			Math.pow(
+				2,
+				piDigits+1
+			)
+		)
 	}
 
+	/**
+	 *
+	 * @param {number} piMin
+	 * @param {number} piMax
+	 * @returns {number}
+	 */
 	static random_int(piMin = 0, piMax) {
 		if (piMax <= piMin)
 			throw 'random_int: Max must be greater than piMin'
-		
+
 		return Math.floor(Math.random() * (piMax - piMin)) + piMin
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {object} poObj
+	 * @param {string} psClassName
+	 * @returns {boolean}
+	 */
 	static obj_is(poObj, psClassName) {
 		if (poObj == null)
 			throw 'obj_is: null param1!'
 
 		if (typeof poObj !== 'object')
 			throw 'obj_is: object expected for param1'
-
 
 		var sObjType = typeof psClassName
 		if (sObjType === 'string')
@@ -126,15 +179,22 @@ class cCommon {
 
 	//***************************************************************
 	//from https://gist.github.com/lanqy/5193417
-	static bytesToSize(bytes) {
+	/**
+	 *
+	 * @param {number} piBytes
+	 * @returns
+	 */
+	static bytesToSize(piBytes) {
 		const units = ['byte', 'kilobyte', 'megabyte', 'terabyte', 'petabyte']
-		const unit = Math.floor(Math.log(bytes) / Math.log(1024))
-		return new Intl.NumberFormat('en', {
-			style: 'unit',
-			unit: units[unit]
-		}).format(bytes / 1024 ** unit)
+		const unit = Math.floor(Math.log(piBytes) / Math.log(1024))
+		return new Intl.NumberFormat(
+			'en',
+			{
+				style: 'unit',
+				unit: units[unit]
+			}
+		).format(piBytes / 1024 ** unit)
 	}
-
 
 	/**
 	 * how many bits are required to store a number of a certain size
@@ -171,12 +231,21 @@ class cCommon {
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {any} psThing
+	 * @returns {boolean}
+	 */
 	static is_numeric(psThing) {
 		return !isNaN(psThing)
 	}
 
 	//***************************************************************
-	static is_integer(psThing) {
+	/**
+	 *
+	 * @param {any} psThing
+	 * @returns {boolean}
+	 */static is_integer(psThing) {
 		if (typeof psThing === 'number')
 			return Number.isInteger(psThing)
 
@@ -216,15 +285,22 @@ class cBrowser {
 
 	//***************************************************************
 	static init() {
-		var oResult = {},
+		var oResult = {
+			},
 			aPairs
-		var sKey, sValue
+		//* @type {string}
+		var sKey
+		//* @type {string}
+		var sValue
 
 		aPairs = location.search.slice(1).split('&')
 		aPairs.forEach(function (sPair) {
-			var aPair = sPair.split('=')
+			var aPair = sPair.split('=')eslint 
 			sKey = aPair[0]
-			sValue = decodeURI(aPair[1]).replace(/\+/g, ' ')
+			sValue = decodeURI(aPair[1]).replace(
+				/\+/g,
+				' '
+			)
 			oResult[sKey] = sValue || ''
 		})
 
@@ -232,19 +308,33 @@ class cBrowser {
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psUrl
+	 * @param {string} psWindow
+	 */
 	static openWindow(psUrl, psWindow) {
 		if (cCommon.SINGLE_WINDOW)
 			document.location.href = psUrl
 		else
-			window.open(psUrl, psWindow)
+			window.open(
+				psUrl,
+				psWindow
+			)
 
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psName
+	 */
 	static get_permissions(psName) {
 		/** @type cBrowser */
 
-		navigator.permissions.query({ name: psName }).then(poStatus => {
+		navigator.permissions.query({
+			name: psName
+		}).then(poStatus => {
 			this.writeConsoleWarning(`permission for ${psName} is ${poStatus.state}`)
 			if (poStatus.state !== 'granted')
 				this.writeConsoleWarning('check site permissions')
@@ -253,26 +343,44 @@ class cBrowser {
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psMessage
+	 */
 	static writeConsole(psMessage) {
 		if (console)
 			console.log(psMessage)
 
 	}
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psMessage
+	 */
 	static writeConsoleWarning(psMessage) {
 		if (console)
 			console.warn(psMessage)
 	}
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psMessage
+	 */
 	static writeConsoleError(psMessage) {
 		if (console)
 			console.error(psMessage)
 	}
 
 	//***************************************************************
-	static write_p(psMessage, psStyle=null) {
+	/**
+	 *
+	 * @param {string} psMessage
+	 * @param {string} psStyle
+	 */
+	static write_p(psMessage, psStyle="") {
 		var sp_tag = "<p>"
-		if (psStyle) sp_tag = `<p style='${psStyle}'>`
+		if (psStyle)
+			sp_tag = `<p style='${psStyle}'>`
 		document.writeln(`${sp_tag}${psMessage}</p>`)
 	}
 
@@ -293,6 +401,10 @@ class cBrowser {
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {number} piWidth
+	 */
 	static whitespace(piWidth) {
 		var sHTML = `<span style='display:inline-block;width:${piWidth}px'></span>`
 		return sHTML
@@ -303,6 +415,7 @@ class cBrowser {
 		var oWindow = $(window)
 		var CBkeypressfn = oWindow.keypress
 
+		// @ts-expect-error
 		$(':input').each(function (index, oInput) {
 			if ($(oInput).attr('type') === 'text') {
 				$(oInput).focus(() => $(window).unbind('keypress'))
@@ -315,6 +428,10 @@ class cBrowser {
 	// clipboard
 	//***************************************************************
 	//read_from_clipboard
+	/**
+	 *
+	 * @param {function} pfnCallBack
+	 */
 	static paste_from_clipboard(pfnCallBack) {
 		if (navigator && navigator.clipboard && navigator.clipboard.readText)
 			//async fetch from clipboard, will display a warning to user if permissions not set
@@ -328,10 +445,18 @@ class cBrowser {
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psElementID
+	 */
+
 	static async copy_to_clipboard(psElementID) {
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			var sText = psElementID
-			if (psElementID.substring(0, 1) === '#') {
+			if (psElementID.substring(
+				0,
+				1
+			) === '#') {
 				var oEl = cJquery.element(psElementID	)
 				sText = oEl.text()
 			}
@@ -369,12 +494,17 @@ class cBrowser {
 
 		sUrl = this.pageUrl()
 		cDebug.write(`page url: ${sUrl}`)
-		iLast = cString.last(sUrl, '/')
+		iLast = cString.last(
+			sUrl,
+			'/'
+		)
 		if (iLast == -1)
 			sBase = ''
 		else
-			sBase = sUrl.substring(0, iLast)
-
+			sBase = sUrl.substring(
+				0,
+				iLast
+			)
 
 		//cDebug.write(`base url is ${sBase}`);
 		return sBase
@@ -387,26 +517,56 @@ class cBrowser {
 		return aParts[aParts.length - 1]
 	}
 
+	/**
+	 *
+	 * @param {string} psTitle
+	 * @param {string} psUrl
+	 */
 	static update_state(psTitle, psUrl) {
 		if (history.pushState) {
-			history.pushState({ title: psTitle }, null, psUrl)
+			history.pushState(
+				{
+					title: psTitle
+				},
+				null,
+				psUrl
+			)
 			this.init()
 		}
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psPage
+	 * @param {Object} poParams
+	 * @returns {string}
+	 */
 	static buildUrl(psPage, poParams) {
 		var has_q = (psPage.indexOf('?') !== -1)
-		return psPage + ( has_q ? '&':'?') + $.param(poParams, true)
+		return psPage + ( has_q ? '&':'?') + $.param(
+			poParams,
+			true
+		)
 	}
 
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psName
+	 * @returns {string}
+	 */
 	static get_url_param(psName) {
 		var sQueryString = window.location.search
 		var oParams = new URLSearchParams(sQueryString)
 		return oParams.get(psName)
 	}
 
+	//***************************************************************
+	/**
+	 * @param {string} psKey
+	 * @returns {string}
+	 */
 	static queryString(psKey) {
 		return this.data[psKey]
 	}
@@ -421,6 +581,12 @@ class cCoordinate{
 	y=0
 	z=0
 
+	/**
+	 *
+	 * @param {number} piX
+	 * @param {number} piY
+	 * @param {number} piZ
+	 */
 	constructor(piX, piY, piZ = null){
 		this.x = piX
 		this.y = piY
@@ -429,11 +595,19 @@ class cCoordinate{
 }
 
 class cCommonStatus {
+	/**
+	 *
+	 * @param {string} psStatus
+	 */
 	static set_error_status(psStatus) {
 		cJquery.element(STATUS_ID).html(`<font color='red'>${psStatus}</font>`)
 		cDebug.write(`Error: ${psStatus}`)
 	}
 	//***************************************************************
+	/**
+	 *
+	 * @param {string} psStatus
+	 */
 	static set_status(psStatus) {
 		cJquery.element(STATUS_ID).html(psStatus)
 		cDebug.write(`status: ${psStatus}`)
@@ -441,6 +615,10 @@ class cCommonStatus {
 }
 
 //***************************************************************
+/**
+ *
+ * @param {string} psID
+ */
 
 function getRadioButtonValue(psID) {
 	var oRadios = document.getElementsByName(psID)
@@ -458,4 +636,3 @@ function getRadioButtonValue(psID) {
 
 	return sValue
 }
-

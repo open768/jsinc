@@ -12,9 +12,9 @@ class cBaseEvent {
 	base_id = null //allows consumers to listen for events associated with a common base_id
 	action = null
 	data = null
-	static _subscriber_counts = {}
+	static _subscriber_counts = {
+	}
 	static _subscribers = new Map() // TODO: store anonymous functions here so we can unsubscribe if needed
-
 
 	static base_actions= {
 		notify_subscription: "BENS"
@@ -38,7 +38,6 @@ class cBaseEvent {
 			cDebug.error(`${this.name}: invalid action`)
 		if ( !psAction )
 			cDebug.error(`${this.name}: action required`)
-
 
 		this.base_id = psBaseId
 		this.action = psAction
@@ -64,7 +63,11 @@ class cBaseEvent {
 				cDebug.extra_debug(`${this.constructor.name}: base:"${this.base_id}" action:"${this.action}"`)
 		}
 
-		bean.fire(document, sEventName, this)
+		bean.fire(
+			document,
+			sEventName,
+			this
+		)
 	}
 
 	//********************************************************************
@@ -81,7 +84,11 @@ class cBaseEvent {
 		if ( typeof psAction === 'undefined' || !psAction )
 			cDebug.error(`${this.name}: action is required`)
 
-		var oEvent = new this(psBaseId, psAction, poData) //create specific instance
+		var oEvent = new this(
+			psBaseId,
+			psAction,
+			poData
+		) //create specific instance
 		oEvent.trigger()
 	}
 
@@ -116,9 +123,16 @@ class cBaseEvent {
 			if (!sAction)
 				cDebug.error(`${this.name}: subscribed action is empty`)
 
-			var oEvent = new this(psBaseId, sAction) //create an event to get the channel ID
+			var oEvent = new this(
+				psBaseId,
+				sAction
+			) //create an event to get the channel ID
 			var sChannelId = oEvent.channel_id()
-			bean.on(document, sChannelId, pfnCallback)
+			bean.on(
+				document,
+				sChannelId,
+				pfnCallback
+			)
 
 			this._add_subscriber(oEvent) //keep track of subscribers for this event type
 		}
@@ -142,7 +156,10 @@ class cBaseEvent {
 
 	static get_subscriber_count(psBaseId, psAction){
 		//create a new instance of the subclass
-		var oEvent = new this(psBaseId, psAction)
+		var oEvent = new this(
+			psBaseId,
+			psAction
+		)
 		var sChannelId = oEvent.channel_id()
 		return this._subscriber_counts[sChannelId] || 0
 	}

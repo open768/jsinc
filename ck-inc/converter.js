@@ -82,7 +82,10 @@ class cConverter {
 	//**********************************
 	static test() {
 		cDebug.write('testing cConverter')
-		var iMax32Int = Math.pow(2, 32) - 1
+		var iMax32Int = Math.pow(
+			2,
+			32
+		) - 1
 		cDebug.write(`- maxint is: ${iMax32Int}`)
 		var iRand = Math.floor(Math.random() * iMax32Int)
 		cDebug.write(`- random number in: ${iRand}`)
@@ -92,7 +95,6 @@ class cConverter {
 		cDebug.write(`- number out : ${i32}`)
 		if (i32 !== iRand)
 			throw new Error('cConverter test failed')
-
 
 		cDebug.write('cConverter test passed :-)')
 		return true
@@ -109,9 +111,11 @@ class cSimpleBase64 {
 		if (psBin.length % this.BIN_LENGTH !== 0)
 			cDebug.write(`cSimpleBase64: binary length not exactly divisible by ${this.BIN_LENGTH}`	)
 
-
 		for (var istart = 0; istart < psBin.length; istart += this.BIN_LENGTH) {
-			var sFragment = psBin.substr(istart, this.BIN_LENGTH) //grab 6 characters
+			var sFragment = psBin.substr(
+				istart,
+				this.BIN_LENGTH
+			) //grab 6 characters
 			var iIndex = cConverter.binstrToInt(sFragment)
 			var sChar = cConverterEncodings.BASE64.charAt(iIndex)
 			s64 = s64 + sChar
@@ -133,7 +137,6 @@ class cSimpleBase64 {
 		if (!cConverterEncodings.isBase64(ps64))
 			throw new Error('input contains non-base64 characters')
 
-
 		var iRemaining = piOutLen
 		//work through each character
 		for (var i = 0; i < ps64.length; i++) {
@@ -147,7 +150,10 @@ class cSimpleBase64 {
 			if (bCustomEndBinPadding && iRemaining <= this.BIN_LENGTH)
 				iPadLen = iRemaining
 			//padding to remaining characters
-			sBin = sBin.padStart(iPadLen, '0')
+			sBin = sBin.padStart(
+				iPadLen,
+				'0'
+			)
 
 			//add the character to the output
 			sOutBin = sOutBin + sBin
@@ -157,7 +163,6 @@ class cSimpleBase64 {
 		//use a regex to check if output string containsonly 1s and 0s
 		if (!/^[01]+$/.test(sOutBin))
 			throw new Error('toBinary produced invalid binary string')
-
 
 		return sOutBin
 	}
@@ -176,7 +181,10 @@ class cSimpleBase64 {
 		cDebug.write(`- in Bin: ${sBinIn}`)
 		var s64 = this.toBase64(sBinIn)
 		cDebug.write(`- base64: ${s64}`)
-		var sBinOut = this.toBinary(s64, iLength)
+		var sBinOut = this.toBinary(
+			s64,
+			iLength
+		)
 		cDebug.write(`-out Bin: ${sBinOut}`)
 
 		if (sBinIn !== sBinOut)

@@ -71,8 +71,15 @@ class cFacebook {
 
 		var oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => this.onGetUserResponse(poHttp))
-			oHttp.post(cFBConfig.SERVER_SIDE, oData)
+			bean.on(
+				oHttp,
+				'result',
+				poHttp => this.onGetUserResponse(poHttp)
+			)
+			oHttp.post(
+				cFBConfig.SERVER_SIDE,
+				oData
+			)
 		}
 
 		cDebug.leave()
@@ -89,11 +96,22 @@ class cFacebook {
 			this.fbUserID = oFBAuthResponse.userID
 			this.fbAccessToken = oFBAuthResponse.accessToken
 			this.fbAccessExpire = oFBAuthResponse.data_access_expiration_time
-			bean.fire(this, this.STATUS_EVENT, 'Welcome ...')
-			setTimeout(() => this.getFBUser(), 0) //do this asynchronously
+			bean.fire(
+				this,
+				this.STATUS_EVENT,
+				'Welcome ...'
+			)
+			setTimeout(
+				() => this.getFBUser(),
+				0
+			) //do this asynchronously
 		} else {
 			cDebug.write('user not logged into Facebook app')
-			bean.fire(this, this.STATUS_EVENT, ' click here &gt; &gt; &gt;')
+			bean.fire(
+				this,
+				this.STATUS_EVENT,
+				' click here &gt; &gt; &gt;'
+			)
 		}
 
 		cDebug.leave()
@@ -108,24 +126,32 @@ class cFacebook {
 		if (typeof sUser !== 'string')
 			$.error('user response is not a string')
 
-
 		if (sUser.trim() === '') {
 			sUser = 'uh-oh I couldnt get your name'
 			$.removeCookie(this.AUTH_USER_COOKIE)
 			$.removeCookie(this.AUTH_DATE_COOKIE)
 			cDebug.write('error: unable to get FB username')
-			var sUrl = cBrowser.buildUrl(cFBConfig.$SERVER_SIDE, {
-				[cAppUrlParams.OPERATION]: 'getuser',
-				user: this.fbUserID,
-				token: this.fbAccessToken
-			})
+			var sUrl = cBrowser.buildUrl(
+				cFBConfig.$SERVER_SIDE,
+				{
+					[cAppUrlParams.OPERATION]: 'getuser',
+					user: this.fbUserID,
+					token: this.fbAccessToken
+				}
+			)
 			cDebug.write(`try entering this in the browser: ${sUrl}`)
 		} else {
 			cDebug.write(sUser)
 			cAuth.setUser(sUser)
 			dNow = new Date()
-			$.cookie(this.AUTH_USER_COOKIE, sUser)
-			$.cookie(this.AUTH_DATE_COOKIE, dNow.getTime())
+			$.cookie(
+				this.AUTH_USER_COOKIE,
+				sUser
+			)
+			$.cookie(
+				this.AUTH_DATE_COOKIE,
+				dNow.getTime()
+			)
 		}
 
 		this.onFBGotUser(sUser)
@@ -135,10 +161,17 @@ class cFacebook {
 	//**************************************************************
 	static onFBGotUser(psUser) {
 		cDebug.enter()
-		bean.fire(this, this.STATUS_EVENT, `Welcome ${psUser}`)
+		bean.fire(
+			this,
+			this.STATUS_EVENT,
+			`Welcome ${psUser}`
+		)
 
 		// @ts-expect-error
-		FB.Event.subscribe('auth.logout', poEvent => this.OnFBLogout(poEvent))
+		FB.Event.subscribe(
+			'auth.logout',
+			poEvent => this.OnFBLogout(poEvent)
+		)
 
 		cDebug.leave()
 	}
@@ -169,9 +202,12 @@ window.fbAsyncInit = function () {
 	FB.AppEvents.logPageView()
 
 	//additional stuff
-	FB.Event.subscribe('auth.logout', function (poEvent) {
-		cFacebook.OnFBLogout(poEvent)
-	})
+	FB.Event.subscribe(
+		'auth.logout',
+		function (poEvent) {
+			cFacebook.OnFBLogout(poEvent)
+		}
+	)
 
 	setTimeout(() => cFacebook.checkLoginStatus())
 }
@@ -186,5 +222,12 @@ window.fbAsyncInit = function () {
 	js = d.createElement(s)
 	js.id = id
 	js.src = 'https://connect.facebook.net/en_US/sdk.js'
-	fjs.parentNode.insertBefore(js, fjs)
-})(document, 'script', 'facebook-jssdk')
+	fjs.parentNode.insertBefore(
+		js,
+		fjs
+	)
+})(
+	document,
+	'script',
+	'facebook-jssdk'
+)

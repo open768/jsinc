@@ -40,7 +40,10 @@ class cHttp {
 
 		oFailer = new cHttpFailer()
 		oFailer.url = psUrl
-		$.getJSON(psUrl, pfnCallBack).fail(oFailer.fail)
+		$.getJSON(
+			psUrl,
+			pfnCallBack
+		).fail(oFailer.fail)
 	}
 
 	//***************************************************************
@@ -55,7 +58,11 @@ class cHttp {
 		oFailer.url = psUrl
 
 		//- - - - - make the call
-		$.post(psUrl, poData, pfnCallBack).fail(oFailer.fail)
+		$.post(
+			psUrl,
+			poData,
+			pfnCallBack
+		).fail(oFailer.fail)
 	}
 }
 
@@ -86,7 +93,12 @@ class cHttp2 {
 	 * @returns
 	 */
 	postJSON(psUrl, poData, pfFunc) {
-		return $.post(psUrl, poData, pfFunc, 'json')
+		return $.post(
+			psUrl,
+			poData,
+			pfFunc,
+			'json'
+		)
 	}
 
 	//**************************************************************
@@ -97,16 +109,31 @@ class cHttp2 {
 
 		cDebug.write(`fetching url: ${this.url}`)
 		if (poData)
-			this.oXHR = this.postJSON(this.url, this.data, pResult => {
-				this.onResult(pResult)
-			}).fail((pEv, pSt, pEr) => {
-				this.onError(pEv, pSt, pEr)
+			this.oXHR = this.postJSON(
+				this.url,
+				this.data,
+				pResult => {
+					this.onResult(pResult)
+				}
+			).fail((pEv, pSt, pEr) => {
+				this.onError(
+					pEv,
+					pSt,
+					pEr
+				)
 			})
 		else
-			this.oXHR = $.getJSON(this.url, pResult => {
-				this.onResult(pResult)
-			}).fail((pEv, pSt, pEr) => {
-				this.onError(pEv, pSt, pEr)
+			this.oXHR = $.getJSON(
+				this.url,
+				pResult => {
+					this.onResult(pResult)
+				}
+			).fail((pEv, pSt, pEr) => {
+				this.onError(
+					pEv,
+					pSt,
+					pEr
+				)
 			})
 
 	}
@@ -119,13 +146,28 @@ class cHttp2 {
 
 		var fnCallBack = pResult => this.onResult(pResult)
 		if (cDebug.is_debugging()) {
-			var sGetUrl = cBrowser.buildUrl(this.url, poData)
+			var sGetUrl = cBrowser.buildUrl(
+				this.url,
+				poData
+			)
 			cDebug.write(`posting url: ${sGetUrl}`)
-			this.oXHR = $.get(sGetUrl, null, fnCallBack)
+			this.oXHR = $.get(
+				sGetUrl,
+				null,
+				fnCallBack
+			)
 		} else
-			this.oXHR = $.post(this.url, poData, fnCallBack)
+			this.oXHR = $.post(
+				this.url,
+				poData,
+				fnCallBack
+			)
 
-		this.oXHR.fail((pEv, pSt, pEr) => this.onError(pEv, pSt, pEr))
+		this.oXHR.fail((pEv, pSt, pEr) => this.onError(
+			pEv,
+			pSt,
+			pEr
+		))
 	}
 
 	correct_url() {
@@ -155,9 +197,12 @@ class cHttp2 {
 		if (this.stopping)
 			return
 
-
 		this.response = poResponse
-		bean.fire(this, 'result', this) //notify subscriber
+		bean.fire(
+			this,
+			'result',
+			this
+		) //notify subscriber
 	}
 
 	//**************************************************************
@@ -170,6 +215,10 @@ class cHttp2 {
 		this.errorStatus = psStatus
 		cDebug.write_err(`URL error: ${this.url}`)
 		cDebug.write_err(poError)
-		bean.fire(this, 'error', this) //notify subscriber
+		bean.fire(
+			this,
+			'error',
+			this
+		) //notify subscriber
 	}
 }

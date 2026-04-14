@@ -25,7 +25,6 @@ class cTagging {
 		if (psProduct == null)
 			cDebug.error('no product set')
 
-
 		var sUrl, oData
 		oData = {
 			[cAppUrlParams.OPERATION]: 'get',
@@ -34,12 +33,19 @@ class cTagging {
 			[cSpaceUrlParams.PRODUCT]: psProduct,
 			[cSpaceUrlParams.MISSION]: cMission.ID
 		}
-		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
+		sUrl = cBrowser.buildUrl(
+			this.phpBaseURL,
+			oData
+		)
 		cDebug.write('getting tag')
 
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))
+			bean.on(
+				oHttp,
+				'result',
+				poHttp => pfnCallback(poHttp)
+			)
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -55,25 +61,39 @@ class cTagging {
 			[cAppUrlParams.VALUE]: psTagname,
 			[cSpaceUrlParams.MISSION]: cMission.ID
 		}
-		sUrl = cBrowser.buildUrl(this.phpBaseURL, oData)
+		sUrl = cBrowser.buildUrl(
+			this.phpBaseURL,
+			oData
+		)
 
 		cDebug.write(`setting tag ${sUrl}`)
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))
+			bean.on(
+				oHttp,
+				'result',
+				poHttp => pfnCallback(poHttp)
+			)
 			oHttp.fetch_json(sUrl)
 		}
 	}
 
 	//********************************************************************************
 	static searchTags(psPartial, pfnCallBack) {
-		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
-			[cAppUrlParams.OPERATION]: 'search',
-			[cAppUrlParams.VALUE]: psPartial
-		})
+		var sUrl = cBrowser.buildUrl(
+			this.phpBaseURL,
+			{
+				[cAppUrlParams.OPERATION]: 'search',
+				[cAppUrlParams.VALUE]: psPartial
+			}
+		)
 		var oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', pfnCallBack)
+			bean.on(
+				oHttp,
+				'result',
+				pfnCallBack
+			)
 			oHttp.fetch_json(sUrl)
 		}
 	}

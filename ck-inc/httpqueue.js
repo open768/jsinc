@@ -23,7 +23,10 @@ class cHttpQueueJquery {
 	static queues = []
 
 	static onJqueryLoad() {
-		$(window).bind('beforeunload', () => this.stop_all_transfers())
+		$(window).bind(
+			'beforeunload',
+			() => this.stop_all_transfers()
+		)
 	}
 
 	static stop_all_transfers() {
@@ -91,7 +94,6 @@ class cHttpQueue {
 		if (this.stopping)
 			return
 
-
 		//if too many transfers in progress do nothing - ie wait for another item to finish
 		if (this.inProgressQ.size >= this.maxTransfers) {
 			cDebug.write('Queue full')
@@ -101,7 +103,10 @@ class cHttpQueue {
 		//if nothing left in the queue set a flag that nothing is running
 		if (this.backlogQ.length == 0) {
 			cDebug.write('finished Queue')
-			bean.fire(this, 'finished')
+			bean.fire(
+				this,
+				'finished'
+			)
 			this.running = false
 			return
 		}
@@ -112,12 +117,13 @@ class cHttpQueue {
 			if (!oItem.fnCheckContinue())
 				return
 
-
-
 		if (oItem.abort)
 			return
 
-		setTimeout(() => this.onTimer(oItem), this.NICENESS_DELAY)
+		setTimeout(
+			() => this.onTimer(oItem),
+			this.NICENESS_DELAY
+		)
 
 		//notify the remaining backlogQ items their position in the queue
 		//TBD
@@ -125,7 +131,10 @@ class cHttpQueue {
 			for (var iPos = 0; iPos < this.backlogQ.length; iPos++) {
 				oItem = this.backlogQ[iPos]
 				oItem.QPosition = iPos
-				bean.fire(oItem, 'Qpos')
+				bean.fire(
+					oItem,
+					'Qpos'
+				)
 			}
 
 	}
@@ -135,19 +144,41 @@ class cHttpQueue {
 		if (this.stopping)
 			return
 
-
-		bean.fire(poItem, 'start') //notify item has started
+		bean.fire(
+			poItem,
+			'start'
+		) //notify item has started
 
 		cDebug.write(`getting URL: ${poItem.url}`)
-		this.inProgressQ.set(poItem.url, poItem)
+		this.inProgressQ.set(
+			poItem.url,
+			poItem
+		)
 		var oHttp = new cHttp2()
 		{
 			oHttp.data = poItem.data
 			poItem.ohttp = oHttp
 
-			bean.on(oHttp, 'result', poHttp => this.onResult(poHttp, poItem))
-			bean.on(oHttp, 'error', poHttp => this.onError(poHttp, poItem))
-			oHttp.fetch_json(poItem.url, poItem.data)
+			bean.on(
+				oHttp,
+				'result',
+				poHttp => this.onResult(
+					poHttp,
+					poItem
+				)
+			)
+			bean.on(
+				oHttp,
+				'error',
+				poHttp => this.onError(
+					poHttp,
+					poItem
+				)
+			)
+			oHttp.fetch_json(
+				poItem.url,
+				poItem.data
+			)
 		}
 
 		//go on to the next transfer
@@ -179,7 +210,11 @@ class cHttpQueue {
 			return
 
 		cDebug.write(`got a response for: ${poItem.url}`)
-		bean.fire(poItem, 'result', poHttp)
+		bean.fire(
+			poItem,
+			'result',
+			poHttp
+		)
 		this.inProgressQ.delete(poItem.url) //delete a specific item from the queue
 		this.pr_process_next() //continue queue
 	}
@@ -188,7 +223,11 @@ class cHttpQueue {
 		if (this.stopping)
 			return
 
-		bean.fire(poItem, 'error', poHttp)
+		bean.fire(
+			poItem,
+			'error',
+			poHttp
+		)
 		this.inProgressQ.delete(poItem.url)
 		this.pr_process_next() //continue queue
 	}

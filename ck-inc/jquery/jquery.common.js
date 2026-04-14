@@ -46,7 +46,6 @@ class cJquery {
 				if (aClasses == null)
 					continue
 
-
 				for (iClass = 0; iClass < aClasses.length; iClass++) {
 					oClass = aClasses[iClass]
 					// @ts-ignore
@@ -91,10 +90,12 @@ class cJquery {
 	}
 
 	static get_child(poElement, psID) {
-		var sID = this.child_ID(poElement, psID)
+		var sID = this.child_ID(
+			poElement,
+			psID
+		)
 		return this.element(sID)
 	}
-
 
 	//***************************************************************
 	static get_padding_width(poElement) {
@@ -121,12 +122,17 @@ class cJquery {
 		else
 			cDebug.error(`invalid type for element: ${sType}`)
 
-
 		if (pbEnabled) {
 			if (oElement.prop('disabled'))
-				oElement.prop('disabled', false)
+				oElement.prop(
+					'disabled',
+					false
+				)
 		} else
-			oElement.prop('disabled', true)
+			oElement.prop(
+				'disabled',
+				true
+			)
 
 		if (oElement[0].nodeName === 'SELECT')
 			try{
@@ -142,7 +148,10 @@ class cJquery {
 
 	//***************************************************************
 	static disable_element(poElement) {
-		this.enable_element(poElement, false)
+		this.enable_element(
+			poElement,
+			false
+		)
 	}
 
 	//***************************************************************
@@ -150,12 +159,10 @@ class cJquery {
 		if (cString.is_string_empty(psID))
 			cDebug.error('empty string')
 
-
 		const cFirst = psID.charAt(0)
 		var sID = psID
 		if (cFirst !== '#')
 			sID = `#${sID}`
-
 
 		const oThing = $(sID)
 		if (oThing.length == 0)
@@ -165,7 +172,12 @@ class cJquery {
 	}
 
 	static add_widget_header(poElement, psTitle) {
-		var oDiv = $('<DIV>', { class: 'ui-widget-header' })
+		var oDiv = $(
+			'<DIV>',
+			{
+				class: 'ui-widget-header'
+			}
+		)
 		oDiv.append(psTitle)
 		poElement.append(oDiv)
 	}

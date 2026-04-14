@@ -7,13 +7,23 @@
 class cRender {
 	//**************************************************************************
 	static messagebox(psMsg) {
-		const oDiv = $('<div>', { class: 'w3-panel w3-blue w3-round-large w3-padding-16 w3-leftbar' })
+		const oDiv = $(
+			'<div>',
+			{
+				class: 'w3-panel w3-blue w3-round-large w3-padding-16 w3-leftbar'
+			}
+		)
 		oDiv.append(psMsg)
 		return oDiv
 	}
 
 	static errorbox(psMsg) {
-		const oDiv = $('<div>', { class: 'w3-panel w3-deep-orange w3-padding-16 w3-leftbar w3-border-yellow' })
+		const oDiv = $(
+			'<div>',
+			{
+				class: 'w3-panel w3-deep-orange w3-padding-16 w3-leftbar w3-border-yellow'
+			}
+		)
 		oDiv.append(psMsg)
 		return oDiv
 	}
@@ -46,9 +56,12 @@ class cRender {
 
 	//**************************************************************************
 	static fade_element(poEl) {
-		poEl.fadeOut(1000, function () {
-			poEl.remove()
-		})
+		poEl.fadeOut(
+			1000,
+			function () {
+				poEl.remove()
+			}
+		)
 	}
 
 	//**************************************************************************
@@ -110,7 +123,10 @@ class cRenderMDL {
 			class: 'mdl-card mdl-shadow--2dp rapport-card',
 			id: `CARDID_${this.cardID}`
 		}
-		var oCardDiv = $('DIV', oParams)
+		var oCardDiv = $(
+			'DIV',
+			oParams
+		)
 		if (psTitle !== null)
 			oCardDiv.append(this.title(psTitle))
 
@@ -134,7 +150,10 @@ class cRenderMDL {
 		var oParams = {
 			class: 'mdl-card__supporting-text'
 		}
-		var oDiv = $('DIV', oParams)
+		var oDiv = $(
+			'DIV',
+			oParams
+		)
 		if (poBody !== null)
 			oDiv.append(poBody)
 
@@ -143,9 +162,12 @@ class cRenderMDL {
 
 	//**************************************************************************
 	static fade_element_and_hide_card(poEl) {
-		poEl.fadeOut(1000, function () {
-			poEl.closest('.mdl-card').remove()
-		})
+		poEl.fadeOut(
+			1000,
+			function () {
+				poEl.closest('.mdl-card').remove()
+			}
+		)
 	}
 }
 
@@ -153,9 +175,17 @@ class cRenderMDL {
 
 class cRenderGoogleFont {
 	static create_icon(psIconName, psElementStyle = null) {
-		var oSpan = $('<SPAN>', { class: 'material-symbols-outlined' })
+		var oSpan = $(
+			'<SPAN>',
+			{
+				class: 'material-symbols-outlined'
+			}
+		)
 		if (psElementStyle)
-			oSpan.attr('style', psElementStyle)
+			oSpan.attr(
+				'style',
+				psElementStyle
+			)
 
 		oSpan.append(psIconName)
 		return oSpan

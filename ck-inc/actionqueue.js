@@ -27,7 +27,6 @@ class cActionQueueItem {
 	}
 }
 
-
 class cActionQueue {
 	aBacklog = []
 	aTransfers = new cQueue()
@@ -59,14 +58,17 @@ class cActionQueue {
 		if (this.bStopping)
 			return
 
-		this.aBacklog.push(new cActionQueueItem(psName, psActionUrl, poData))
+		this.aBacklog.push(new cActionQueueItem(
+			psName,
+			psActionUrl,
+			poData
+		))
 	}
 
 	//***************************************************************
 	start() {
 		if (this.bStopping)
 			return
-
 
 		var oQueue = this
 
@@ -76,22 +78,46 @@ class cActionQueue {
 		else if (this.aBacklog.length > 0) {
 			this.running = true
 			var oItem = this.aBacklog.pop() //Take item off backlog
-			this.aTransfers.push(oItem.name, null) //put onto transfer list
+			this.aTransfers.push(
+				oItem.name,
+				null
+			) //put onto transfer list
 
-			bean.fire(this, 'starting', oItem.name) //notify subscriber
+			bean.fire(
+				this,
+				'starting',
+				oItem.name
+			) //notify subscriber
 
 			var oHttp = new cHttp2() //create a new http object to do the request
 			{
 				oItem.oHttp = oHttp
 
 				oHttp._actionqueue_name = oItem.name // this is a fudge that is just WRONG #@todo#
-				bean.on(oHttp, 'result', poHttp => oQueue.process_response(poHttp, oItem))
-				bean.on(oHttp, 'error', poHttp => oQueue.process_error(poHttp, oItem))
+				bean.on(
+					oHttp,
+					'result',
+					poHttp => oQueue.process_response(
+						poHttp,
+						oItem
+					)
+				)
+				bean.on(
+					oHttp,
+					'error',
+					poHttp => oQueue.process_error(
+						poHttp,
+						oItem
+					)
+				)
 
 				//separate thread to allow UI to catch up
 
 				var iThread = setTimeout(
-					() => oHttp.fetch_json(oItem.url, oItem.name), //start transfer
+					() => oHttp.fetch_json(
+						oItem.url,
+						oItem.name
+					), //start transfer
 					this.ASYNC_DELAY
 				)
 			}
@@ -114,7 +140,11 @@ class cActionQueue {
 		}
 
 		poHttp.json._actionqueue_name = poHttp._actionqueue_name
-		bean.fire(this, 'response', poHttp.response)
+		bean.fire(
+			this,
+			'response',
+			poHttp.response
+		)
 
 		this.start() //process the next item
 	}
@@ -131,7 +161,11 @@ class cActionQueue {
 			return
 		}
 
-		bean.fire(this, 'error', poHttp)
+		bean.fire(
+			this,
+			'error',
+			poHttp
+		)
 		this.start()
 	}
 }

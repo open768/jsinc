@@ -41,13 +41,19 @@ class cImgHilite {
 	static onLoad() {
 		var oTmplCancel = cJquery.element(this.ID_TEMPLATE_CANCEL)
 		oTmplCancel.off('click')
-		oTmplCancel.on('click', poEvent => cImgHilite.rejectBox(poEvent.currentTarget))
+		oTmplCancel.on(
+			'click',
+			poEvent => cImgHilite.rejectBox(poEvent.currentTarget)
+		)
 	}
 
 	static set_onclick_accept(pFn) {
 		const oTmplAccept = cJquery.element(this.ID_TEMPLATE_ACCEPT)
 		oTmplAccept.off('click')
-		oTmplAccept.on('click', pFn)
+		oTmplAccept.on(
+			'click',
+			pFn
+		)
 	}
 
 	//**************************************************
@@ -77,7 +83,6 @@ class cImgHilite {
 			if (oImg.length == 0)
 				throw new Error('Oops cant find image')
 
-
 			//add it to the container and make it visible and draggable
 			var oBox
 			oBox = cJquery.element(sID)
@@ -103,7 +108,9 @@ class cImgHilite {
 		})
 
 		//make it draggable to the image
-		oBox.draggable({ containment: oImg })
+		oBox.draggable({
+			containment: oImg
+		})
 
 		return oBox
 	}
@@ -113,12 +120,21 @@ class cImgHilite {
 		var oBox, oControls, oNumber
 
 		//make and position the box
-		oBox = this.makeBox(100, 100, false)
-		oBox.css({ position: 'absolute', top: psTop, left: psLeft })
+		oBox = this.makeBox(
+			100,
+			100,
+			false
+		)
+		oBox.css({
+			position: 'absolute', top: psTop, left: psLeft
+		})
 
 		//disable dragging and make it blue
 		oBox.draggable('disable')
-		oBox.attr('class', 'bluebox')
+		oBox.attr(
+			'class',
+			'bluebox'
+		)
 
 		//find and disable controls
 		oControls = oBox.find(this.controlsID)
@@ -140,37 +156,51 @@ class cImgHilite {
 	//**************************************************
 	static save_highlight(psSol, psInstr, psProduct, psID, pfnCallback) {
 		var oBox = $(psID)
-		var sUrl = cBrowser.buildUrl(this.baseUrl, {
-			[cAppUrlParams.OPERATION]: 'add',
-			[cSpaceUrlParams.SOL]: psSol,
-			[cSpaceUrlParams.INSTRUMENT]: psInstr,
-			[cSpaceUrlParams.PRODUCT]: psProduct,
-			[cSpaceUrlParams.MISSION]: cMission.ID,
-			t: oBox.css('top'),
-			l: oBox.css('left')
-		})
+		var sUrl = cBrowser.buildUrl(
+			this.baseUrl,
+			{
+				[cAppUrlParams.OPERATION]: 'add',
+				[cSpaceUrlParams.SOL]: psSol,
+				[cSpaceUrlParams.INSTRUMENT]: psInstr,
+				[cSpaceUrlParams.PRODUCT]: psProduct,
+				[cSpaceUrlParams.MISSION]: cMission.ID,
+				t: oBox.css('top'),
+				l: oBox.css('left')
+			}
+		)
 		this.currentBox = null
 
 		var oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))
+			bean.on(
+				oHttp,
+				'result',
+				poHttp => pfnCallback(poHttp)
+			)
 			oHttp.fetch_json(sUrl)
 		}
 	}
 
 	//**************************************************
 	static getHighlights(psSol, psInstr, psProduct, pfnCallBack) {
-		var sUrl = cBrowser.buildUrl(this.baseUrl, {
-			[cAppUrlParams.OPERATION]: 'get',
-			[cSpaceUrlParams.SOL]: psSol,
-			[cSpaceUrlParams.INSTRUMENT]: psInstr,
-			[cSpaceUrlParams.PRODUCT]: psProduct,
-			[cSpaceUrlParams.MISSION]: cMission.ID
-		})
+		var sUrl = cBrowser.buildUrl(
+			this.baseUrl,
+			{
+				[cAppUrlParams.OPERATION]: 'get',
+				[cSpaceUrlParams.SOL]: psSol,
+				[cSpaceUrlParams.INSTRUMENT]: psInstr,
+				[cSpaceUrlParams.PRODUCT]: psProduct,
+				[cSpaceUrlParams.MISSION]: cMission.ID
+			}
+		)
 
 		var oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => pfnCallBack(poHttp))
+			bean.on(
+				oHttp,
+				'result',
+				poHttp => pfnCallBack(poHttp)
+			)
 			oHttp.fetch_json(sUrl)
 		}
 	}

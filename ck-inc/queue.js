@@ -30,7 +30,10 @@ class cQueueRunner {
 			return
 
 		this.running = true
-		bean.fire(this, cQueueRunner.EVENT_START)
+		bean.fire(
+			this,
+			cQueueRunner.EVENT_START
+		)
 		this.step()
 	}
 
@@ -47,7 +50,6 @@ class cQueueRunner {
 		if (!this.running)
 			return
 
-
 		if (this.stopping) {
 			this.pr_stop()
 			return
@@ -61,8 +63,15 @@ class cQueueRunner {
 			return
 		}
 
-		bean.fire(this, cQueueRunner.EVENT_STEP, oItem)
-		setTimeout(() => this.step(), this.delay)
+		bean.fire(
+			this,
+			cQueueRunner.EVENT_STEP,
+			oItem
+		)
+		setTimeout(
+			() => this.step(),
+			this.delay
+		)
 	}
 
 	//*****************************************************
@@ -76,7 +85,10 @@ class cQueueRunner {
 	pr_stop() {
 		this.running = false
 		this.stopping = false
-		bean.fire(this, cQueueRunner.EVENT_STOP)
+		bean.fire(
+			this,
+			cQueueRunner.EVENT_STOP
+		)
 	}
 }
 
@@ -134,7 +146,6 @@ class cQueue {
 				this.prNext = this.prNext.prNext
 			else
 				this.prNext.remove(psKey)
-
 
 	}
 

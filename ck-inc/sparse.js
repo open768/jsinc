@@ -28,24 +28,38 @@ class cSparseArray {
 	get(piRow, piCol) {
 		var oRow
 
-		if (!this.pr__check_bounds(piRow, piCol))
+		if (!this.pr__check_bounds(
+			piRow,
+			piCol
+		))
 			return null
 
-		oRow = this.pr__get_row(piRow, false)
+		oRow = this.pr__get_row(
+			piRow,
+			false
+		)
 		if (oRow == null)
 			return null
-
 
 		return oRow.get(piCol)
 	}
 
 	//*****************************************************
 	set(piRow, piCol, poValue) {
-		if (!this.pr__check_bounds(piRow, piCol))
+		if (!this.pr__check_bounds(
+			piRow,
+			piCol
+		))
 			return null
 
-		var oRow = this.pr__get_row(piRow, true)
-		oRow.set(piCol, poValue)
+		var oRow = this.pr__get_row(
+			piRow,
+			true
+		)
+		oRow.set(
+			piCol,
+			poValue
+		)
 	}
 
 	//*****************************************************
@@ -59,16 +73,16 @@ class cSparseArray {
 		else
 			oRow = this._data.get(piRow)
 
-
 		//create the row if needed
 		if (oRow == null)
 			if (pbCreate) {
 				oRow = new Map()
-				this._data.set(piRow, oRow)
+				this._data.set(
+					piRow,
+					oRow
+				)
 			} else
 				return null
-
-
 
 		//-------- update cached row
 		this._lastRowIndex = piRow

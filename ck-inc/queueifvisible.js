@@ -30,7 +30,6 @@ class cQueueifVisible {
 		if (!bean)
 			$.error('bean class is missing! check includes')
 
-
 		this.element = poElement
 		if (!$.event.special.inview)
 			$.error('inview class is missing! check includes')
@@ -55,7 +54,10 @@ class cQueueifVisible {
 
 			//set the event listeners
 			this.pr__send_status('waiting for item to be visible..')
-			oElement.on('inview', (poEvent, pbIsInView) => this.onInView(pbIsInView))
+			oElement.on(
+				'inview',
+				(poEvent, pbIsInView) => this.onInView(pbIsInView)
+			)
 		} else
 			this.onScrollingTimer()
 
@@ -63,7 +65,10 @@ class cQueueifVisible {
 
 	//*******************************************************************
 	pr__add_forcebutton() {
-		setTimeout(() => this.pr__do_add_forcebutton(), this.WAIT_FORCE)
+		setTimeout(
+			() => this.pr__do_add_forcebutton(),
+			this.WAIT_FORCE
+		)
 	}
 
 	pr__do_add_forcebutton() {
@@ -71,13 +76,20 @@ class cQueueifVisible {
 
 		var btnForce = $('<button>').append('load')
 		oElement.append(btnForce)
-		btnForce.on('click', () => this.onInView(true))
+		btnForce.on(
+			'click',
+			() => this.onInView(true)
+		)
 	}
 
 	//*******************************************************************
 	pr__send_status(psMsg) {
 		this.status = psMsg
-		bean.fire(this, cQueueifVisible.EVENT.STATUS, psMsg)
+		bean.fire(
+			this,
+			cQueueifVisible.EVENT.STATUS,
+			psMsg
+		)
 	}
 
 	//#################################################################
@@ -97,7 +109,10 @@ class cQueueifVisible {
 
 		//TODO use position of element in viewport to determine whether scrolling is happening
 		// eg if the element has moved more than 10 pixels since last time then wait.
-		setTimeout(() => this.onScrollingTimer(), this.WAIT_SCROLLING)
+		setTimeout(
+			() => this.onScrollingTimer(),
+			this.WAIT_SCROLLING
+		)
 	}
 
 	//*******************************************************************
@@ -126,10 +141,26 @@ class cQueueifVisible {
 			return oThis.onCheckContinue()
 		}
 
-		bean.on(oQItem, 'start', () => this.onStart(oQItem))
-		bean.on(oQItem, 'result', poHttp => this.onResult(poHttp))
-		bean.on(oQItem, 'error', poHttp => this.onError(poHttp))
-		bean.on(oQItem, 'Qpos', () => this.onQPosition(oQItem))
+		bean.on(
+			oQItem,
+			'start',
+			() => this.onStart(oQItem)
+		)
+		bean.on(
+			oQItem,
+			'result',
+			poHttp => this.onResult(poHttp)
+		)
+		bean.on(
+			oQItem,
+			'error',
+			poHttp => this.onError(poHttp)
+		)
+		bean.on(
+			oQItem,
+			'Qpos',
+			() => this.onQPosition(oQItem)
+		)
 
 		var oQueue = cQueueifVisibleQueue.queue
 		oQueue.add(oQItem)
@@ -149,7 +180,11 @@ class cQueueifVisible {
 	onResult(poHttp) {
 		try {
 			this.pr__send_status(`got a response from server: ${poHttp}`)
-			bean.fire(this, cQueueifVisible.EVENT.RESULT, poHttp)
+			bean.fire(
+				this,
+				cQueueifVisible.EVENT.RESULT,
+				poHttp
+			)
 		} catch (e) {
 			console.error(e)
 		}
@@ -164,7 +199,11 @@ class cQueueifVisible {
 
 		try {
 			this.pr__send_status('making server call')
-			bean.fire(this, cQueueifVisible.EVENT.START, poItem)
+			bean.fire(
+				this,
+				cQueueifVisible.EVENT.START,
+				poItem
+			)
 		} catch (e) {
 			console.error(e)
 		}
@@ -172,7 +211,11 @@ class cQueueifVisible {
 
 	//*******************************************************************
 	onError(poHttp) {
-		bean.fire(this, cQueueifVisible.EVENT.ERROR, poHttp)
+		bean.fire(
+			this,
+			cQueueifVisible.EVENT.ERROR,
+			poHttp
+		)
 		this.pr__add_forcebutton()
 	}
 

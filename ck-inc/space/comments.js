@@ -27,17 +27,23 @@ class cComments {
 		if (!psProduct)
 			cDebug.error('product is missing')
 
-
-		var sUrl = cBrowser.buildUrl(this.phpBaseURL, {
-			[cAppUrlParams.OPERATION]: 'get',
-			[cSpaceUrlParams.SOL]: psSol,
-			[cSpaceUrlParams.INSTRUMENT]: psInstr,
-			[cSpaceUrlParams.PRODUCT]: psProduct
-		})
+		var sUrl = cBrowser.buildUrl(
+			this.phpBaseURL,
+			{
+				[cAppUrlParams.OPERATION]: 'get',
+				[cSpaceUrlParams.SOL]: psSol,
+				[cSpaceUrlParams.INSTRUMENT]: psInstr,
+				[cSpaceUrlParams.PRODUCT]: psProduct
+			}
+		)
 		cCommonStatus.set_status('getting comments')
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))
+			bean.on(
+				oHttp,
+				'result',
+				poHttp => pfnCallback(poHttp)
+			)
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -45,17 +51,24 @@ class cComments {
 	//********************************************************************************
 	static async set(psSol, psInstr, psProduct, psComment, pfnCallback) {
 		var sUrl
-		sUrl = cBrowser.buildUrl(this.phpBaseURL, {
-			[cAppUrlParams.OPERATION]: 'set',
-			[cSpaceUrlParams.SOL]: psSol,
-			[cSpaceUrlParams.PRODUCT]: psProduct,
-			[cSpaceUrlParams.INSTRUMENT]: psInstr,
-			[cAppUrlParams.VALUE]: encodeURIComponent(psComment)
-		})
+		sUrl = cBrowser.buildUrl(
+			this.phpBaseURL,
+			{
+				[cAppUrlParams.OPERATION]: 'set',
+				[cSpaceUrlParams.SOL]: psSol,
+				[cSpaceUrlParams.PRODUCT]: psProduct,
+				[cSpaceUrlParams.INSTRUMENT]: psInstr,
+				[cAppUrlParams.VALUE]: encodeURIComponent(psComment)
+			}
+		)
 		cCommonStatus.set_status('setting comment ')
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => pfnCallback(poHttp))
+			bean.on(
+				oHttp,
+				'result',
+				poHttp => pfnCallback(poHttp)
+			)
 			oHttp.fetch_json(sUrl)
 		}
 	}

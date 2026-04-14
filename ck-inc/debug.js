@@ -23,12 +23,13 @@ class cDebugTypes {
 }
 
 class cSuppressMessage{
-	static _counts = {}
-	static _timestamps = {}
+	static _counts = {
+	}
+	static _timestamps = {
+	}
 
 	static NOISY_COUNT = 50 //how many times a message can be logged before it is considered noisy
 	static NOISY_RESET = 200	//milliseconds
-
 
 	/**
 	 * @param {string} psThing
@@ -93,7 +94,6 @@ class cDebug {
 		if (sDebugValue !== null)
 			this.on(cDebugTypes.levels.extra)
 
-
 		if (!this.DEBUGGING && !this.ONE_TIME_DEBUGGING)
 			cBrowser.writeConsoleWarning('for debugging use querystring ?debug or ?debug2')
 
@@ -149,12 +149,18 @@ class cDebug {
 
 	//*****************************************************
 	static extra_debug(psMessage) {
-		this.write(psMessage, cDebugTypes.levels.extra)
+		this.write(
+			psMessage,
+			cDebugTypes.levels.extra
+		)
 	}
 
 	//*****************************************************
 	static extended_debug(psMessage) {
-		this.write(psMessage, cDebugTypes.levels.extended)
+		this.write(
+			psMessage,
+			cDebugTypes.levels.extended
+		)
 	}
 
 	//*****************************************************
@@ -175,7 +181,6 @@ class cDebug {
 		if (this.level < cDebugTypes.levels.extra)
 			return
 
-
 		sFn = this.pr__getCaller('enter')
 		this.extra_debug(`>> Entering ${sFn}`)
 		this.stack.push(sFn)
@@ -190,7 +195,6 @@ class cDebug {
 		if (this.stack.length == 0)
 			return
 
-
 		sFn = this.pr__getCaller('leave')
 		if (sFn == this.stack[this.stack.length - 1]) {
 			this.stack.pop()
@@ -203,17 +207,21 @@ class cDebug {
 		if (!this.DEBUGGING)
 			return
 
-
-		var sDump = this.pr__dump(arr, level)
+		var sDump = this.pr__dump(
+			arr,
+			level
+		)
 		this.write(sDump)
 		return sDump
 	}
 
 	//*****************************************************
 	static getvardump(arr, level) {
-		return this.pr__dump(arr, level)
+		return this.pr__dump(
+			arr,
+			level
+		)
 	}
-
 
 	//***************************************************************
 	//* Privates
@@ -245,12 +253,10 @@ class cDebug {
 		if (!level)
 			level = 0
 
-
 		//The padding given at the beginning of the line.
 		var level_padding = ''
 		for (var j = 0; j < level + 1; j++)
 			level_padding += '\t'
-
 
 		if (typeof arr == 'object')
 			//Array/Hashes/Objects
@@ -260,7 +266,10 @@ class cDebug {
 				if (typeof value == 'object') {
 					//If it is an array,
 					dumped_text += level_padding + `${item} ...\n`
-					dumped_text += this.pr__dump(value, level + 1)
+					dumped_text += this.pr__dump(
+						value,
+						level + 1
+					)
 				} else
 					dumped_text += level_padding + `${item} => ${value}\n`
 
