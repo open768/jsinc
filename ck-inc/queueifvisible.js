@@ -134,6 +134,7 @@ class cQueueifVisible {
 
 		//add the data request to the http queue
 		var oQItem = new cHttpQueueItem()
+		var oThis = this
 		oQItem.url = this.url
 		oQItem.data = this.data
 		oQItem.fnCheckContinue = function () {
