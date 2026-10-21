@@ -330,16 +330,18 @@ class cBrowser {
 	 * @param {string} psName
 	 */
 	static get_permissions(psName) {
-		/** @type cBrowser */
+		if (navigator && navigator.permissions && navigator.permissions.query)
+			navigator.permissions.query({
+				// @ts-expect-error
+				name: psName
+			}).then(poStatus => {
+				this.writeConsoleWarning(`permission for ${psName} is ${poStatus.state}`)
+				if (poStatus.state !== 'granted')
+					this.writeConsoleWarning('check site permissions')
+			}).catch(e => {
+				this.writeConsoleWarning(`unable to query permission for ${psName}: ${e instanceof Error ? e.message : e}`)
+			})
 
-		navigator.permissions.query({
-			name: psName
-		}).then(poStatus => {
-			this.writeConsoleWarning(`permission for ${psName} is ${poStatus.state}`)
-			if (poStatus.state !== 'granted')
-				this.writeConsoleWarning('check site permissions')
-
-		})
 	}
 
 	//***************************************************************
@@ -432,15 +434,21 @@ class cBrowser {
 	 *
 	 * @param {function} pfnCallBack
 	 */
-	static paste_from_clipboard(pfnCallBack) {
-		if (navigator && navigator.clipboard && navigator.clipboard.readText)
-			//async fetch from clipboard, will display a warning to user if permissions not set
-			navigator.clipboard.readText().then(text => {
-				this.writeConsoleWarning(`pasted from clipboard: ${text}`)
-				pfnCallBack(text)
-			})
-		else
-			$.error('browser not compatible for clipboard operation')
+	static async paste_from_clipboard(pfnCallBack) {
+		if (navigator && navigator.clipboard && navigator.clipboard.readText) {
+			var sText = null
+			try {
+				sText = await navigator.clipboard.readText()
+				this.writeConsoleWarning(`pasted from clipboard: ${sText}`)
+			} catch (e) {
+				this.writeConsoleError(`there was an error when accessing the clipboard: ${e instanceof Error ? e.message : e}`)
+				return
+			}
+
+			if (pfnCallBack)
+				pfnCallBack(sText)
+		} else
+			this.writeConsoleWarning('browser not compatible for clipboard operation')
 
 	}
 
